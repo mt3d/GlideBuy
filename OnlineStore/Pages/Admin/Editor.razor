@@ -1,6 +1,7 @@
 ﻿@page "/admin/products/edit/{id:long}"
 @page "/admin/products/create"
-@inherits OwningComponentBase<IStoreRepository>
+@using OnlineStore.Models.Repositories
+@inherits OwningComponentBase<ProductRepository>
 
 <style>
 	div.validation-message { color: rgb(220, 53, 69); font-weight: 500 }
@@ -45,7 +46,7 @@
 
 @code
 {
-	public IStoreRepository Repository => Service;
+	public ProductRepository Repository => Service;
 
 	[Inject]
 	public NavigationManager? NavManager { get; set; }
@@ -59,7 +60,8 @@
 	{
 		if (Id != 0)
 		{
-			Product = Repository.Products.FirstOrDefault(p => p.ProductId == Id) ?? new();
+			// Product = Repository.Products.FirstOrDefault(p => p.ProductId == Id) ?? new();
+			Product = Repository.GetById(Id) ?? new();
 		}
 	}
 
@@ -67,11 +69,13 @@
 	{
 		if (Id == 0)
 		{
-			Repository.CreateProduct(Product);
+			// Repository.CreateProduct(Product);
+			Repository.Add(Product);
 		}
 		else
 		{
-			Repository.SaveProduct(Product);
+			// Repository.SaveProduct(Product);
+			Repository.Save(Product);
 		}
 		NavManager?.NavigateTo("/admin/products");
 	}

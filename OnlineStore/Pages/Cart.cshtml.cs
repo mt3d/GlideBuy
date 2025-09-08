@@ -2,16 +2,17 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using OnlineStore.Models;
 using OnlineStore.Infrastructure;
+using OnlineStore.Services.ProductCatalog;
 
 namespace OnlineStore.Pages
 {
     public class CartModel : PageModel
     {
-        private IStoreRepository repository;
+        private IProductService productService;
 
-        public CartModel(IStoreRepository repository, Cart cartService)
+        public CartModel(IProductService productService, Cart cartService)
         {
-            this.repository = repository;
+            this.productService = productService;
             Cart = cartService;
         }
 
@@ -25,7 +26,8 @@ namespace OnlineStore.Pages
 
         public IActionResult OnPost(long productId, string returnUrl)
         {
-            Product? product = repository.Products.FirstOrDefault(p => p.ProductId == productId);
+            Product? product = productService.GetProductById(productId);
+
             if (product != null)
             {
                 Cart.AddItem(product, 1);

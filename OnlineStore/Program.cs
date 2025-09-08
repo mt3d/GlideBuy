@@ -2,6 +2,8 @@ using Microsoft.EntityFrameworkCore;
 using OnlineStore.Models;
 using Microsoft.AspNetCore.Identity;
 using OnlineStore.Infrastructure;
+using OnlineStore.Models.Repositories;
+using OnlineStore.Services.ProductCatalog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,8 +12,10 @@ builder.Services.ConfigureWebApplicationServices(builder.Configuration);
 builder.Services.AddDbContext<StoreDbContext>(opts => {
 	opts.UseSqlServer(builder.Configuration["ConnectionStrings:OnlineStoreConnection"]);
 });
-builder.Services.AddScoped<IStoreRepository, EFStoreRepository>();
-builder.Services.AddScoped<IOrderRepository, EFOrderRepository>();
+
+builder.Services.AddScoped<ProductRepository>();
+builder.Services.AddScoped<OrderRepository>();
+builder.Services.AddScoped<IProductService, ProductService>();
 
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession();

@@ -1,14 +1,15 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OnlineStore.Models;
+using OnlineStore.Models.Repositories;
 
 namespace OnlineStore.Controllers
 {
 	public class OrderController : Controller
 	{
-		private IOrderRepository repository;
+		private OrderRepository repository;
 		private Cart cart;
 
-		public OrderController(IOrderRepository repositoryService, Cart cartService)
+		public OrderController(OrderRepository repositoryService, Cart cartService)
 		{
 			this.repository = repositoryService;
 			this.cart = cartService;
@@ -26,7 +27,7 @@ namespace OnlineStore.Controllers
 			if (ModelState.IsValid)
 			{
 				order.Lines = cart.Lines.ToArray();
-				repository.SaveOrder(order);
+				repository.Save(order);
 				cart.Clear();
 				return RedirectToPage("/Completed", new { orderId = order.OrderId });
 			} else

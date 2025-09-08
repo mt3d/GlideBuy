@@ -1,5 +1,7 @@
 ﻿@page "/admin/orders"
-@inherits OwningComponentBase<IOrderRepository>
+@using OnlineStore.Models.Repositories
+@using OnlineStore.Services.ProductCatalog
+@inherits OwningComponentBase<OrderRepository>
 
 <OrderTable TableTitle="Unshipped Orders" Orders="UnshippedOrders" ButtonLabel="Ship" OrderSelected="ShipOrder" />
 <OrderTable TableTitle="Shipped Orders" Orders="ShippedOrders" ButtonLabel="Reset" OrderSelected="ResetOrder" />
@@ -7,7 +9,8 @@
 
 @code
 {
-	public IOrderRepository Repository => Service;
+	// public IOrderRepository Repository => Service;
+	public OrderRepository Repository => Service;
 	public IEnumerable<Order> AllOrders { get; set; } = Enumerable.Empty<Order>();
 	public IEnumerable<Order> UnshippedOrders { get; set; } = Enumerable.Empty<Order>();
 	public IEnumerable<Order> ShippedOrders { get; set; } = Enumerable.Empty<Order>();
@@ -30,10 +33,11 @@
 	private void UpdateOrder(int id, bool shipValue)
 	{
 		Order? o = Repository.Orders.FirstOrDefault(o => o.OrderId == id);
+
 		if (o != null)
 		{
 			o.Shipped = shipValue;
-			Repository.SaveOrder(o);
+			Repository.Save(o);
 		}
 	}
 }

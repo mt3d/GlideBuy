@@ -1,6 +1,7 @@
 ﻿@page "/admin/products"
 @page "/admin"
-@inherits OwningComponentBase<IStoreRepository>
+@using OnlineStore.Models.Repositories
+@inherits OwningComponentBase<ProductRepository>
 
 <table class="table table-sm table-striped table-bordered">
 	<thead>
@@ -42,7 +43,7 @@
 
 @code
 {
-	public IStoreRepository Repository => Service;
+	public ProductRepository Repository => Service;
 
 	public IEnumerable<Product> ProductData { get; set; } = Enumerable.Empty<Product>();
 
@@ -58,7 +59,7 @@
 
 	public async Task DeleteProduct(Product p)
 	{
-		Repository.DeleteProduct(p);
+		Repository.Delete(p);
 		await UpdateData();
 	}
 

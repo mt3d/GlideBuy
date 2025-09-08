@@ -22,6 +22,8 @@ namespace OnlineStore.Models
 		[Required(ErrorMessage = "Please specify a category")]
 		public string Category { get; set; } = String.Empty;
 
+		public bool MarkedAsNew { get; set; }
+		public bool Deleted { get; set; }
 		// public originalStore name & link (below Product Name)
 		// byline
 

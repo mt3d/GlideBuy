@@ -1,5 +1,6 @@
 ﻿@page "/admin/products/details/{id:long}"
-@inherits OwningComponentBase<IStoreRepository>
+@using OnlineStore.Models.Repositories
+@inherits OwningComponentBase<ProductRepository>
 
 <h3 class="bg-info text-white text-center p-1">Details</h3>
 
@@ -33,8 +34,7 @@
 
 @code
 {
-	[Inject]
-	public IStoreRepository? Repository { get; set;  }
+	public ProductRepository Repository => Service;
 
 	[Parameter]
 	public long Id { get; set; }
@@ -43,7 +43,8 @@
 
 	protected override void OnParametersSet()
 	{
-		Product = Repository?.Products.FirstOrDefault(p => p.ProductId == Id);
+		// Product = Repository?.Products.FirstOrDefault(p => p.ProductId == Id);
+		Product = Repository.GetById(Id);
 	}
 
 	public string EditUrl => $"/admin/products/edit/{Product?.ProductId}";

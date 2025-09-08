@@ -1,21 +1,21 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace OnlineStore.Models
+namespace OnlineStore.Models.Repositories
 {
-	public class EFOrderRepository : IOrderRepository
+	public class OrderRepository
 	{
 		private StoreDbContext context;
 
-		public EFOrderRepository(StoreDbContext context)
+		public OrderRepository(StoreDbContext context)
 		{
 			this.context = context;
 		}
 
 		public IQueryable<Order> Orders => context.Orders
-			.Include(o => o.Lines) // Eagrly load the Lines collection
-			.ThenInclude(l => l.Product); // Load the Product associated with each Line
+			.Include(o => o.Lines)
+			.ThenInclude(l => l.Product);
 
-		public void SaveOrder(Order order)
+		public void Save(Order order)
 		{
 			// Tells EF that the entitites exist in the database.
 			context.AttachRange(order.Lines.Select(l => l.Product));
@@ -25,7 +25,6 @@ namespace OnlineStore.Models
 				context.Orders.Add(order);
 			}
 			context.SaveChanges();
-
 		}
 	}
 }
