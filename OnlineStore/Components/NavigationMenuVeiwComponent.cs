@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using OnlineStore.Models;
 using OnlineStore.Models.Repositories;
 
@@ -21,7 +22,10 @@ namespace OnlineStore.Components
 			// return View(repository.Products.Select(x => x.Category).Distinct().OrderBy(x => x));
 			// Operation: Get all distinct categories in ascending order
 			// TODO: Use CategoryService (GetAllCategories)
-			return View(repository.Products.Select(x => x.Category).Distinct().OrderBy(x => x));
+			return View(repository.Products
+				.Include(p => p.Category)
+				.Select(x => x.Category.Name)
+				.Distinct().OrderBy(x => x));
 		}
 	}
 }

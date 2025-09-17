@@ -25,13 +25,13 @@
 	</div>
 	<div class="form-group">
 		<label>Description</label>
-		<ValidationMessage For="@(() => Product.Description)" />
-		<InputText class="form-control" @bind-Value="Product.Description" />
+		<ValidationMessage For="@(() => Product.ShortDescription)" />
+		<InputText class="form-control" @bind-Value="Product.ShortDescription" />
 	</div>
 	<div class="form-group">
 		<label>Category</label>
 		<ValidationMessage For="@(() => Product.Category)" />
-		<InputText class="form-control" @bind-Value="Product.Category" />
+		<InputText class="form-control" @bind-Value="Product.Category.Name" readonly/>
 	</div>
 	<div class="form-group">
 		<label>Price</label>
@@ -60,7 +60,6 @@
 	{
 		if (Id != 0)
 		{
-			// Product = Repository.Products.FirstOrDefault(p => p.ProductId == Id) ?? new();
 			Product = Repository.GetById(Id) ?? new();
 		}
 	}
@@ -69,12 +68,10 @@
 	{
 		if (Id == 0)
 		{
-			// Repository.CreateProduct(Product);
 			Repository.Add(Product);
 		}
 		else
 		{
-			// Repository.SaveProduct(Product);
 			Repository.Save(Product);
 		}
 		NavManager?.NavigateTo("/admin/products");

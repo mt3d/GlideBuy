@@ -66,7 +66,9 @@ namespace OnlineStore.Models.Repositories
 
 			// TODO check for includeDeleted
 
-			return context.Products.FirstOrDefault(entity => entity.ProductId == id);
+			return context.Products
+				.Include(p => p.Category)
+				.FirstOrDefault(p => p.ProductId == id);
 		}
 
 		public async Task<Product?> GetByIdAsync(long? id, bool includeDeleted = true)
@@ -78,7 +80,9 @@ namespace OnlineStore.Models.Repositories
 
 			// TODO check for includeDeleted
 
-			return await context.Products.FirstOrDefaultAsync(entity => entity.ProductId == id);
+			return await context.Products
+				.Include(p => p.Category)
+				.FirstOrDefaultAsync(p => p.ProductId == id);
 		}
 
 		//IList<T> GetByIds(IList<long> ids, bool includeDeleted = true);

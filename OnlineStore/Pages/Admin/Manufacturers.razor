@@ -1,0 +1,55 @@
+﻿@page "/admin/manufacturers"
+@using OnlineStore.Models.Repositories
+@inherits OwningComponentBase<ManufacturerRepository>
+
+<table class="table table-sm table-striped table-bordered">
+	<thead>
+		<tr>
+			<td>ID</td>
+			<th>Name</th>
+			<th>Published</th>
+			<th>Display Order</th>
+			<th>Edit</th>
+		</tr>
+	</thead>
+	<tbody>
+		@if (ManufacturersData?.Count() > 0)
+		{
+			@foreach (Manufacturer m in ManufacturersData)
+			{
+				<tr>
+					<td>@m.ManufacturerId</td>
+					<td>@m.Name</td>
+					<td>@m.Published</td>
+					<td>@m.DisplayOrder</td>
+					<td>
+@* 						<NavLink class="btn btn-info btn-sm" href="@GetDetailsUrl(p.ProductId ?? 0)">Details</NavLink>
+ *@						<NavLink class="btn btn-warning btn-sm" href="@GetEditUrl(m.ManufacturerId)">Edit</NavLink>
+@* 						<button class="btn btn-danger btn-sm" @onclick="@(e => DeleteProduct(p))">Delete</button> *@
+					</td>
+				</tr>
+			}
+		}
+		else
+		{
+			<tr>
+				<td colspan="5" class="text-center">No Products</td>
+			</tr>
+		}
+	</tbody>
+</table>
+
+@code
+{
+	public ManufacturerRepository Repository => Service;
+
+	public IEnumerable<Manufacturer> ManufacturersData { get; set; } = Enumerable.Empty<Manufacturer>();
+
+	public async Task UpdateData()
+	{
+		ManufacturersData = await Repository.Manufacturers.ToListAsync();
+	}
+
+	public string GetEditUrl(long id) => $"/admin/manufacturers/edit/{id}";
+
+}

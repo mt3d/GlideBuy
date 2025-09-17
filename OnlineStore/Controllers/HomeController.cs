@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using OnlineStore.Models;
 using OnlineStore.Models.Repositories;
 using OnlineStore.Models.ViewModels;
@@ -20,8 +21,8 @@ namespace OnlineStore.Controllers
 		public ViewResult Index(string? category, int productPage = 1)
 			=> View(new ProductListViewModel
 			{
-				Products = productRepository.Products
-					.Where(p => category == null || p.Category == category)
+				Products = productRepository.Products.Include(p => p.Category)
+					.Where(p => category == null || p.Category.Name == category)
 					.OrderBy(p => p.ProductId)
 					.Skip((productPage - 1) * PageSize)
 					.Take(PageSize),
@@ -29,7 +30,9 @@ namespace OnlineStore.Controllers
 				{
 					CurrentPage = productPage,
 					ItemsPerPage = PageSize,
-					TotalItems = category == null ? productRepository.Products.Count() : productRepository.Products.Where(e => e.Category == category).Count()
+					TotalItems = category == null
+						? productRepository.Products.Count()
+						: productRepository.Products.Include(p => p.Category).Where(e => e.Category.Name == category).Count()
 				},
 				CurrentCategory = category
 			});	
