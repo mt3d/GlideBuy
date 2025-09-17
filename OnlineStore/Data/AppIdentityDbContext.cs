@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace OnlineStore.Models
+namespace OnlineStore.Data
 {
 	public class AppIdentityDbContext : IdentityDbContext<IdentityUser>
 	{

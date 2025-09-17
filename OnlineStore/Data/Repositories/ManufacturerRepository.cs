@@ -1,10 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using OnlineStore.Models;
 using OnlineStore.Models.Common;
 using System.Linq.Expressions;
 using System.Transactions;
 
-namespace OnlineStore.Models.Repositories
+namespace OnlineStore.Data.Repositories
 {
 	public class ManufacturerRepository
 	{

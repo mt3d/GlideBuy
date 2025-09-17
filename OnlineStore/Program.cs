@@ -2,8 +2,9 @@ using Microsoft.EntityFrameworkCore;
 using OnlineStore.Models;
 using Microsoft.AspNetCore.Identity;
 using OnlineStore.Infrastructure;
-using OnlineStore.Models.Repositories;
 using OnlineStore.Services.ProductCatalog;
+using OnlineStore.Data.Repositories;
+using OnlineStore.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-namespace OnlineStore.Models
+namespace OnlineStore.Data
 {
 	public static class IdentitySeedData
 	{

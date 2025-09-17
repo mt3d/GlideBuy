@@ -1,5 +1,5 @@
-﻿using OnlineStore.Models;
-using OnlineStore.Models.Repositories;
+﻿using OnlineStore.Data.Repositories;
+using OnlineStore.Models;
 
 namespace OnlineStore.Services.ProductCatalog
 {
