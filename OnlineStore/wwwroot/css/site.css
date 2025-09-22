@@ -1,0 +1,15 @@
+﻿body {
+    background-color: #F9FAFB;
+}
+
+.sidebar {
+    background-color: #ffffff;
+    border-right: 1px solid #e5e7eb;
+    min-height: 100vh;
+    padding: 1rem;
+}
+
+.brand-logo {
+    font-weight: bold;
+    font-size: 1.25rem;
+}
