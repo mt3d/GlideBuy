@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+using OnlineStore.Core.Domain.Payment;
+using OnlineStore.Core.Domain.Shipping;
 using OnlineStore.Models;
 using System.ComponentModel.DataAnnotations;
 
@@ -33,5 +35,20 @@ namespace OnlineStore.Core.Domain.Orders
 
 		[BindNever]
 		public bool Shipped { get; set; }
+
+		/// <summary>
+		/// Gets or sets the payment status
+		/// </summary>
+		public PaymentStatus PaymentStatus { get; set; }
+
+		/// <summary>
+		/// Gets or sets the order status
+		/// </summary>
+		public OrderStatus OrderStatus { get; set; }
+
+		/// <summary>
+		/// Gets or sets the shipping status
+		/// </summary>
+		public ShippingStatus ShippingStatus { get; set; }
 	}
 }

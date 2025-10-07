@@ -16,5 +16,23 @@ namespace OnlineStore.Data
 
 		public DbSet<Language> Languages => Set<Language>();
 		public DbSet<LocalizationResource> LocalizationResources => Set<LocalizationResource>();
+
+		protected override void OnModelCreating(ModelBuilder modelBuilder)
+		{
+			modelBuilder
+				.Entity<Order>()
+				.Property(e => e.OrderStatus)
+				.HasConversion<int>();
+
+			modelBuilder
+				.Entity<Order>()
+				.Property(e => e.ShippingStatus)
+				.HasConversion<int>();
+
+			modelBuilder
+				.Entity<Order>()
+				.Property(e => e.PaymentStatus)
+				.HasConversion<int>();
+		}
 	}
 }
