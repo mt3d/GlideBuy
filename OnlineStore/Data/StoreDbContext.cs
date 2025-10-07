@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using OnlineStore.Core.Domain.Orders;
 using OnlineStore.Models;
 using OnlineStore.Models.Localization;
 

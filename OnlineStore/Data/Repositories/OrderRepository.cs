@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using OnlineStore.Models;
+using OnlineStore.Core.Domain.Orders;
 
 namespace OnlineStore.Data.Repositories
 {

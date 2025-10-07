@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+using OnlineStore.Models;
 using System.ComponentModel.DataAnnotations;
 
-namespace OnlineStore.Models
+namespace OnlineStore.Core.Domain.Orders
 {
 	public class Order
 	{
