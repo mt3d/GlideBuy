@@ -13,5 +13,15 @@ namespace GlideBuy.Plugin.Payments.AmazonPay
 			*/
 			return Task.FromResult(new ProcessPaymentResult());
 		}
+
+		public PaymentMethodType PaymentMethodType
+		{
+			// TODO: return Standard if we're checking out.
+
+			get
+			{
+				return PaymentMethodType.Button;
+			}
+		}
 	}
 }
