@@ -1,0 +1,18 @@
+﻿@using GlideBuy.Web.Models.ShoppingCart
+@model ShoppingCartModel
+
+<div class="order-summary-content">
+
+	@await Html.PartialAsync("_OrderReviewData", Model.OrderReviewData)
+
+	@if (Model.Items.Count > 0)
+	{
+		
+	}
+	else
+	{
+		<div class="no-data">
+			Shopping Cart is Empty @*Localize*@
+		</div>
+	}
+</div>

@@ -1,0 +1,26 @@
+﻿@using GlideBuy.Web.Models.ShoppingCart
+@model ShoppingCartModel.OrderReviewDataModel
+
+@if (Model.Display)
+{
+	<div class="order-review-data">
+		<div class="billing-info-wrap">
+			<div class="billing-info">
+				<div class="title">
+					<strong>Billing Address</strong> @*Localize*@
+				</div>
+				<ul class="info-list">
+					<li class="name">
+					</li>
+				</ul>
+			</div>
+		</div>
+
+		@if (Model.IsShippable)
+		{
+			<div class="shipping-info-wrap">
+
+			</div>
+		}
+	</div>
+}

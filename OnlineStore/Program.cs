@@ -5,6 +5,7 @@ using OnlineStore.Infrastructure;
 using OnlineStore.Services.ProductCatalog;
 using OnlineStore.Data.Repositories;
 using OnlineStore.Data;
+using GlideBuy.Web.Factories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +19,7 @@ builder.Services.AddScoped<ProductRepository>();
 builder.Services.AddScoped<OrderRepository>();
 builder.Services.AddScoped<ManufacturerRepository>();
 builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<IShoppingCartModelFactory, ShoppingCartModelFactory>();
 
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession();

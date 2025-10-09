@@ -2,15 +2,15 @@
 {
 	public class Cart
 	{
-		public List<CartLine> Lines { get; set; } = new List<CartLine>();
+		public List<ShoppingCartItem> Lines { get; set; } = new List<ShoppingCartItem>();
 
 		public virtual void AddItem(Product product, int quantity)
 		{
-			CartLine? line = Lines.Where(p => p.Product.ProductId == product.ProductId).FirstOrDefault();
+			ShoppingCartItem? line = Lines.Where(p => p.Product.ProductId == product.ProductId).FirstOrDefault();
 
 			if (line == null)
 			{
-				Lines.Add(new CartLine { Product = product, Quantity = quantity });
+				Lines.Add(new ShoppingCartItem { Product = product, Quantity = quantity });
 			} else
 			{
 				line.Quantity += quantity;
@@ -27,9 +27,9 @@
 		public virtual void Clear() => Lines.Clear();
 	}
 
-	public class CartLine
+	public class ShoppingCartItem
 	{
-		public int CartLineId { get; set; }
+		public int ShoppingCartItemId { get; set; }
 		public Product Product { get; set; } = new();
 		public int Quantity { get; set; }
 	}

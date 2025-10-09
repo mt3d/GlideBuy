@@ -1,19 +1,19 @@
 ﻿@using OnlineStore.Components
-@using OnlineStore.Models.ShoppingCart
+@using GlideBuy.Web.Models.ShoppingCart
 @model ShoppingCartModel
 @{
 	Layout = "_CartLayout";
 }
 
-@* <div class="page shopping-cart-page">
+<div class="page shopping-cart-page">
 	<div class="page-title">
 		<h1>Shopping Cart</h1> @*TODO: Localize*@
-@* 	</div>
+ 	</div>
 
 	<div class="page-body">
 		@await Component.InvokeAsync(typeof(OrderSummaryViewComponent))
 	</div>
-</div> *@
+</div>
 
 <table class="table table-bordered table-striped">
 	<thead>
@@ -26,7 +26,7 @@
 		</tr>
 	</thead>
 	<tbody>
-		@foreach (var line in Model.Cart?.Lines ?? Enumerable.Empty<CartLine>())
+		@foreach (var line in Model.Cart?.Lines ?? Enumerable.Empty<ShoppingCartItem>())
 		{
 			<tr>
 				<td class="text-center">@line.Quantity</td>

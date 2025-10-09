@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OnlineStore.Models;
-using OnlineStore.Models.ShoppingCart;
 using OnlineStore.Services.ProductCatalog;
+using GlideBuy.Web.Models.ShoppingCart;
 
 namespace OnlineStore.Controllers
 {

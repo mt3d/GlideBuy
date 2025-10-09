@@ -11,7 +11,7 @@ namespace OnlineStore.Core.Domain.Orders
 		[BindNever]
 		public int OrderId { get; set; }
 		[BindNever]
-		public ICollection<CartLine> Lines { get; set; } = new List<CartLine>();
+		public ICollection<ShoppingCartItem> Lines { get; set; } = new List<ShoppingCartItem>();
 
 		[Required(ErrorMessage = "Please enter a name")]
 		public string? Name { get; set; }
