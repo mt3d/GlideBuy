@@ -8,6 +8,7 @@ namespace GlideBuy.Web.Models.ShoppingCart
 		{
 			Items = new List<ShoppingCartItemModel>();
 			OrderReviewData = new OrderReviewDataModel();
+			Warnings = new List<string>();
 		}
 
 		public string ReturnUrl { get; set; } = "/";
@@ -17,6 +18,8 @@ namespace GlideBuy.Web.Models.ShoppingCart
 		public IList<ShoppingCartItemModel> Items { get; set; }
 
 		public OrderReviewDataModel OrderReviewData { get; set; }
+
+		public IList<string> Warnings { get; set; }
 
 		public class ShoppingCartItemModel
 		{

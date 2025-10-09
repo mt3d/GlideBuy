@@ -7,7 +7,17 @@
 
 	@if (Model.Items.Count > 0)
 	{
-		
+		if (Model.Warnings.Count > 0)
+		{
+			<div class="message-error">
+				<ul>
+					@foreach(string warning in Model.Warnings)
+					{
+						<li>@warning</li>
+					}
+				</ul>
+			</div>
+		}
 	}
 	else
 	{
