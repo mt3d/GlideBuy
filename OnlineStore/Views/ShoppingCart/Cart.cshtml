@@ -1,7 +1,20 @@
-﻿@page
-@model CartModel
+﻿@using OnlineStore.Components
+@using OnlineStore.Models.ShoppingCart
+@model ShoppingCartModel
+@{
+	Layout = "_CartLayout";
+}
 
-<h2>Your Cart</h2>
+@* <div class="page shopping-cart-page">
+	<div class="page-title">
+		<h1>Shopping Cart</h1> @*TODO: Localize*@
+@* 	</div>
+
+	<div class="page-body">
+		@await Component.InvokeAsync(typeof(OrderSummaryViewComponent))
+	</div>
+</div> *@
+
 <table class="table table-bordered table-striped">
 	<thead>
 		<tr>
@@ -21,9 +34,9 @@
 				<td class="text-right">@line.Product.Price.ToString("c")</td>
 				<td class="text-right">@((line.Quantity * line.Product.Price).ToString("c"))</td>
 				<td class="text-center">
-					<form asp-page-handler="Remove" method="post">
- 						<input type="hidden" name="productId" value="@line.Product.ProductId" />
- 						<input type="hidden" name="returnUrl" value="@Model?.ReturnUrl" />
+					<form asp-action="RemoveProduct" method="post">
+						<input type="hidden" name="productId" value="@line.Product.ProductId" />
+						<input type="hidden" name="returnUrl" value="@Model?.ReturnUrl" />
 						<button type="submit" class="btn btn-sm btn-danger">Remove</button>
 					</form>
 				</td>
