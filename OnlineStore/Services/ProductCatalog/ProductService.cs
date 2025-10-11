@@ -1,5 +1,6 @@
 ﻿using OnlineStore.Data.Repositories;
 using OnlineStore.Models;
+using GlideBuy.Core.Domain.Catalog;
 
 namespace OnlineStore.Services.ProductCatalog
 {
@@ -63,6 +64,57 @@ namespace OnlineStore.Services.ProductCatalog
 		public Task InsertProductAsync(Product product)
 		{
 			throw new NotImplementedException();
+		}
+
+		public async Task<string> FormatSkuAsync(Product product, string? attributesXml = null)
+		{
+			ArgumentNullException.ThrowIfNull(product);
+
+			var (sku, _, _) = await GetSkuMpnGtinAsync(product, attributesXml);
+
+			return sku;
+		}
+
+		/// <summary>
+		/// Retrieve the correct product identifiers (SKU, Manufacturer Part Number, and GTIN)
+		/// for a given product, taking into account its selected attributes (like size, color, etc.),
+		/// not just the base product.
+		/// </summary>
+		/// <param name="product"></param>
+		/// <param name="attributes"></param>
+		/// <param name=""></param>
+		/// <returns></returns>
+		private async Task<(string sku, string mpn, string gtin)> GetSkuMpnGtinAsync(Product product, string attributesXml)
+		{
+			ArgumentNullException.ThrowIfNull(product);
+
+			string? sku = null;
+			string? mpn = null;
+			string? gtin = null;
+
+			// Handle the case when the prodcut have a stock for each variation.
+			if (product.InventoryManagementMethod == InventoryManagementMethod.ManageStockByAttributes
+				&& !string.IsNullOrEmpty(attributesXml))
+			{
+				throw new NotImplementedException();
+				// TODO: Implement finding identifiers by attribute combinations.
+			}
+
+			// If the product doesn't manage stock by attributes, fallback to the base product identifiers.
+			if (string.IsNullOrEmpty(sku))
+			{
+				sku = product.Sku;
+			}
+			if (string.IsNullOrEmpty(mpn))
+			{
+				mpn = product.ManufacturerPartNumber;
+			}
+			if (string.IsNullOrEmpty(gtin))
+			{
+				gtin = product.Gtin;
+			}
+
+			return (sku, mpn, gtin);
 		}
 	}
 }

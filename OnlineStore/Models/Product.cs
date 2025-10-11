@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
+using GlideBuy.Core.Domain.Catalog;
 
 namespace OnlineStore.Models
 {
@@ -47,8 +48,15 @@ namespace OnlineStore.Models
 
 		public string Sku { get; set; } = string.Empty;
 
-		// Global Trade Item Number
-		// includes UPC, EAN, JAN, and ISBN for books
+		/// <summary>
+		/// Gets or sets the Manufacturer Part Number of the product.
+		/// </summary>
+		public string ManufacturerPartNumber { get; set; } = string.Empty;
+
+		/// <summary>
+		/// Gets or sets the Global Trade Item Number of the product.
+		/// It includes UPC, EAN, JAN, and ISBN for books
+		/// </summary>
 		public string Gtin { get; set; } = string.Empty;
 
 		public bool IsDownloadable { get; set; } // TODO: IsDigital?
@@ -73,6 +81,11 @@ namespace OnlineStore.Models
 		// public [] images;
 
 		// public SpecialProductOverview
-		// PressureCooker (Brand, Capacity, Material, Color, FinishType, ProductDimensions, Wattage, Item Weight)b
+		// PressureCooker (Brand, Capacity, Material, Color, FinishType, ProductDimensions, Wattage, Item Weight)
+
+		/// <summary>
+		/// Gets or sets how the inventory is managed.
+		/// </summary>
+		public InventoryManagementMethod InventoryManagementMethod { get; set; }
 	}
 }

@@ -1,10 +1,18 @@
 ﻿using GlideBuy.Web.Models.ShoppingCart;
 using OnlineStore.Models;
+using OnlineStore.Services.ProductCatalog;
 
 namespace GlideBuy.Web.Factories
 {
 	public class ShoppingCartModelFactory : IShoppingCartModelFactory
 	{
+		private readonly IProductService productService;
+
+		public ShoppingCartModelFactory(IProductService productService)
+		{
+			this.productService = productService;
+		}
+
 		private async Task<ShoppingCartModel.ShoppingCartItemModel> PrepareShoppingCartItemModelAsync(
 			IList<ShoppingCartItem> cart,
 			ShoppingCartItem item)
@@ -12,9 +20,12 @@ namespace GlideBuy.Web.Factories
 			ArgumentNullException.ThrowIfNull(cart);
 			ArgumentNullException.ThrowIfNull(item);
 
+			// var product = await productService.GetProductByIdAsync(item.Product.ProductId);
+
 			var cartItemModel = new ShoppingCartModel.ShoppingCartItemModel
 			{
 				ProductId = item.Product.ProductId ?? 0,
+				Sku = await productService.FormatSkuAsync(item.Product),
 				// TODO: Localize name
 				ProductName = item.Product.Name,
 				Quantity = item.Quantity

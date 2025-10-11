@@ -18,6 +18,8 @@ namespace OnlineStore.Services.ProductCatalog
 
 		bool CheckProductAvailability(Product product, DateTime? dateTime = null);
 
+		Task<string> FormatSkuAsync(Product product, string? attributesXml = null);
+
 		#endregion
 	}
 }

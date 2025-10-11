@@ -33,6 +33,11 @@ namespace OnlineStore.Data
 				.Entity<Order>()
 				.Property(e => e.PaymentStatus)
 				.HasConversion<int>();
+
+			modelBuilder
+				.Entity<Product>()
+				.Property(e => e.InventoryManagementMethod)
+				.HasConversion<int>();
 		}
 	}
 }

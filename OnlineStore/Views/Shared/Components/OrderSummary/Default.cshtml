@@ -71,6 +71,13 @@
 						@foreach (var item in Model.Items)
 						{
 							<tr>
+								@if (Model.ShowSku)
+								{
+									<td class="sku">
+										<label class="td-title">SKU:</label>
+										<span class="sku-number">@item.Sku</span>
+									</td>
+								}
 								<td class="text-left">@item.ProductName</td>
 								<td class="text-right">@item.UnitPrice</td>
 								<td class="text-center">@item.Quantity</td>
