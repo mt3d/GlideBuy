@@ -16,23 +16,10 @@
 </div>
 
 <table class="table table-bordered table-striped">
-	<thead>
-		<tr>
-			<th>Quantity</th>
-			<th>Item</th>
-			<th class="text-right">Price</th>
-			<th class="text-right">Subtotal</th>
-			<th></th>
-		</tr>
-	</thead>
-	<tbody>
+@* <tbody>
 		@foreach (var line in Model.Cart?.Lines ?? Enumerable.Empty<ShoppingCartItem>())
 		{
 			<tr>
-				<td class="text-center">@line.Quantity</td>
-				<td class="text-left">@line.Product.Name</td>
-				<td class="text-right">@line.Product.Price.ToString("c")</td>
-				<td class="text-right">@((line.Quantity * line.Product.Price).ToString("c"))</td>
 				<td class="text-center">
 					<form asp-action="RemoveProduct" method="post">
 						<input type="hidden" name="productId" value="@line.Product.ProductId" />
@@ -42,7 +29,7 @@
 				</td>
 			</tr>
 		}
-	</tbody>
+	</tbody> *@
 	<tfoot>
 		<tr>
 			<td colspan="3" class="text-right">Total:</td>

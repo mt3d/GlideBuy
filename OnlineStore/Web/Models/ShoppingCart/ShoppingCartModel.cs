@@ -12,8 +12,15 @@ namespace GlideBuy.Web.Models.ShoppingCart
 		}
 
 		public string ReturnUrl { get; set; } = "/";
-
 		public Cart? Cart { get; set; }
+
+		public bool ShowSku { get; set; }
+
+		public bool ShowProductImages { get; set; }
+
+		public bool IsEditable { get; set; }
+
+		public bool ShowVendorName { get; set; }
 
 		public IList<ShoppingCartItemModel> Items { get; set; }
 
@@ -25,7 +32,17 @@ namespace GlideBuy.Web.Models.ShoppingCart
 		{
 			public string Sku { get; set; }
 
+			public long ProductId { get; set; }
+
 			public string ProductName { get; set; }
+
+			public int Quantity { get; set; }
+
+			public string UnitPrice { get; set; }
+			public decimal UnitPriceValue { get; set; }
+
+			public string Subtotal { get; set; }
+			public decimal SubtotalValue { get; set; }
 		}
 
 		public class OrderReviewDataModel

@@ -18,6 +18,79 @@
 				</ul>
 			</div>
 		}
+		<form asp-route="ShoppingCart" method="post" id="shopping-cart-form">
+			<div class="table-wrapper">
+				<table class="cart table table-striped table-bordered">
+					<colgroup>
+						@if (Model.ShowSku)
+						{
+							<col width="1" />
+						}
+						@if (Model.ShowProductImages)
+						{
+							<col width="1" />
+						}
+						<col />
+						@if (Model.ShowVendorName)
+						{
+							<col width="1" />
+						}
+						<col width="1" />
+						<col width="1" />
+						<col width="1" />
+						@if (Model.IsEditable)
+						{
+							<col width="1" />
+						}
+					</colgroup>
+					<thead>
+						<tr>
+							@if (Model.ShowSku)
+							{
+								<th class="sku">SKU</th>
+							}
+							@if (Model.ShowProductImages)
+							{
+								<th class="product-image">Image</th>
+							}
+							<th class="product">Product(s)</th>
+							@if (Model.ShowVendorName)
+							{
+								<th class="vendor">Vendor Name</th>
+							}
+							<th class="unit-price">Unite Price</th>
+							<th class="quantity">Quantity</th>
+							<th class="subtotal">Subtotal</th>
+							@if (Model.IsEditable)
+							{
+								<th class="remove-from-cart">Remove</th>
+							}
+						</tr>
+					</thead>
+					<tbody>
+						@foreach (var item in Model.Items)
+						{
+							<tr>
+								<td class="text-left">@item.ProductName</td>
+								<td class="text-right">@item.UnitPrice</td>
+								<td class="text-center">@item.Quantity</td>
+								<td class="text-right">@item.Subtotal</td>
+								@if (Model.IsEditable)
+								{
+									<td class="text-center">
+										<form asp-action="RemoveProduct" method="post">
+											<input type="hidden" name="productId" value="@item.ProductId" />
+											<input type="hidden" name="returnUrl" value="@Model?.ReturnUrl" />
+											<button type="submit" class="btn btn-sm btn-danger">Remove</button>
+										</form>
+									</td>
+								}
+							</tr>
+						}
+					</tbody>
+				</table>
+			</div>
+		</form>
 	}
 	else
 	{
