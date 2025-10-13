@@ -1,4 +1,4 @@
-﻿namespace OnlineStore.Infrastructure
+﻿namespace GlideBuy.Infrastructure
 {
 	// TODO: Add an interface for testing purposes
 	public class RouteProvider

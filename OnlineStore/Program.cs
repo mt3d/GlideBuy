@@ -6,6 +6,7 @@ using OnlineStore.Services.ProductCatalog;
 using OnlineStore.Data.Repositories;
 using OnlineStore.Data;
 using GlideBuy.Web.Factories;
+using GlideBuy.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 

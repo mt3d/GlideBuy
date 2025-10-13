@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Localization.Routing;
-
-namespace OnlineStore.Infrastructure
+﻿namespace GlideBuy.Infrastructure.StartupConfigurations
 {
 	public class EndpointsStartupConfiguration : IStartupConfiguration
 	{

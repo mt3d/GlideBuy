@@ -1,4 +1,4 @@
-﻿namespace OnlineStore.Infrastructure
+﻿namespace GlideBuy.Infrastructure.StartupConfigurations
 {
 	/// <summary>
 	/// An object for configuring related services and middleware during startup

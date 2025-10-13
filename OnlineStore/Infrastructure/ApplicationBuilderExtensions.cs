@@ -1,4 +1,4 @@
-﻿using System.Runtime.CompilerServices;
+﻿using GlideBuy.Infrastructure.StartupConfigurations;
 
 namespace OnlineStore.Infrastructure
 {
