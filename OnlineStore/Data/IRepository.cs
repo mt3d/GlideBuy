@@ -1,7 +1,7 @@
-﻿namespace OnlineStore.Data.Repositories
+﻿namespace GlideBuy.Data
 {
-	//public interface IRepository<T>
-	//{
+	public interface IRepository<T>
+	{
 	//	IQueryable<T> All { get; }
 
 	//	// Aka Insert
@@ -32,5 +32,5 @@
 
 	//	IList<T> GetAll(Func<IQueryable<T>, IQueryable<T>>? selector = null, bool includeDeleted = true);
 	//	Task<IList<T>> GetAllAsync(Func<IQueryable<T>, IQueryable<T>>? selector = null, bool includeDeleted = true);
-	//}
+	}
 }
