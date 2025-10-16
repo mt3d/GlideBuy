@@ -1,4 +1,6 @@
-﻿namespace OnlineStore.Core.Configuration
+﻿using GlideBuy.Core.Configuration;
+
+namespace OnlineStore.Core.Configuration
 {
 	/**
 	 * App settings is basically a collection of configurations. Each configuration
