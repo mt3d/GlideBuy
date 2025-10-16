@@ -1,0 +1,20 @@
+﻿namespace GlideBuy.Core.Caching
+{
+	/// <summary>
+	/// A manager for caching items between HTTP requests. Used to store data
+	/// that does not change very often.
+	/// 
+	/// The implementation could be distributed or in-memory.
+	/// </summary>
+	public interface IStaticCacheManager : IDisposable, ICacheKeyService
+	{
+		/// <summary>
+		/// Get a cached item. If the item is not found, then load it and cache it.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="key"></param>
+		/// <param name="acquire">A function to asynchronously load the item if it's not in the cache.</param>
+		/// <returns></returns>
+		public Task<T> GetAsync<T>(CacheKey key, Func<Task<T>> acquire);
+	}
+}
