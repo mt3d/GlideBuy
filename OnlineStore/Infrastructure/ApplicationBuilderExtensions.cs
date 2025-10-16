@@ -1,4 +1,5 @@
-﻿using GlideBuy.Infrastructure.StartupConfigurations;
+﻿using GlideBuy.Infrastructure;
+using GlideBuy.Infrastructure.StartupConfigurations;
 
 namespace OnlineStore.Infrastructure
 {
