@@ -6,7 +6,7 @@
 	/// 
 	/// The implementation could be distributed or in-memory.
 	/// </summary>
-	public interface IStaticCacheManager : IDisposable, ICacheKeyService
+	public interface IStaticCacheManager : IDisposable, ICacheKeyBuilder
 	{
 		/// <summary>
 		/// Get a cached item. If the item is not found, then load it and cache it.

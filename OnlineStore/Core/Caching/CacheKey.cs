@@ -22,7 +22,7 @@
 
 		/// <summary>
 		/// If key parameters are supplied, then it is assumed that the key string
-		/// contain placeholders
+		/// contain placeholders.
 		/// </summary>
 		/// <param name="addCacheKeyParams"></param>
 		/// <param name="keyObjects"></param>
