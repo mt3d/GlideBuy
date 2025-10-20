@@ -97,6 +97,40 @@
 					</tbody>
 				</table>
 			</div>
+			<div class="cart-options">
+				<div class="common-buttons">
+					@if (Model.IsEditable)
+					{
+						<button type="submit" name="continueshopping" class="continue-shopping-button">
+							Continue Shopping
+						</button>
+					}
+				</div>
+
+				@if (Model.IsEditable || Model.IsReadyToCheckout)
+				{
+					@await Html.PartialAsync("_CheckoutAttributes", Model)
+				}
+			</div>
+			@if (Model.IsEditable)
+			{
+				<div class="cart-collaterals">
+					<div class="deals">
+						@*TODO: Implement discounts and gift boxes*@
+					</div>
+				</div>
+			}
+			<div class="totals">
+				@if (Model.IsEditable)
+				{
+					if (!string.IsNullOrEmpty(Model.MinOrderSubtotalWarning))
+					{
+						<div class="min-amount-warning">
+							@Model.MinOrderSubtotalWarning
+						</div>
+					}
+				}
+			</div>
 		</form>
 	}
 	else

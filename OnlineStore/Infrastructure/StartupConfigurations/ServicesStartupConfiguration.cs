@@ -1,10 +1,11 @@
 ﻿using GlideBuy.Core.Caching;
+using GlideBuy.Services.Orders;
 
 namespace GlideBuy.Infrastructure.StartupConfigurations
 {
 	public class ServicesStartupConfiguration : IStartupConfiguration
 	{
-		public StartupOrder Order => throw new NotImplementedException();
+		public StartupOrder Order => StartupOrder.Services;
 
 		public void ConfigureApp(IApplicationBuilder app)
 		{
@@ -14,7 +15,9 @@ namespace GlideBuy.Infrastructure.StartupConfigurations
 		{
 			services.AddSingleton<ICacheKeyManager, CacheKeyManager>();
 			services.AddSingleton<IStaticCacheManager, MemoryCacheManager>();
-			services.AddSingleton<ICacheKeyBuilder, CacheKeyBuilder>();
+			services.AddSingleton<ICacheKeyBuilder, MemoryCacheManager>();
+
+			services.AddScoped<IOrderProcessingService, OrderProcessingService>();
 
 			//services.AddScoped<ISettingService, SettingService>();
 

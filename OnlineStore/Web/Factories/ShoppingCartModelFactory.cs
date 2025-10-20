@@ -1,4 +1,6 @@
-﻿using GlideBuy.Web.Models.ShoppingCart;
+﻿using GlideBuy.Core.Domain.Orders;
+using GlideBuy.Services.Orders;
+using GlideBuy.Web.Models.ShoppingCart;
 using OnlineStore.Models;
 using OnlineStore.Services.ProductCatalog;
 
@@ -7,10 +9,15 @@ namespace GlideBuy.Web.Factories
 	public class ShoppingCartModelFactory : IShoppingCartModelFactory
 	{
 		private readonly IProductService productService;
+		private readonly OrderSettings orderSettings;
+		private readonly IOrderProcessingService orderProcessingService;
 
-		public ShoppingCartModelFactory(IProductService productService)
+		public ShoppingCartModelFactory(
+			IProductService productService,
+			IOrderProcessingService orderProcessingService)
 		{
 			this.productService = productService;
+			this.orderProcessingService = orderProcessingService;
 		}
 
 		private async Task<ShoppingCartModel.ShoppingCartItemModel> PrepareShoppingCartItemModelAsync(
@@ -53,6 +60,23 @@ namespace GlideBuy.Web.Factories
 			bool validateCheckoutAttributes = false,
 			bool prepareAndDisplayOrderReviewData = false)
 		{
+			ArgumentNullException.ThrowIfNull(model);
+			ArgumentNullException.ThrowIfNull(cart);
+
+			// Handle empty shopping cart.
+
+			if (!cart.Any())
+			{
+				return model;
+			}
+
+			model.IsEditable = isEditable;
+
+			bool minOrderSubtotalAmountIsMet = await orderProcessingService.ValidateMinOrderSubtotalAmountAsync(cart);
+			if (!minOrderSubtotalAmountIsMet)
+			{
+
+			}
 
 			foreach (var shoppingCartItem in cart)
 			{

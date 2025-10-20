@@ -1,4 +1,4 @@
-﻿namespace OnlineStore.Core.Configuration
+﻿namespace GlideBuy.Core.Configuration
 {
 	public interface IConfig
 	{

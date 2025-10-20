@@ -20,6 +20,8 @@ namespace GlideBuy.Web.Models.ShoppingCart
 
 		public bool IsEditable { get; set; }
 
+		public bool IsReadyToCheckout { get; set; }
+
 		public bool ShowVendorName { get; set; }
 
 		public IList<ShoppingCartItemModel> Items { get; set; }
@@ -27,6 +29,8 @@ namespace GlideBuy.Web.Models.ShoppingCart
 		public OrderReviewDataModel OrderReviewData { get; set; }
 
 		public IList<string> Warnings { get; set; }
+
+		public string MinOrderSubtotalWarning { get; set; }
 
 		public class ShoppingCartItemModel
 		{
