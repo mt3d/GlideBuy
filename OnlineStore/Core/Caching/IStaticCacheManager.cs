@@ -16,5 +16,13 @@
 		/// <param name="acquire">A function to asynchronously load the item if it's not in the cache.</param>
 		/// <returns></returns>
 		public Task<T> GetAsync<T>(CacheKey key, Func<Task<T>> acquire);
+
+		/// <summary>
+		/// Remove the value with the specified key from the cache store.
+		/// </summary>
+		/// <param name="cacheKey"></param>
+		/// <param name="cacheKeyParameters"></param>
+		/// <returns></returns>
+		public Task RemoveAsync(CacheKey cacheKey, params object[] cacheKeyParameters);
 	}
 }
