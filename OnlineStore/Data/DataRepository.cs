@@ -73,7 +73,7 @@ namespace GlideBuy.Data
 		/// <returns></returns>
 		public async Task<IList<T>> GetAllAsync(
 			Func<IQueryable<T>, IQueryable<T>>? queryModifier = null,
-			Func<ICacheKeyBuilder, CacheKey> cachKeyFactory,
+			Func<ICacheKeyBuilder, CacheKey>? cachKeyFactory = null,
 			bool includeDeleted = true)
 		{
 			// Separate querying logic from caching logic

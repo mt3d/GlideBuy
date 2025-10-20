@@ -1,5 +1,4 @@
-﻿using GlideBuy.Core.Configuration;
-using GlideBuy.Services.Configuration;
+﻿using GlideBuy.Core.Caching;
 
 namespace GlideBuy.Infrastructure.StartupConfigurations
 {
@@ -13,6 +12,10 @@ namespace GlideBuy.Infrastructure.StartupConfigurations
 
 		public void ConfigureServices(IServiceCollection services, IConfiguration configuration)
 		{
+			services.AddSingleton<ICacheKeyManager, CacheKeyManager>();
+			services.AddSingleton<IStaticCacheManager, MemoryCacheManager>();
+			services.AddSingleton<ICacheKeyBuilder, CacheKeyBuilder>();
+
 			//services.AddScoped<ISettingService, SettingService>();
 
 			//TypeFinder typeFinder = new TypeFinder();

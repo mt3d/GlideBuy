@@ -1,9 +1,6 @@
-﻿using Azure.Core;
-using GlideBuy.Core.Caching;
-using System.Collections.Concurrent;
-using System.Diagnostics;
+﻿using System.Collections.Concurrent;
 
-namespace OnlineStore.Core.Caching
+namespace GlideBuy.Core.Caching
 {
 	/// <summary>
 	/// A central index of all cache entries managed by nopCommerce’s caching layer.
