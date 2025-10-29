@@ -75,7 +75,9 @@ namespace GlideBuy.Web.Factories
 			bool minOrderSubtotalAmountIsMet = await orderProcessingService.ValidateMinOrderSubtotalAmountAsync(cart);
 			if (!minOrderSubtotalAmountIsMet)
 			{
+				// TODO get the min subtotal amount, convert it from primary currency to store currency
 
+				model.MinOrderSubtotalWarning = $"The minimum order subtotal amount is ";
 			}
 
 			foreach (var shoppingCartItem in cart)
