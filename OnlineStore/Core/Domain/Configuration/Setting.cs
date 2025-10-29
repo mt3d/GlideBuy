@@ -1,6 +1,8 @@
-﻿namespace GlideBuy.Core.Domain.Configuration
+﻿using OnlineStore.Models;
+
+namespace GlideBuy.Core.Domain.Configuration
 {
-	public class Setting
+	public class Setting : BaseEntity
 	{
 		public Setting() { }
 
@@ -10,8 +12,11 @@
 			Value = value;
 		}
 
-		public int SettingId { get; set; }
+		//public int SettingId { get; set; }
 
+		/// <summary>
+		/// Key format: OrderSettings.MinOrderTotalAmount
+		/// </summary>
 		public string Name { get; set; }
 
 		public string Value { get; set; }

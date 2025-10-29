@@ -6,7 +6,7 @@ using OnlineStore.Models;
 
 namespace GlideBuy.Data
 {
-	public class DataRepository<T> : IRepository<T> where T : BaseEntity
+	public class DataRepository<T> : IDataRepository<T> where T : BaseEntity
 	{
 		protected readonly StoreDbContext context;
 		protected readonly IStaticCacheManager staticCacheManager;
@@ -56,7 +56,7 @@ namespace GlideBuy.Data
 			var cacheKey = getCacheKey(staticCacheManager)
 				?? staticCacheManager.BuildKeyWithDefaultCacheTime(EntityCachingDefaults<T>.AllCacheKey);
 
-			return await staticCacheManager.GetAsync(cacheKey, getData);
+			return await staticCacheManager.TryGetOrLoad(cacheKey, getData);
 		}
 
 		/// <summary>

@@ -34,7 +34,7 @@ namespace GlideBuy.Core.Caching
 		/// <param name="key"></param>
 		/// <param name="acquire"></param>
 		/// <returns></returns>
-		public async Task<T> GetAsync<T>(CacheKey? key, Func<Task<T>> acquire)
+		public async Task<T> TryGetOrLoad<T>(CacheKey? key, Func<Task<T>> acquire)
 		{
 			/**
 			 * This is a cache-aside + Lazy<Task> hybrid — it solves common concurrency

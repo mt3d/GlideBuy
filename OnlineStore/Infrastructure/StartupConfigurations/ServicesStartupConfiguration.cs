@@ -1,4 +1,6 @@
 ﻿using GlideBuy.Core.Caching;
+using GlideBuy.Core.Configuration;
+using GlideBuy.Services.Configuration;
 using GlideBuy.Services.Orders;
 
 namespace GlideBuy.Infrastructure.StartupConfigurations
@@ -19,19 +21,19 @@ namespace GlideBuy.Infrastructure.StartupConfigurations
 
 			services.AddScoped<IOrderProcessingService, OrderProcessingService>();
 
-			//services.AddScoped<ISettingService, SettingService>();
+			services.AddScoped<ISettingService, SettingService>();
 
-			//TypeFinder typeFinder = new TypeFinder();
-			//var settings = typeFinder.FindClassesByType<ISettings>(false).ToList();
-
-			//foreach (var setting in settings)
-			//{
-			//	services.AddScoped(setting, serviceProvider =>
-			//	{
-			//		// Block until completion.
-			//		//return serviceProvider.GetRequiredService<ISettingService>().LoadSettingsAsync(setting).Result;
-			//	});
-			//}
+			// TODO: Use Singleton.
+			TypeFinder typeFinder = new TypeFinder();
+			var settings = typeFinder.FindClassesByType<ISettings>(false).ToList();
+			foreach (var setting in settings)
+			{
+				services.AddScoped(setting, serviceProvider =>
+				{
+					// Block until completion.
+					return serviceProvider.GetRequiredService<ISettingService>().LoadSettingsAsync(setting).Result;
+				});
+			}
 		}
 	}
 }

@@ -1,9 +1,14 @@
 ﻿using GlideBuy.Core.Configuration;
+using GlideBuy.Core.Domain.Configuration;
 
 namespace GlideBuy.Services.Configuration
 {
 	public interface ISettingService
 	{
-		Task<ISettings> LoadSettingAsync(Type type);
+		Task<IList<Setting>> GetAllSettingsAsync();
+
+		Task<T?> GetSettingByKeyAsync<T>(string key, T? defaultValue = default);
+
+		Task<ISettings?> LoadSettingsAsync(Type type);
 	}
 }
