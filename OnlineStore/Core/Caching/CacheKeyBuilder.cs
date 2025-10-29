@@ -1,4 +1,4 @@
-﻿using OnlineStore.Models;
+﻿using GlideBuy.Models;
 using System.Globalization;
 using System.Security.Cryptography;
 using System.Text;

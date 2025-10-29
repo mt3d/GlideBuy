@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace OnlineStore.Data
+namespace GlideBuy.Data
 {
 	public class AppIdentityDbContext : IdentityDbContext<IdentityUser>
 	{

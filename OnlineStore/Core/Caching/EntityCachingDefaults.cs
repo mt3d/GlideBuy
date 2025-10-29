@@ -1,4 +1,4 @@
-﻿using OnlineStore.Models;
+﻿using GlideBuy.Models;
 
 namespace GlideBuy.Core.Caching
 {

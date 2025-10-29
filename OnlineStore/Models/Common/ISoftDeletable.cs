@@ -1,4 +1,4 @@
-﻿namespace OnlineStore.Models.Common
+﻿namespace GlideBuy.Models.Common
 {
 	/// <summary>
 	/// Represents an entity that can be soft deleted.

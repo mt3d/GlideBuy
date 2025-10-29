@@ -3,7 +3,7 @@ using System;
 using System.ComponentModel;
 using System.Globalization;
 
-namespace OnlineStore.Core
+namespace GlideBuy.Core
 {
 	public static class ConversionHelper
 	{

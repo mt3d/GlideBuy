@@ -1,6 +1,6 @@
-﻿using OnlineStore.Core.Domain.Payment;
+﻿using GlideBuy.Core.Domain.Payment;
 
-namespace OnlineStore.Services.Payments
+namespace GlideBuy.Services.Payments
 {
 	/**
 	 * The outcome of a payment attempt after communicating with a payment gateway.

@@ -1,4 +1,4 @@
-﻿namespace OnlineStore.Core.Domain.Payment
+﻿namespace GlideBuy.Core.Domain.Payment
 {
 	public enum PaymentStatus
 	{

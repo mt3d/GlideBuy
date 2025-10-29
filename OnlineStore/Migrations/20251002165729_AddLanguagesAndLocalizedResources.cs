@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace OnlineStore.Migrations
+namespace GlideBuy.Migrations
 {
     /// <inheritdoc />
     public partial class AddLanguagesAndLocalizedResources : Migration

@@ -2,10 +2,10 @@
 using Microsoft.AspNetCore.Mvc.Routing; // IUrlHelperFactory
 using Microsoft.AspNetCore.Mvc.Rendering; // ViewContext
 using Microsoft.AspNetCore.Mvc; // IUrlHelper
-using OnlineStore.Models.ViewModels;
+using GlideBuy.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
-namespace OnlineStore.Infrastructure
+namespace GlideBuy.Infrastructure
 {
 	/*
 	 * Tag helper: Generates HTML markup for links.

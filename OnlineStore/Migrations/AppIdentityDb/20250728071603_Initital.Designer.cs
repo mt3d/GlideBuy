@@ -5,12 +5,12 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using OnlineStore.Data;
+using GlideBuy.Data;
 
 
 #nullable disable
 
-namespace OnlineStore.Migrations.AppIdentityDb
+namespace GlideBuy.Migrations.AppIdentityDb
 {
     [DbContext(typeof(AppIdentityDbContext))]
     [Migration("20250728071603_Initital")]

@@ -1,4 +1,4 @@
-﻿namespace OnlineStore.Models.ViewModels
+﻿namespace GlideBuy.Models.ViewModels
 {
 	public class PagingInfo
 	{

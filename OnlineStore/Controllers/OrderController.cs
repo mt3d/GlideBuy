@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using OnlineStore.Core.Domain.Orders;
-using OnlineStore.Data.Repositories;
-using OnlineStore.Models;
+using GlideBuy.Core.Domain.Orders;
+using GlideBuy.Data.Repositories;
+using GlideBuy.Models;
 
-namespace OnlineStore.Controllers
+namespace GlideBuy.Controllers
 {
 	public class OrderController : Controller
 	{

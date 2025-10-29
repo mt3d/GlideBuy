@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using OnlineStore.Data.Repositories;
-using OnlineStore.Models;
-using OnlineStore.Models.ViewModels;
+using GlideBuy.Data.Repositories;
+using GlideBuy.Models;
+using GlideBuy.Models.ViewModels;
 
-namespace OnlineStore.Controllers
+namespace GlideBuy.Controllers
 {
 	public class HomeController : Controller
 	{

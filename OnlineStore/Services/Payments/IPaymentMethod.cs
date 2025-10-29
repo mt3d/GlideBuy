@@ -1,4 +1,4 @@
-﻿namespace OnlineStore.Services.Payments
+﻿namespace GlideBuy.Services.Payments
 {
 	public interface IPaymentMethod
 	{

@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using OnlineStore.Core.Domain.Orders;
+using GlideBuy.Core.Domain.Orders;
 
-namespace OnlineStore.Data.Repositories
+namespace GlideBuy.Data.Repositories
 {
 	public class OrderRepository
 	{

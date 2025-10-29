@@ -1,6 +1,6 @@
-﻿using OnlineStore.Pages.Admin.Product;
+﻿using GlideBuy.Pages.Admin.Product;
 
-namespace OnlineStore.Models.Localization
+namespace GlideBuy.Models.Localization
 {
 	public class Language
 	{

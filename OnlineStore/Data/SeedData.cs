@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using OnlineStore.Models;
+using GlideBuy.Models;
 
-namespace OnlineStore.Data
+namespace GlideBuy.Data
 {
 	public class SeedData
 	{

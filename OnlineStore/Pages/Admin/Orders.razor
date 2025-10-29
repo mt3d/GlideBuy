@@ -1,7 +1,8 @@
 ﻿@page "/admin/orders"
-@using OnlineStore.Core.Domain.Orders
-@using OnlineStore.Data.Repositories
-@using OnlineStore.Services.ProductCatalog
+@using GlideBuy.Core.Domain.Orders
+@using GlideBuy.Data.Repositories
+@using GlideBuy.Models
+@using GlideBuy.Services.ProductCatalog
 @inherits OwningComponentBase<OrderRepository>
 
 <OrderTable TableTitle="Unshipped Orders" Orders="UnshippedOrders" ButtonLabel="Ship" OrderSelected="ShipOrder" />

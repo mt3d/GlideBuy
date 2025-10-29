@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace OnlineStore.Pages
+namespace GlideBuy.Pages
 {
     public class CompletedModel : PageModel
     {

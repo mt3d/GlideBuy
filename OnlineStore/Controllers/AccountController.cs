@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
-using OnlineStore.Models.ViewModels;
+using GlideBuy.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 
-namespace OnlineStore.Controllers
+namespace GlideBuy.Controllers
 {
 	public class AccountController : Controller
 	{

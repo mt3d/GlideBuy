@@ -1,10 +1,10 @@
 ﻿using GlideBuy.Web.Factories;
 using GlideBuy.Web.Models.ShoppingCart;
 using Microsoft.AspNetCore.Mvc;
-using OnlineStore.Models;
-using OnlineStore.Services.ProductCatalog;
+using GlideBuy.Models;
+using GlideBuy.Services.ProductCatalog;
 
-namespace OnlineStore.Components
+namespace GlideBuy.Components
 {
 	public class OrderSummaryViewComponent : ViewComponent
 	{

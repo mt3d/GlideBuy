@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using OnlineStore.Models;
-using OnlineStore.Services.ProductCatalog;
+using GlideBuy.Models;
+using GlideBuy.Services.ProductCatalog;
 using GlideBuy.Web.Models.ShoppingCart;
 
-namespace OnlineStore.Controllers
+namespace GlideBuy.Controllers
 {
 	public class ShoppingCartController : Controller
 	{

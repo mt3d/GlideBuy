@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace OnlineStore.Migrations.AppIdentityDb
+namespace GlideBuy.Migrations.AppIdentityDb
 {
     /// <inheritdoc />
     public partial class Initital : Migration

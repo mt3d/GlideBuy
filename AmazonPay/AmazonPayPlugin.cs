@@ -1,4 +1,4 @@
-﻿using OnlineStore.Services.Payments;
+﻿using GlideBuy.Services.Payments;
 
 namespace GlideBuy.Plugin.Payments.AmazonPay
 {

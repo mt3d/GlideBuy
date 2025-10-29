@@ -1,4 +1,4 @@
-﻿namespace OnlineStore.Models.Localization
+﻿namespace GlideBuy.Models.Localization
 {
 	public class LocalizationResource
 	{

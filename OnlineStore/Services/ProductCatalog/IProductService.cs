@@ -1,6 +1,6 @@
-﻿using OnlineStore.Models;
+﻿using GlideBuy.Models;
 
-namespace OnlineStore.Services.ProductCatalog
+namespace GlideBuy.Services.ProductCatalog
 {
 	public interface IProductService
 	{

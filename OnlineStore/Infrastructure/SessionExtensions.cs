@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
 
-namespace OnlineStore.Infrastructure
+namespace GlideBuy.Infrastructure
 {
 	public static class SessionExtensions
 	{

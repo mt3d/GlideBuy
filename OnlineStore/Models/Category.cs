@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace OnlineStore.Models
+namespace GlideBuy.Models
 {
 	public class Category
 	{

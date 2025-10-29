@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace OnlineStore.Pages.Admin
+namespace GlideBuy.Pages.Admin
 {
     public class IndexModel : PageModel
     {

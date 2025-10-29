@@ -1,4 +1,4 @@
-﻿namespace OnlineStore.Models
+﻿namespace GlideBuy.Models
 {
 	public class Cart
 	{

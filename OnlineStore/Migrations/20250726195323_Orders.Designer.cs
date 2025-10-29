@@ -5,12 +5,12 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using OnlineStore.Data;
+using GlideBuy.Data;
 
 
 #nullable disable
 
-namespace OnlineStore.Migrations
+namespace GlideBuy.Migrations
 {
     [DbContext(typeof(StoreDbContext))]
     [Migration("20250726195323_Orders")]

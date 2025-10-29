@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using GlideBuy.Core.Caching;
-using OnlineStore.Data;
-using OnlineStore.Models.Common;
-using OnlineStore.Models;
+using GlideBuy.Data;
+using GlideBuy.Models.Common;
+using GlideBuy.Models;
 
 namespace GlideBuy.Data
 {

@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
-using OnlineStore.Core.Domain.Payment;
-using OnlineStore.Core.Domain.Shipping;
-using OnlineStore.Models;
+using GlideBuy.Core.Domain.Payment;
+using GlideBuy.Core.Domain.Shipping;
+using GlideBuy.Models;
 using System.ComponentModel.DataAnnotations;
 
-namespace OnlineStore.Core.Domain.Orders
+namespace GlideBuy.Core.Domain.Orders
 {
 	public class Order
 	{

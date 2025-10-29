@@ -1,4 +1,4 @@
-﻿namespace OnlineStore.Core.Domain.Orders
+﻿namespace GlideBuy.Core.Domain.Orders
 {
 	public enum OrderStatus
 	{

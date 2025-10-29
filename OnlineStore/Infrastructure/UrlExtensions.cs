@@ -1,4 +1,4 @@
-﻿namespace OnlineStore.Infrastructure
+﻿namespace GlideBuy.Infrastructure
 {
 	public static class UrlExtensions
 	{

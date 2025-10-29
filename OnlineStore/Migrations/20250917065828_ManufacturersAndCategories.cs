@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace OnlineStore.Migrations
+namespace GlideBuy.Migrations
 {
     /// <inheritdoc />
     public partial class ManufacturersAndCategories : Migration

@@ -1,7 +1,7 @@
 ﻿using GlideBuy.Infrastructure;
 using GlideBuy.Infrastructure.StartupConfigurations;
 
-namespace OnlineStore.Infrastructure
+namespace GlideBuy.Infrastructure
 {
 	public static class ServiceCollectionExtensions
 	{

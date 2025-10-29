@@ -1,4 +1,4 @@
-﻿namespace OnlineStore.Models
+﻿namespace GlideBuy.Models
 {
 	/// <summary>
 	/// The base class for all database entities. Necessary for implementing

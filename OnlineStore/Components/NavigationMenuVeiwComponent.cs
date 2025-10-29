@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using OnlineStore.Data.Repositories;
-using OnlineStore.Models;
+using GlideBuy.Data.Repositories;
+using GlideBuy.Models;
 
-namespace OnlineStore.Components
+namespace GlideBuy.Components
 {
 	public class NavigationMenuViewComponent : ViewComponent
 	{

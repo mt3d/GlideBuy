@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using OnlineStore.Models;
+using GlideBuy.Models;
 
-namespace OnlineStore.Components
+namespace GlideBuy.Components
 {
 	public class CartSummaryViewComponent : ViewComponent
 	{

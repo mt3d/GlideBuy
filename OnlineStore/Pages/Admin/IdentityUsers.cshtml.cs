@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Authorization;
 
-namespace OnlineStore.Pages.Admin
+namespace GlideBuy.Pages.Admin
 {
 	[Authorize]
 	public class IdentityUsersModel : PageModel

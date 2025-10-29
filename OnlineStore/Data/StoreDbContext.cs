@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using OnlineStore.Core.Domain.Orders;
-using OnlineStore.Models;
-using OnlineStore.Models.Localization;
+using GlideBuy.Core.Domain.Orders;
+using GlideBuy.Models;
+using GlideBuy.Models.Localization;
 
-namespace OnlineStore.Data
+namespace GlideBuy.Data
 {
 	public class StoreDbContext : DbContext
 	{

@@ -1,4 +1,4 @@
-﻿namespace OnlineStore.Core.Domain.Shipping
+﻿namespace GlideBuy.Core.Domain.Shipping
 {
 	public enum ShippingStatus
 	{

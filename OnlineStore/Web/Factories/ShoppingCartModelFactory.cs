@@ -1,8 +1,8 @@
 ﻿using GlideBuy.Core.Domain.Orders;
 using GlideBuy.Services.Orders;
 using GlideBuy.Web.Models.ShoppingCart;
-using OnlineStore.Models;
-using OnlineStore.Services.ProductCatalog;
+using GlideBuy.Models;
+using GlideBuy.Services.ProductCatalog;
 
 namespace GlideBuy.Web.Factories
 {

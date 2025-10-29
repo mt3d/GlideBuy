@@ -2,7 +2,7 @@
 using GlideBuy.Core.Configuration;
 using GlideBuy.Core.Domain.Configuration;
 using GlideBuy.Data;
-using OnlineStore.Core;
+using GlideBuy.Core;
 using System.ComponentModel;
 
 namespace GlideBuy.Services.Configuration

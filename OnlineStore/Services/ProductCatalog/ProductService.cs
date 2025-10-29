@@ -1,8 +1,8 @@
-﻿using OnlineStore.Data.Repositories;
-using OnlineStore.Models;
+﻿using GlideBuy.Data.Repositories;
+using GlideBuy.Models;
 using GlideBuy.Core.Domain.Catalog;
 
-namespace OnlineStore.Services.ProductCatalog
+namespace GlideBuy.Services.ProductCatalog
 {
 	public class ProductService : IProductService
 	{

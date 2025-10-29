@@ -1,10 +1,10 @@
 using Microsoft.EntityFrameworkCore;
-using OnlineStore.Models;
+using GlideBuy.Models;
 using Microsoft.AspNetCore.Identity;
-using OnlineStore.Infrastructure;
-using OnlineStore.Services.ProductCatalog;
-using OnlineStore.Data.Repositories;
-using OnlineStore.Data;
+using GlideBuy.Infrastructure;
+using GlideBuy.Services.ProductCatalog;
+using GlideBuy.Data.Repositories;
+using GlideBuy.Data;
 using GlideBuy.Web.Factories;
 using GlideBuy.Infrastructure;
 

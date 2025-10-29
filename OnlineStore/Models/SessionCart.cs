@@ -1,7 +1,7 @@
-﻿using OnlineStore.Infrastructure;
+﻿using GlideBuy.Infrastructure;
 using System.Text.Json.Serialization;
 
-namespace OnlineStore.Models
+namespace GlideBuy.Models
 {
 	public class SessionCart : Cart
 	{

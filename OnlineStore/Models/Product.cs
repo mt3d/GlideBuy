@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 using GlideBuy.Core.Domain.Catalog;
 
-namespace OnlineStore.Models
+namespace GlideBuy.Models
 {
 	public class Product
 	{

@@ -1,11 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using OnlineStore.Models;
-using OnlineStore.Models.Common;
+using GlideBuy.Models;
+using GlideBuy.Models.Common;
 using System.Linq.Expressions;
 using System.Transactions;
 
-namespace OnlineStore.Data.Repositories
+namespace GlideBuy.Data.Repositories
 {
 	public class ManufacturerRepository
 	{
