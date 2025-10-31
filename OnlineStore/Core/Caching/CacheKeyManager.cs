@@ -34,6 +34,16 @@ namespace GlideBuy.Core.Caching
 		*/
 		protected readonly ConcurrentDictionary<string, byte> keys;
 
+		//public CacheKeyManager(ConcurrentDictionary<string, byte> keys)
+		//{
+		//	this.keys = keys;
+		//}
+
+		public CacheKeyManager()
+		{
+			keys = new();
+		}
+
 		public IEnumerable<string> Keys => keys.Keys;
 
 		public void AddKey(string key)

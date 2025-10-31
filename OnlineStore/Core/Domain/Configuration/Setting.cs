@@ -12,8 +12,6 @@ namespace GlideBuy.Core.Domain.Configuration
 			Value = value;
 		}
 
-		//public int SettingId { get; set; }
-
 		/// <summary>
 		/// Key format: OrderSettings.MinOrderTotalAmount
 		/// </summary>

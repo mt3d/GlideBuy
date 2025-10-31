@@ -2,6 +2,7 @@
 {
 	public enum StartupOrder
 	{
+		Database = 10,
 		Routing = 400, // before authentication
 		Authentication = 500, // between UseRouting and UseEndpoints
 		Endpoints = 900, // authentication before MVC

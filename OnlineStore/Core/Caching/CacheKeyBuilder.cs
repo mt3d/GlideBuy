@@ -76,7 +76,12 @@ namespace GlideBuy.Core.Caching
 
 		public CacheKey BuildKeyWithDefaultCacheTime(CacheKey key, params object[] cacheKeyParams)
 		{
-			throw new NotImplementedException();
+			var cacheKey = key.Create(NormalizeKeyParameter, cacheKeyParams);
+
+			// TODO: Use CacheConfig
+			cacheKey.CacheTimeMinute = 60;
+
+			return key;
 		}
 	}
 

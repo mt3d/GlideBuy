@@ -12,9 +12,10 @@ namespace GlideBuy.Services.Configuration
 		private readonly IDataRepository<Setting> settingRepository;
 		private readonly IStaticCacheManager staticCacheManager;
 
-		public SettingService(IStaticCacheManager staticCacheManager)
+		public SettingService(IStaticCacheManager staticCacheManager, IDataRepository<Setting> settingRepository)
 		{
 			this.staticCacheManager = staticCacheManager;
+			this.settingRepository = settingRepository;
 		}
 
 		/// <summary>

@@ -1,7 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using GlideBuy.Core.Domain.Configuration;
 using GlideBuy.Core.Domain.Orders;
 using GlideBuy.Models;
 using GlideBuy.Models.Localization;
+using Microsoft.EntityFrameworkCore;
 
 namespace GlideBuy.Data
 {
@@ -16,6 +17,8 @@ namespace GlideBuy.Data
 
 		public DbSet<Language> Languages => Set<Language>();
 		public DbSet<LocalizationResource> LocalizationResources => Set<LocalizationResource>();
+
+		public DbSet<Setting> Settings => Set<Setting>();
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{

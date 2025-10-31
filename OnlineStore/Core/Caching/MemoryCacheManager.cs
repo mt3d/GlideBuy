@@ -11,14 +11,29 @@ namespace GlideBuy.Core.Caching
 		protected readonly IMemoryCache memoryCache;
 		protected readonly ICacheKeyManager cacheKeyManager;
 
-		public MemoryCacheManager(IMemoryCache memoryCache)
+		public MemoryCacheManager(IMemoryCache memoryCache, ICacheKeyManager cacheKeyManager)
 		{
 			this.memoryCache = memoryCache;
+			this.cacheKeyManager = cacheKeyManager;
 		}
 
 		public void Dispose()
 		{
-			throw new NotImplementedException();
+			Dispose(true);
+			GC.SuppressFinalize(this);
+		}
+
+		protected virtual void Dispose(bool disposing)
+		{
+			// TODO: Ensure that Dispose() is called only once.
+
+			if (disposing)
+			{
+				// Call Dispose() on other objects owned by this instance.
+				// We can reference othe finalizable objects here.
+
+				// TODO: Use in the future to dispose a CancellationTokenSource
+			}
 		}
 
 		/// <summary>
@@ -136,7 +151,7 @@ namespace GlideBuy.Core.Caching
 					return default;
 				}
 
-				throw ex;
+				throw;
 			}
 		}
 
