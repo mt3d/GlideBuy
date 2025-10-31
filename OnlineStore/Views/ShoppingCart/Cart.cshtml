@@ -18,8 +18,8 @@
 	</div>
 </div>
 
-<table class="table table-bordered table-striped">
-@* <tbody>
+@*<table class="table table-bordered table-striped">
+ <tbody>
 		@foreach (var line in Model.Cart?.Lines ?? Enumerable.Empty<ShoppingCartItem>())
 		{
 			<tr>
@@ -32,14 +32,14 @@
 				</td>
 			</tr>
 		}
-	</tbody> *@
+	</tbody>
 	<tfoot>
 		<tr>
 			<td colspan="3" class="text-right">Total:</td>
 			<td class="text-right">@Model.Cart?.ComputeTotalValues().ToString("c")</td>
 		</tr>
 	</tfoot>
-</table>
+</table>*@
 
 <div class="text-center">
 	<a class="btn btn-primary" href="@Model.ReturnUrl">

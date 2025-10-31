@@ -3,7 +3,7 @@ using GlideBuy.Models;
 
 namespace GlideBuy.Web.Factories
 {
-	public interface IShoppingCartModelFactory
+	public interface IShoppingCartModelsFactory
 	{
 		Task<ShoppingCartModel> PrepareShoppingCartModelAsync(
 			ShoppingCartModel model,
@@ -11,5 +11,9 @@ namespace GlideBuy.Web.Factories
 			bool isEditable = true,
 			bool validateCheckoutAttributes = false,
 			bool prepareAndDisplayOrderReviewData = false);
+
+		Task<OrderTotalsModel> PrepareOrderTotalsModelAsync(
+			IList<ShoppingCartItem> cart,
+			bool isEditable);
 	}
 }

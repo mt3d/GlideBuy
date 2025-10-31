@@ -9,11 +9,11 @@ namespace GlideBuy.Controllers
 	public class ShoppingCartController : Controller
 	{
 		private IProductService productService;
-		private IShoppingCartModelFactory _shoppingCartModelFactory;
+		private IShoppingCartModelsFactory _shoppingCartModelFactory;
 
 		public ShoppingCartController(
 			IProductService productService,
-			IShoppingCartModelFactory shoppingCartModelFactory,
+			IShoppingCartModelsFactory shoppingCartModelFactory,
 			Cart cartService) // The cart stored in the session is added as a scoped service
 		{
 			this.productService = productService;
@@ -27,6 +27,8 @@ namespace GlideBuy.Controllers
 		public async Task<IActionResult> Cart(string returnUrl)
 		{
 			//return View("Cart", new ShoppingCartModel { ReturnUrl = returnUrl ?? "/", Cart = CartService });
+			
+			// TODO: Read the shopping cart from a shopping cart service
 
 			var model = new ShoppingCartModel();
 			model = await _shoppingCartModelFactory.PrepareShoppingCartModelAsync(model, CartService.Lines);

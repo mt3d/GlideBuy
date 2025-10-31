@@ -1,4 +1,5 @@
-﻿@using GlideBuy.Infrastructure
+﻿@using GlideBuy.Components
+@using GlideBuy.Infrastructure
 @using GlideBuy.Models
 @using GlideBuy.Models.ViewModels
 @using GlideBuy.Web.Models.ShoppingCart
@@ -104,35 +105,44 @@
 				<div class="common-buttons">
 					@if (Model.IsEditable)
 					{
+						@*Hidden button for updating the cart*@
+						<button type="sumbit" name="updatecart" style="display: none">Update Cart</button>
 						<button type="submit" name="continueshopping" class="continue-shopping-button">
 							Continue Shopping
 						</button>
+
+						@await Component.InvokeAsync(typeof(EstimateShippingViewComponent))
 					}
 				</div>
 
 				@if (Model.IsEditable || Model.IsReadyToCheckout)
 				{
 					@await Html.PartialAsync("_CheckoutAttributes", Model)
+					@await Component.InvokeAsync(typeof(SelectedCheckoutAttributesViewComponent))
 				}
 			</div>
-			@if (Model.IsEditable)
-			{
-				<div class="cart-collaterals">
-					<div class="deals">
-						@*TODO: Implement discounts and gift boxes*@
-					</div>
-				</div>
-			}
-			<div class="totals">
+			<div class="cart-footer">		
 				@if (Model.IsEditable)
 				{
-					if (!string.IsNullOrEmpty(Model.MinOrderSubtotalWarning))
-					{
-						<div class="min-amount-warning">
-							@Model.MinOrderSubtotalWarning
+					<div class="cart-collaterals">
+						<div class="deals">
+							@*TODO: Implement discounts and gift boxes*@
 						</div>
-					}
+					</div>
 				}
+				<div class="totals">
+					@await Component.InvokeAsync(typeof(OrderTotalsViewComponent), new { isEditable = Model.IsEditable })
+
+					@if (Model.IsEditable)
+					{
+						if (!string.IsNullOrEmpty(Model.MinOrderSubtotalWarning))
+						{
+							<div class="min-amount-warning">
+								@Model.MinOrderSubtotalWarning
+							</div>
+						}
+					}
+				</div>
 			</div>
 		</form>
 	}

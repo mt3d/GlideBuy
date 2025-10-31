@@ -20,7 +20,7 @@ builder.Services.AddScoped<ProductRepository>();
 builder.Services.AddScoped<OrderRepository>();
 builder.Services.AddScoped<ManufacturerRepository>();
 builder.Services.AddScoped<IProductService, ProductService>();
-builder.Services.AddScoped<IShoppingCartModelFactory, ShoppingCartModelFactory>();
+builder.Services.AddScoped<IShoppingCartModelsFactory, ShoppingCartModelsFactory>();
 
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession();

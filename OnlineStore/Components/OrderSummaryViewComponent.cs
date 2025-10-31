@@ -2,16 +2,15 @@
 using GlideBuy.Web.Models.ShoppingCart;
 using Microsoft.AspNetCore.Mvc;
 using GlideBuy.Models;
-using GlideBuy.Services.ProductCatalog;
 
 namespace GlideBuy.Components
 {
 	public class OrderSummaryViewComponent : ViewComponent
 	{
-		private IShoppingCartModelFactory shoppingCartModelFactory;
+		private IShoppingCartModelsFactory shoppingCartModelFactory;
 
 		public OrderSummaryViewComponent(
-			IShoppingCartModelFactory shoppingCartModelFactory,
+			IShoppingCartModelsFactory shoppingCartModelFactory,
 			Cart cartService)
 		{
 			this.shoppingCartModelFactory = shoppingCartModelFactory;
@@ -39,9 +38,8 @@ namespace GlideBuy.Components
 
 			// Get current store
 
-			// Get shopping cart
 			// TODO: Move the cart to a dedicated service
-			//         var cart = await _shoppingCartService.GetShoppingCartAsync(await _workContext.GetCurrentCustomerAsync(), ShoppingCartType.ShoppingCart, store.Id);
+			// var cart = await _shoppingCartService.GetShoppingCartAsync(await _workContext.GetCurrentCustomerAsync(), ShoppingCartType.ShoppingCart, store.Id);
 			IList<ShoppingCartItem> cartItems = CartService.Lines;
 
 			// Create the shopping cart model

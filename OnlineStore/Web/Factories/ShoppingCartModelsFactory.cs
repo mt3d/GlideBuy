@@ -6,13 +6,13 @@ using GlideBuy.Services.ProductCatalog;
 
 namespace GlideBuy.Web.Factories
 {
-	public class ShoppingCartModelFactory : IShoppingCartModelFactory
+	public class ShoppingCartModelsFactory : IShoppingCartModelsFactory
 	{
 		private readonly IProductService productService;
 		private readonly OrderSettings orderSettings;
 		private readonly IOrderProcessingService orderProcessingService;
 
-		public ShoppingCartModelFactory(
+		public ShoppingCartModelsFactory(
 			IProductService productService,
 			IOrderProcessingService orderProcessingService)
 		{
@@ -85,6 +85,41 @@ namespace GlideBuy.Web.Factories
 				var shoppingCartItemModel = await PrepareShoppingCartItemModelAsync(cart, shoppingCartItem);
 				model.Items.Add(shoppingCartItemModel);
 			}
+
+			return model;
+		}
+
+		public async Task<OrderTotalsModel> PrepareOrderTotalsModelAsync(
+			IList<ShoppingCartItem> cart,
+			bool isEditable)
+		{
+			var model = new OrderTotalsModel { IsEditable = isEditable };
+
+			if (!cart.Any())
+			{
+				return model;
+			}
+
+			// 1. Subtotal
+
+			// 2. Shipping Info
+
+			// 3. Payment method fee
+
+			// 4. Tax
+
+			// 5. Total
+			var totalDecimal = cart.Sum(e => e.Product.Price * e.Quantity);
+			// TODO: Use price formatter
+			model.Total = totalDecimal.ToString("c");
+
+			// 6. Discount
+
+			// 7. Gift cards
+
+			// 8. Reward points spent
+
+			// 9. Reward points earned
 
 			return model;
 		}

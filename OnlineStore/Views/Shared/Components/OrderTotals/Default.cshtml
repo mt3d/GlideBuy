@@ -1,0 +1,40 @@
+﻿@using GlideBuy.Web.Models.ShoppingCart
+@model OrderTotalsModel
+
+<style>
+	.cart-footer .total-info {
+		margin: 0 0 20px;
+		border-bottom: 1px solid #ddd;
+		padding: 5px 30px 15px;
+	}
+</style>
+
+<div class="total-info">
+	<table class="cart-total">
+		<tbody>
+			<tr class="order-subtotal">
+				<td class="cart-total-left">
+					<label>Subtotal</label>
+				</td>
+				<td class="cart-total-right">
+					<span class="value-summary">@Model.Subtotal</span>
+				</td>
+			</tr>
+			<tr class="order-total">
+				<td class="cart-total-left">
+					<label>Total</label>
+				</td>
+				<td class="cart-total-right">
+					@if (!string.IsNullOrEmpty(Model.Total))
+					{
+						<span class="value-summary"><strong>@Model.Total</strong></span>
+					}
+					else
+					{
+						<span>Calculated during checkout</span>
+					}
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
