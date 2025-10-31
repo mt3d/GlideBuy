@@ -14,7 +14,7 @@
  	</div>
 
 	<div class="page-body">
-		@await Component.InvokeAsync(typeof(OrderSummaryViewComponent))
+		@await Component.InvokeAsync(typeof(OrderSummaryViewComponent), new { overriddenModel = Model })
 	</div>
 </div>
 

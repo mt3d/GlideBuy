@@ -21,8 +21,22 @@ namespace GlideBuy.Components
 
 		public Cart CartService { get; set; }
 
-		public async Task<IViewComponentResult> InvokeAsync()
+		/// <summary>
+		/// The caller can override the default shopping cart model. Sometimes, you
+		/// would want the model to be editable, and sometimes not.
+		/// </summary>
+		/// <param name="prepareAndDisplayOrderReviewData"></param>
+		/// <param name="overriddenModel"></param>
+		/// <returns></returns>
+		public async Task<IViewComponentResult> InvokeAsync(
+			bool? prepareAndDisplayOrderReviewData,
+			ShoppingCartModel overriddenModel)
 		{
+			if (overriddenModel is not null)
+			{
+				return View(overriddenModel);
+			}
+
 			// Get current store
 
 			// Get shopping cart

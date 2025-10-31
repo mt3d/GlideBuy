@@ -2,26 +2,35 @@
 using GlideBuy.Models;
 using GlideBuy.Services.ProductCatalog;
 using GlideBuy.Web.Models.ShoppingCart;
+using GlideBuy.Web.Factories;
 
 namespace GlideBuy.Controllers
 {
 	public class ShoppingCartController : Controller
 	{
 		private IProductService productService;
+		private IShoppingCartModelFactory _shoppingCartModelFactory;
 
 		public ShoppingCartController(
 			IProductService productService,
+			IShoppingCartModelFactory shoppingCartModelFactory,
 			Cart cartService) // The cart stored in the session is added as a scoped service
 		{
 			this.productService = productService;
+			_shoppingCartModelFactory = shoppingCartModelFactory;
+
 			CartService = cartService;
 		}
 
 		public Cart CartService { get; set; }
 
-		public IActionResult Cart(string returnUrl)
+		public async Task<IActionResult> Cart(string returnUrl)
 		{
-			return View("Cart", new ShoppingCartModel { ReturnUrl = returnUrl ?? "/", Cart = CartService });
+			//return View("Cart", new ShoppingCartModel { ReturnUrl = returnUrl ?? "/", Cart = CartService });
+
+			var model = new ShoppingCartModel();
+			model = await _shoppingCartModelFactory.PrepareShoppingCartModelAsync(model, CartService.Lines);
+			return View(model);
 		}
 
 		[HttpPost]
