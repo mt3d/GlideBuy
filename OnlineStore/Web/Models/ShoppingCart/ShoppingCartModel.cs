@@ -32,6 +32,12 @@ namespace GlideBuy.Web.Models.ShoppingCart
 
 		public string MinOrderSubtotalWarning { get; set; }
 
+		public bool HasTermsOfServiceOnCartPage { get; set; }
+
+		public bool HasTermsOfServiceOnOrderConfirmPage { get; set; }
+
+		public bool HasTermsOfServicePopup { get; set; }
+
 		public class ShoppingCartItemModel
 		{
 			public string Sku { get; set; }

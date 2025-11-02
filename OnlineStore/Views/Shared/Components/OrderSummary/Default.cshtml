@@ -1,9 +1,13 @@
-﻿@using GlideBuy.Components
+﻿@model ShoppingCartModel
+
+@using GlideBuy.Components
+@using GlideBuy.Core.Domain.Orders
 @using GlideBuy.Infrastructure
 @using GlideBuy.Models
 @using GlideBuy.Models.ViewModels
 @using GlideBuy.Web.Models.ShoppingCart
-@model ShoppingCartModel
+
+@inject OrderSettings orderSettings
 
 <div class="order-summary-content">
 
@@ -121,7 +125,8 @@
 					@await Component.InvokeAsync(typeof(SelectedCheckoutAttributesViewComponent))
 				}
 			</div>
-			<div class="cart-footer">		
+			<div class="cart-footer">
+				
 				@if (Model.IsEditable)
 				{
 					<div class="cart-collaterals">
@@ -130,6 +135,7 @@
 						</div>
 					</div>
 				}
+
 				<div class="totals">
 					@await Component.InvokeAsync(typeof(OrderTotalsViewComponent), new { isEditable = Model.IsEditable })
 
@@ -141,6 +147,29 @@
 								@Model.MinOrderSubtotalWarning
 							</div>
 						}
+					}
+
+					@if (Model.IsEditable || Model.IsReadyToCheckout)
+					{
+						if (Model.HasTermsOfServiceOnCartPage)
+						{
+							@*TODO: Design terms of service section*@
+						}
+
+						<div class="checkout-buttons">
+							@if (orderSettings.CheckoutDisabled)
+							{
+								<div>Checkout Disabled</div>
+							}
+							else
+							{
+								<button type="submit" id="checkout" name="checkout" value="checkout" class="checkout-button">
+									Checkout
+								</button>
+							}
+						</div>
+
+						@*TODO: Handle payment methods butttons*@
 					}
 				</div>
 			</div>

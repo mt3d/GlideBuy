@@ -3,20 +3,26 @@ using GlideBuy.Services.Orders;
 using GlideBuy.Web.Models.ShoppingCart;
 using GlideBuy.Models;
 using GlideBuy.Services.ProductCatalog;
+using GlideBuy.Core.Domain.Common;
 
 namespace GlideBuy.Web.Factories
 {
 	public class ShoppingCartModelsFactory : IShoppingCartModelsFactory
 	{
 		private readonly IProductService productService;
-		private readonly OrderSettings orderSettings;
+		private readonly OrderSettings _orderSettings;
+		private readonly CommonSettings _commonSettings;
 		private readonly IOrderProcessingService orderProcessingService;
 
 		public ShoppingCartModelsFactory(
 			IProductService productService,
+			OrderSettings orderSettings,
+			CommonSettings commonSettings,
 			IOrderProcessingService orderProcessingService)
 		{
 			this.productService = productService;
+			_orderSettings = orderSettings;
+			_commonSettings = commonSettings;
 			this.orderProcessingService = orderProcessingService;
 		}
 
@@ -79,6 +85,10 @@ namespace GlideBuy.Web.Factories
 
 				model.MinOrderSubtotalWarning = $"The minimum order subtotal amount is ";
 			}
+
+			model.HasTermsOfServiceOnCartPage = _orderSettings.HasTermsOfServiceOnCartPage;
+			model.HasTermsOfServiceOnOrderConfirmPage = _orderSettings.HasTermsOfServiceOnOrderConfirmPage;
+			model.HasTermsOfServicePopup = _commonSettings.PopupForTermsOfServiceLinks;
 
 			foreach (var shoppingCartItem in cart)
 			{
