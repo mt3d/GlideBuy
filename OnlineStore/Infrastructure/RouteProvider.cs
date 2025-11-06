@@ -15,6 +15,11 @@
 				pattern: "cart",
 				new { controller = "ShoppingCart", action = "Cart" });
 
+			builder.MapControllerRoute(name: "Checkout",
+				pattern: $"checkout/",
+				new { controller = "Checkout", action = "Index" });
+
+			// Old routes from the book.
 
 			builder.MapControllerRoute(name: "catpage",
 				pattern: "{category}/Page{productPage:int}",

@@ -5,6 +5,7 @@ using GlideBuy.Web.Models.ShoppingCart;
 using GlideBuy.Web.Factories;
 using GlideBuy.Support.Controllers;
 using GlideBuy.Services.Orders;
+using GlideBuy.Core.Domain.Orders;
 
 namespace GlideBuy.Controllers
 {
@@ -13,15 +14,18 @@ namespace GlideBuy.Controllers
 		private IProductService productService;
 		private IShoppingCartModelsFactory _shoppingCartModelFactory;
 		private IShoppingCartService _shoppingCartService;
+		private OrderSettings _orderSettings;
 
 		public ShoppingCartController(
 			IProductService productService,
 			IShoppingCartModelsFactory shoppingCartModelFactory,
-			IShoppingCartService shoppingCartService) // The cart stored in the session is added as a scoped service
+			IShoppingCartService shoppingCartService,
+			OrderSettings orderSettings)
 		{
 			this.productService = productService;
 			_shoppingCartModelFactory = shoppingCartModelFactory;
 			_shoppingCartService = shoppingCartService;
+			_orderSettings = orderSettings;
 		}
 
 		public async Task<IActionResult> Cart(string returnUrl)
@@ -33,16 +37,30 @@ namespace GlideBuy.Controllers
 			return View(model);
 		}
 
-		//[HttpPost, ActionName("Cart")]
-		//[FormValueRequired("checkout")]
-		//public async Task<IActionResult> StartCheckout(IFormCollection form)
-		//{
-		//	// Handle checkout attributes
+		[HttpPost, ActionName("Cart")]
+		[FormValueRequired("checkout")]
+		public async Task<IActionResult> StartCheckout(IFormCollection form)
+		{
+			// TODO: Handle checkout attributes
 
-		//	// Check if anonymous is allowed
+			// TODO: Only enable if registration is disabled
+			var anonymousPermissed = _orderSettings.AnonymousCheckoutDisabled;
 
-		//	throw new NotImplementedException();
-		//}
+			// TODO: Replace true with checking if the user is registered (not guest)
+			if (anonymousPermissed || true)
+			{
+				return RedirectToRoute("Checkout");
+			}
+
+			// TODO: Handle downloadable produts
+
+			if (!_orderSettings.AnonymousCheckoutDisabled)
+			{
+				return Challenge();
+			}
+
+			return RedirectToRoute("CheckoutAsGuest", new { returnUrl = Url.RouteUrl("ShoppingCart") });
+		}
 
 		[HttpPost]
 		public IActionResult AddProduct(long productId, string returnUrl)

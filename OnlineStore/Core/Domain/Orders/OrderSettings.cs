@@ -59,5 +59,7 @@ namespace GlideBuy.Core.Domain.Orders
 		/// requests that are reviewed and approved manually before an order is finalized.
 		/// </summary>
 		public bool CheckoutDisabled { get; set; }
+
+		public bool AnonymousCheckoutDisabled { get; set; }
 	}
 }

@@ -18,34 +18,16 @@
 	</div>
 </div>
 
-@*<table class="table table-bordered table-striped">
- <tbody>
-		@foreach (var line in Model.Cart?.Lines ?? Enumerable.Empty<ShoppingCartItem>())
-		{
-			<tr>
-				<td class="text-center">
-					<form asp-action="RemoveProduct" method="post">
-						<input type="hidden" name="productId" value="@line.Product.ProductId" />
-						<input type="hidden" name="returnUrl" value="@Model?.ReturnUrl" />
-						<button type="submit" class="btn btn-sm btn-danger">Remove</button>
-					</form>
-				</td>
-			</tr>
-		}
-	</tbody>
-	<tfoot>
-		<tr>
-			<td colspan="3" class="text-right">Total:</td>
-			<td class="text-right">@Model.Cart?.ComputeTotalValues().ToString("c")</td>
-		</tr>
-	</tfoot>
-</table>*@
+@*
+<form asp-action="RemoveProduct" method="post">
+	<input type="hidden" name="productId" value="@line.Product.ProductId" />
+	<input type="hidden" name="returnUrl" value="@Model?.ReturnUrl" />
+	<button type="submit" class="btn btn-sm btn-danger">Remove</button>
+</form>
+*@
 
-<div class="text-center">
+@* <div class="text-center">
 	<a class="btn btn-primary" href="@Model.ReturnUrl">
 		Continue shopping
 	</a>
-	<a class="btn btn-primary" asp-action="Checkout" asp-controller="Order">
-		Checkout
-	</a>
-</div>
+</div> *@

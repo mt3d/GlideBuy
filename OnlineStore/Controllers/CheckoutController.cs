@@ -1,23 +1,25 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using GlideBuy.Core.Domain.Orders;
 using GlideBuy.Data.Repositories;
-using GlideBuy.Models;
 using GlideBuy.Services.Orders;
 
 namespace GlideBuy.Controllers
 {
-	public class OrderController : Controller
+	public class CheckoutController : Controller
 	{
 		private OrderRepository repository;
 		private IShoppingCartService _shoppingCartService;
 
-		public OrderController(OrderRepository repositoryService, IShoppingCartService shoppingCartService)
+		public CheckoutController(OrderRepository repositoryService, IShoppingCartService shoppingCartService)
 		{
 			this.repository = repositoryService;
 			_shoppingCartService = shoppingCartService;
 		}
 
-		public ViewResult Checkout() => View(new Order());
+		public ViewResult Index()
+		{
+			return View(new Order());
+		}
 
 		[HttpPost]
 		public async Task<IActionResult> Checkout(Order order)
