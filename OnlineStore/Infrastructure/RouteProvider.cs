@@ -11,6 +11,11 @@
 		 */
 		public void AddRoutes(IEndpointRouteBuilder builder)
 		{
+			builder.MapControllerRoute(name: "ShoppingCart",
+				pattern: "cart",
+				new { controller = "ShoppingCart", action = "Cart" });
+
+
 			builder.MapControllerRoute(name: "catpage",
 				pattern: "{category}/Page{productPage:int}",
 				defaults: new { Controller = "Home", action = "Index" });
@@ -19,17 +24,12 @@
 				"Page{productPage:int}",
 				new { Controller = "Home", action = "Index", productPage = 1 });
 
+			// Shows the first page of items from a specific category
 			builder.MapControllerRoute("category",
 				"{category}",
 				new { Controller = "Home", action = "Index", productPage = 1 });
 
-			builder.MapControllerRoute("pagination",
-				"Products/Page{productPage}",
-				new { Controller = "Home", action = "Index" });
-
-			builder.MapControllerRoute(name: "ShoppingCart",
-				pattern: "cart/",
-				defaults: new { Controller = "ShoppingCart", action = "Cart" });
+			builder.MapDefaultControllerRoute();
 		}
 	}
 }

@@ -1,12 +1,11 @@
 using Microsoft.EntityFrameworkCore;
-using GlideBuy.Models;
 using Microsoft.AspNetCore.Identity;
 using GlideBuy.Infrastructure;
 using GlideBuy.Services.ProductCatalog;
 using GlideBuy.Data.Repositories;
 using GlideBuy.Data;
 using GlideBuy.Web.Factories;
-using GlideBuy.Infrastructure;
+using GlideBuy.Services.Orders;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,7 +23,7 @@ builder.Services.AddScoped<IShoppingCartModelsFactory, ShoppingCartModelsFactory
 
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession();
-builder.Services.AddScoped<Cart>(sp => SessionCart.GetCart(sp));
+builder.Services.AddScoped<IShoppingCartService, ShoppingCartService>();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddServerSideBlazor();
 
@@ -55,7 +54,6 @@ app.UseSession();
 
 app.ConfigurePipeline();
 
-app.MapDefaultControllerRoute();
 app.MapRazorPages();
 app.MapBlazorHub();
 app.MapFallbackToPage("/admin/{*catchall}", "/Admin/Index");

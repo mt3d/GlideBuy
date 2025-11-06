@@ -1,19 +1,22 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using GlideBuy.Models;
+using GlideBuy.Services.Orders;
 
 namespace GlideBuy.Components
 {
 	public class CartSummaryViewComponent : ViewComponent
 	{
-		private Cart cart;
+		private IShoppingCartService _shoppingCartService;
 
-		public CartSummaryViewComponent(Cart cartService)
+		public CartSummaryViewComponent(IShoppingCartService shoppingCartService)
 		{
-			cart = cartService;
+			_shoppingCartService = shoppingCartService;
 		}
 
-		public IViewComponentResult Invoke()
+		public async Task<IViewComponentResult> InvokeAsync()
 		{
+			var cart = await _shoppingCartService.GetShoppingCartAsync();
+
 			return View(cart);
 		}
 	}

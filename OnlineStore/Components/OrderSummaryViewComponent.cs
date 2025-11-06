@@ -2,23 +2,22 @@
 using GlideBuy.Web.Models.ShoppingCart;
 using Microsoft.AspNetCore.Mvc;
 using GlideBuy.Models;
+using GlideBuy.Services.Orders;
 
 namespace GlideBuy.Components
 {
 	public class OrderSummaryViewComponent : ViewComponent
 	{
 		private IShoppingCartModelsFactory shoppingCartModelFactory;
+		private IShoppingCartService _shoppingCartService;
 
 		public OrderSummaryViewComponent(
 			IShoppingCartModelsFactory shoppingCartModelFactory,
-			Cart cartService)
+			IShoppingCartService shoppingCartService)
 		{
 			this.shoppingCartModelFactory = shoppingCartModelFactory;
-
-			CartService = cartService;
+			_shoppingCartService = shoppingCartService;
 		}
-
-		public Cart CartService { get; set; }
 
 		/// <summary>
 		/// The caller can override the default shopping cart model. Sometimes, you
@@ -38,9 +37,8 @@ namespace GlideBuy.Components
 
 			// Get current store
 
-			// TODO: Move the cart to a dedicated service
-			// var cart = await _shoppingCartService.GetShoppingCartAsync(await _workContext.GetCurrentCustomerAsync(), ShoppingCartType.ShoppingCart, store.Id);
-			IList<ShoppingCartItem> cartItems = CartService.Lines;
+			// TODO: Expand the parameters of GetShoppingCartAsync()
+			IList<ShoppingCartItem> cartItems = await _shoppingCartService.GetShoppingCartAsync();
 
 			// Create the shopping cart model
 			ShoppingCartModel model = new();

@@ -3,6 +3,8 @@ using GlideBuy.Models;
 using GlideBuy.Services.ProductCatalog;
 using GlideBuy.Web.Models.ShoppingCart;
 using GlideBuy.Web.Factories;
+using GlideBuy.Support.Controllers;
+using GlideBuy.Services.Orders;
 
 namespace GlideBuy.Controllers
 {
@@ -10,30 +12,37 @@ namespace GlideBuy.Controllers
 	{
 		private IProductService productService;
 		private IShoppingCartModelsFactory _shoppingCartModelFactory;
+		private IShoppingCartService _shoppingCartService;
 
 		public ShoppingCartController(
 			IProductService productService,
 			IShoppingCartModelsFactory shoppingCartModelFactory,
-			Cart cartService) // The cart stored in the session is added as a scoped service
+			IShoppingCartService shoppingCartService) // The cart stored in the session is added as a scoped service
 		{
 			this.productService = productService;
 			_shoppingCartModelFactory = shoppingCartModelFactory;
-
-			CartService = cartService;
+			_shoppingCartService = shoppingCartService;
 		}
-
-		public Cart CartService { get; set; }
 
 		public async Task<IActionResult> Cart(string returnUrl)
-		{
-			//return View("Cart", new ShoppingCartModel { ReturnUrl = returnUrl ?? "/", Cart = CartService });
-			
-			// TODO: Read the shopping cart from a shopping cart service
-
+		{			
 			var model = new ShoppingCartModel();
-			model = await _shoppingCartModelFactory.PrepareShoppingCartModelAsync(model, CartService.Lines);
+			var cart = await _shoppingCartService.GetShoppingCartAsync();
+
+			model = await _shoppingCartModelFactory.PrepareShoppingCartModelAsync(model, cart);
 			return View(model);
 		}
+
+		//[HttpPost, ActionName("Cart")]
+		//[FormValueRequired("checkout")]
+		//public async Task<IActionResult> StartCheckout(IFormCollection form)
+		//{
+		//	// Handle checkout attributes
+
+		//	// Check if anonymous is allowed
+
+		//	throw new NotImplementedException();
+		//}
 
 		[HttpPost]
 		public IActionResult AddProduct(long productId, string returnUrl)
@@ -42,18 +51,20 @@ namespace GlideBuy.Controllers
 
 			if (product != null)
 			{
-				CartService.AddItem(product, 1);
+				_shoppingCartService.AddToCartAsync(product, 1);
 			}
 
-			return RedirectToAction("Cart", new { returnUrl = returnUrl });
+			return RedirectToRoute("ShoppingCart", new { returnUrl = returnUrl });
 		}
 
 		[HttpPost]
-		public IActionResult RemoveProduct(long productId, string returnUrl)
+		public async Task<IActionResult> RemoveProduct(long productId, string returnUrl)
 		{
-			CartService.RemoveLine(CartService.Lines.First(cl => cl.Product.ProductId == productId).Product);
+			var cart = await _shoppingCartService.GetShoppingCartAsync();
 
-			return RedirectToAction("Cart", new { returnUrl = returnUrl });
+			_shoppingCartService.DeleteShoppingCartItemAsync(cart.First(cl => cl.Product.ProductId == productId).Product);
+
+			return RedirectToRoute("ShoppingCart", new { returnUrl = returnUrl });
 		}
 	}
 }

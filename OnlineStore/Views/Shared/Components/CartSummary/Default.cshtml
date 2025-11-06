@@ -1,12 +1,14 @@
-﻿@model Cart
+﻿@model IList<ShoppingCartItem>
 
 <div class="">
-	@if (Model.Lines.Count() > 0)
+	@if (Model.Count() > 0)
 	{
 		<small class="navbar-text">
 			<b>Your cart:</b>
-			@Model.Lines.Sum(x => x.Quantity) item(s)
-			@Model.ComputeTotalValues().ToString("c")
+			@Model.Sum(x => x.Quantity) item(s)
+
+			@*TODO: Use GetSubtotalAsnyc()*@
+@* 			@Model.ComputeTotalValues().ToString("c")*@
 		</small>
 	}
 	<a class="btn btn-sm btn-secondary navbar-btn" asp-controller="ShoppingCart" asp-action="Cart" asp-route-returnurl="@ViewContext.HttpContext.Request.PathAndQuery()">

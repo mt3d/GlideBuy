@@ -2,32 +2,35 @@
 using GlideBuy.Core.Domain.Orders;
 using GlideBuy.Data.Repositories;
 using GlideBuy.Models;
+using GlideBuy.Services.Orders;
 
 namespace GlideBuy.Controllers
 {
 	public class OrderController : Controller
 	{
 		private OrderRepository repository;
-		private Cart cart;
+		private IShoppingCartService _shoppingCartService;
 
-		public OrderController(OrderRepository repositoryService, Cart cartService)
+		public OrderController(OrderRepository repositoryService, IShoppingCartService shoppingCartService)
 		{
 			this.repository = repositoryService;
-			this.cart = cartService;
+			_shoppingCartService = shoppingCartService;
 		}
 
 		public ViewResult Checkout() => View(new Order());
 
 		[HttpPost]
-		public IActionResult Checkout(Order order)
+		public async Task<IActionResult> Checkout(Order order)
 		{
-			if (cart.Lines.Count() == 0)
+			var cart = await _shoppingCartService.GetShoppingCartAsync();
+
+			if (cart.Count() == 0)
 			{
 				ModelState.AddModelError("", "Sorry, your cart is empty!");
 			}
 			if (ModelState.IsValid)
 			{
-				order.Lines = cart.Lines.ToArray();
+				order.Lines = cart.ToArray();
 				repository.Save(order);
 				cart.Clear();
 				return RedirectToPage("/Completed", new { orderId = order.OrderId });

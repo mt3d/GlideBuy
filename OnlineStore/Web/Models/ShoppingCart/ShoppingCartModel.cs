@@ -12,7 +12,8 @@ namespace GlideBuy.Web.Models.ShoppingCart
 		}
 
 		public string ReturnUrl { get; set; } = "/";
-		public Cart? Cart { get; set; }
+
+		//public Cart? Cart { get; set; }
 
 		public bool ShowSku { get; set; }
 

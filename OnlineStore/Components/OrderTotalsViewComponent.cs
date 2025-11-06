@@ -1,4 +1,5 @@
 ﻿using GlideBuy.Models;
+using GlideBuy.Services.Orders;
 using GlideBuy.Web.Factories;
 using Microsoft.AspNetCore.Mvc;
 
@@ -6,11 +7,11 @@ namespace GlideBuy.Components
 {
 	public class OrderTotalsViewComponent : ViewComponent
 	{
-		private readonly Cart _shoppingCartService;
+		private readonly IShoppingCartService _shoppingCartService;
 		private readonly IShoppingCartModelsFactory _shoppingCartModelsFactory;
 
 		public OrderTotalsViewComponent(
-			Cart shoppingCartService,
+			IShoppingCartService shoppingCartService,
 			IShoppingCartModelsFactory shoppingCartModelsFactory)
 		{
 			_shoppingCartService = shoppingCartService;
@@ -19,7 +20,8 @@ namespace GlideBuy.Components
 
 		public async Task<IViewComponentResult> InvokeAsync(bool isEditable)
 		{
-			var cart = _shoppingCartService.Lines;
+			var cart = await _shoppingCartService.GetShoppingCartAsync();
+
 			var model = await _shoppingCartModelsFactory.PrepareOrderTotalsModelAsync(cart, isEditable);
 			return View(model);
 		}

@@ -19,7 +19,8 @@ namespace GlideBuy.Controllers
 		}
 
 		public ViewResult Index(string? category, int productPage = 1)
-			=> View(new ProductListViewModel
+		{
+			return View(new ProductListViewModel
 			{
 				Products = productRepository.Products.Include(p => p.Category)
 					.Where(p => category == null || p.Category.Name == category)
@@ -35,6 +36,7 @@ namespace GlideBuy.Controllers
 						: productRepository.Products.Include(p => p.Category).Where(e => e.Category.Name == category).Count()
 				},
 				CurrentCategory = category
-			});	
+			});
+		}
 	}
 }
