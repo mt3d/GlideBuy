@@ -59,7 +59,8 @@ namespace GlideBuy.Controllers
 				return Challenge();
 			}
 
-			return RedirectToRoute("CheckoutAsGuest", new { returnUrl = Url.RouteUrl("ShoppingCart") });
+			// Display a page asking the customer to either sign in or checkout as a guest.
+			return RedirectToRoute("LoginOrCheckoutAsGuest", new { returnUrl = Url.RouteUrl("ShoppingCart") });
 		}
 
 		[HttpPost]

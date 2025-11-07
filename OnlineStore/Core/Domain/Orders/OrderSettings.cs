@@ -22,7 +22,7 @@ namespace GlideBuy.Core.Domain.Orders
 		/// <summary>
 		/// Gets or sets a value indicating whether "One-Page Checkout" is enabled.
 		/// </summary>
-		public bool OnePageCheckoutEnabled { get; set; }
+		public bool OnePageCheckoutEnabled { get; set; } = true;
 
 		public bool HasTermsOfServiceOnCartPage { get; set; }
 

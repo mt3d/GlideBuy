@@ -15,9 +15,21 @@
 				pattern: "cart",
 				new { controller = "ShoppingCart", action = "Cart" });
 
+			// Checkout pages
+
 			builder.MapControllerRoute(name: "Checkout",
-				pattern: $"checkout/",
+				pattern: $"checkout",
 				new { controller = "Checkout", action = "Index" });
+
+			builder.MapControllerRoute(name: "CheckoutOnePage",
+				pattern: $"onepagecheckout",
+				new { controller = "Checkout", action = "OnePageCheckout" });
+
+			// The normal customer login page but with an option to checkout as a guest.
+			builder.MapControllerRoute(name: "LoginOrCheckoutAsGuest",
+				pattern: $"login/checkoutasguest",
+				new { controller = "Customer", action = "Login", checkoutAsGuest = true });
+
 
 			// Old routes from the book.
 
