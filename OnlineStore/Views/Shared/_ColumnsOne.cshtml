@@ -1,16 +1,20 @@
-﻿<!DOCTYPE html>
-<html>
-<head>
-	<meta name="viewport" content="width=device-width" />
-	<title>GlideBuy</title>
-	<link href="/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
-</head>
-<body>
-	<div class="bg-dark text-white p-2">
-		<span class="navbar-brand ml-2">GlideBuy</span>
-	</div>
-	<div class="m-1 p-1">
-		@RenderBody()
-	</div>
-</body>
-</html>
+﻿@{
+	Layout = "_Root";
+}
+
+@*TODO: Render the breadcrumb as a section*@
+
+<div class="center-1">
+	@RenderBody()
+</div>
+
+<style>
+	.center-1 {
+		margin: 0 0 100px;
+	}
+
+	.center-1 .page-title,
+	.center-1 .title {
+		text-align: center;
+	}
+</style>

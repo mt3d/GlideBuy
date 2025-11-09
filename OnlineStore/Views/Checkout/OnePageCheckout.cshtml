@@ -3,6 +3,48 @@
 @{
 	Layout = "_ColumnsOne";
 }
+@{
+	var billingAddressStepNumber = 1;
+	var paymentMethodStepNumber = 4;
+	var paymentInfoStepNumber = 5;
+	var confirmOrderStepNumber = 6;
+}
+
+<script src="~/js/public.accordion.js"></script>
+<script src="~/js/public.onepagecheckout.js"></script>
+
+<style>
+	.page {
+		min-height: 200px;
+		text-align: center;
+	}
+
+	ol, ul {
+		list-style: none;
+		padding-left: 0;
+	}
+
+	.opc .step-title {
+		margin: 0 0 1px;
+		overflow: hidden;
+		background-color: #f6f6f6;
+	}
+
+	.opc .step-title .number,
+	.opc .step-title .title {
+		float: left;
+		min-height: 40px;
+		padding: 10px 15px;
+		line-height: 20px;
+		font-size: 16px;
+		font-weight: normal;
+	}
+
+	.opc .allow .step-title {
+		background-color: #4ab2f1;
+		cursor: pointer;
+	}
+</style>
 
 <div class="page checkout-page">
 	<div class="page-title">
@@ -10,15 +52,51 @@
 	</div>
 	<div class="page-body checkout-data">
 		<ol class="opc" id="checkout-steps">
-			<li id="opc-billing" class="tab-section allow"></li>
-			<li id="opc-shipping" class="tab-section"></li>
-			<li id="opc-shipping_method" class="tab-section"></li>
-			<li id="opc-payment_method" class="tab-section"></li>
-			<li id="opc-payment_info" class="tab-section"></li>
-			<li id="opc-confirm_order" class="tab-section"></li>
+			<li id="opc-billing" class="tab-section allow">
+				<div class="step-title">
+					<span class="number">@billingAddressStepNumber</span>
+					<h2 class="title">Billing Address</h2>
+				</div>
+				<div id="checkout-step-billing" class="step a-item" style="">
+					<div id="checkout-billing-load">
+						@await Html.PartialAsync("OpcBillingAddress", Model.BillingAddress)
+					</div>
+				</div>
+			</li>
+			@if (Model.ShippingRequired)
+			{
+				<li id="opc-shipping" class="tab-section"></li>
+				<li id="opc-shipping_method" class="tab-section"></li>
+			}
+			<li id="opc-payment_method" class="tab-section">
+				<div class="step-title">
+					<span class="number">@paymentMethodStepNumber</span>
+					<h2 class="title">Payment Method</h2>
+				</div>
+				<div id="checkout-step-payment-method" class="step a-item" style="">
+
+				</div>
+			</li>
+			<li id="opc-payment_info" class="tab-section">
+				<div class="step-title">
+					<span class="number">@paymentInfoStepNumber</span>
+					<h2 class="title">Payment Info</h2>
+				</div>
+				<div id="checkout-step-payment-info" class="step a-item" style="">
+				</div>
+			</li>
+			<li id="opc-confirm_order" class="tab-section">
+				<div class="step-title">
+					<span class="number">@confirmOrderStepNumber</span>
+					<h2 class="title">Confirm Order</h2>
+				</div>
+				<div id="checkout-step-confirm-order" class="step a-item" style="">
+				</div>
+			</li>
 		</ol>
 	</div>
 	<script>
-
+		Accordion.init('checkout-steps', '.step-title', false);
+		Accordion.openSection('#opc-billing');
 	</script>
 </div>
