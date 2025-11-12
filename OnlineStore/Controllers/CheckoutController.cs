@@ -48,9 +48,14 @@ namespace GlideBuy.Controllers
 
 		public async Task<IActionResult> OnePageCheckout()
 		{
+			if (_orderSettings.CheckoutDisabled)
+			{
+				return RedirectToRoute("ShoppingCart");
+			}
+
 			var cart = await _shoppingCartService.GetShoppingCartAsync();
 
-			if (_orderSettings.CheckoutDisabled)
+			if (!cart.Any())
 			{
 				return RedirectToRoute("ShoppingCart");
 			}

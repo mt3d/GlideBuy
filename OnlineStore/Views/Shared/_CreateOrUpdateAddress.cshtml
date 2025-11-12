@@ -1,0 +1,31 @@
+﻿@using GlideBuy.Web.Models.Common
+@model AddressModel
+
+<input class="address-id" asp-for="Id" type="hidden" />
+<div class="edit-address">
+	<div class="inputs">
+		<label asp-for="FirstName"></label>
+		<input asp-for="FirstName" />
+		<span asp-validation-for="FirstName"></span>
+	</div>
+	<div class="inputs">
+		<label asp-for="LastName"></label>
+		<input asp-for="LastName" />
+		<span asp-validation-for="LastName"></span>
+	</div>
+	<div class="inputs">
+		<label asp-for="Email"></label>
+		<input asp-for="Email" />
+		<span asp-validation-for="Email"></span>
+	</div>
+	@if (Model.CountryEnabled)
+	{
+		<div class="inputs">
+			<label asp-for="CountryId"></label>
+			<select asp-for="CountryId" asp-items="Model.AvailableCountries">
+
+			</select>
+			<span asp-validation-for="CountryId"></span>
+		</div>
+	}
+</div>

@@ -14,6 +14,7 @@ namespace GlideBuy.Models
 
 		[Required(ErrorMessage = "Please enter a description")]
 		public string ShortDescription { get; set; } = String.Empty;
+
 		public string LongDescription { get; set; } = String.Empty; // TODO: Handle validation
 
 		[Required]
@@ -30,10 +31,7 @@ namespace GlideBuy.Models
 
 		public bool Deleted { get; set; }
 
-		// new features
-
 		public int ProductTypeId { get; set; }
-
 
 		public string MetaTitle { get; set; } = string.Empty;
 
@@ -44,6 +42,7 @@ namespace GlideBuy.Models
 		public bool AllowReviews { get; set; }
 
 		public int ApprovedRatingSum { get; set; }
+
 		public int NotApprovedRaingSum { get; set; }
 
 		public string Sku { get; set; } = string.Empty;
@@ -60,8 +59,11 @@ namespace GlideBuy.Models
 		public string Gtin { get; set; } = string.Empty;
 
 		public bool IsDownloadable { get; set; } // TODO: IsDigital?
+
 		public int DownloadId { get; set; }
+
 		public bool UnlimitedDownloads { get; set; }
+
 		public int MaxDownloads { get; set; }
 
 		public bool HasUserAgreement { get; set; }
@@ -72,6 +74,7 @@ namespace GlideBuy.Models
 
 		public DateTime UpdatedOnUtc { get; set; }
 
+		public bool IsShippingEnabled { get; set; }
 
 		// public originalStore name & link (below Product Name)
 		// byline

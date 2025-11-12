@@ -1,5 +1,6 @@
 ﻿using GlideBuy.Infrastructure;
 using GlideBuy.Models;
+using GlideBuy.Services.Shipping;
 
 namespace GlideBuy.Services.Orders
 {
@@ -7,10 +8,14 @@ namespace GlideBuy.Services.Orders
 	{
 		private readonly IHttpContextAccessor httpContextAccessor;
 		private ISession? Session { get; set; }
+		private readonly IShippingService _shippingService;
 
-		public ShoppingCartService(IHttpContextAccessor httpContextAccessor)
+		public ShoppingCartService(
+			IHttpContextAccessor httpContextAccessor,
+			IShippingService shippingService)
 		{
 			this.httpContextAccessor = httpContextAccessor;
+			_shippingService = shippingService;
 		}
 
 		private Cart GetCart()
@@ -46,6 +51,14 @@ namespace GlideBuy.Services.Orders
 		public void ClearShoppingCartAsync()
 		{
 			Session?.Remove("Cart");
+		}
+
+		public async Task<bool> ShoppingCartRequiresShippingAsync(IList<ShoppingCartItem> cart)
+		{
+			return cart.Any(shoppingCartItem =>
+			{
+				return _shippingService.IsShippingEnabled(shoppingCartItem);
+			});
 		}
 	}
 }

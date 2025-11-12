@@ -8,6 +8,6 @@
 
 		public bool DisplayCaptcha { get; set; }
 
-		public CheckoutBillingAddressModel BillingAddress { get; set; }
+		public CheckoutBillingAddressModel BillingAddress { get; set; } = new CheckoutBillingAddressModel();
 	}
 }

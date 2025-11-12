@@ -6,6 +6,7 @@ using GlideBuy.Data.Repositories;
 using GlideBuy.Data;
 using GlideBuy.Web.Factories;
 using GlideBuy.Services.Orders;
+using GlideBuy.Services.Shipping;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,14 +19,18 @@ builder.Services.AddDbContext<StoreDbContext>(opts => {
 builder.Services.AddScoped<ProductRepository>();
 builder.Services.AddScoped<OrderRepository>();
 builder.Services.AddScoped<ManufacturerRepository>();
-builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IShoppingCartModelsFactory, ShoppingCartModelsFactory>();
 builder.Services.AddScoped<ICheckoutModelFactory, CheckoutModelFactory>();
+builder.Services.AddScoped<IAddressModelFactory, AddressModelFactory>();
+builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<IShippingService, ShippingService>();
 
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession();
+
 builder.Services.AddScoped<IShoppingCartService, ShoppingCartService>();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
 builder.Services.AddServerSideBlazor();
 
 builder.Services.AddDbContext<AppIdentityDbContext>(opts => {

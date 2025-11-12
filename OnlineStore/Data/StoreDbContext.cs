@@ -1,4 +1,6 @@
-﻿using GlideBuy.Core.Domain.Configuration;
+﻿using GlideBuy.Core.Domain.Common;
+using GlideBuy.Core.Domain.Configuration;
+using GlideBuy.Core.Domain.Directory;
 using GlideBuy.Core.Domain.Orders;
 using GlideBuy.Models;
 using GlideBuy.Models.Localization;
@@ -19,6 +21,9 @@ namespace GlideBuy.Data
 		public DbSet<LocalizationResource> LocalizationResources => Set<LocalizationResource>();
 
 		public DbSet<Setting> Settings => Set<Setting>();
+
+		public DbSet<Address> Addresses => Set<Address>();
+		public DbSet<Country> Countries => Set<Country>();
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
