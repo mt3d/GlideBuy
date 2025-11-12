@@ -61,5 +61,7 @@ namespace GlideBuy.Core.Domain.Orders
 		public bool CheckoutDisabled { get; set; }
 
 		public bool AnonymousCheckoutDisabled { get; set; }
+
+		public bool DisableBillingAddressCheckoutStep { get; set; }
 	}
 }
