@@ -1,6 +1,43 @@
 ﻿@using GlideBuy.Web.Models.Common
 @model AddressModel
 
+<style>
+	.edit-address {
+		background-color: #f9f9f9;
+		border-top: 1px solid #e6e6e6;
+		margin: 0 0 30px;
+		padding: 30px 15px;
+	}
+</style>
+
+<style>
+	.opc input {
+		max-width: 100%;
+	}
+
+	.inputs {
+		position: relative;
+		margin: 0 0 15px;
+		text-align: center;
+/* 		font-size: 0;*/
+	}
+
+	.inputs input {
+		width: 400px;
+	}
+
+	.inputs label {
+		display: inline-block;
+		width: 265px;
+		margin: 0 10px 0 0;
+		text-align: right;
+	}
+
+	label {
+		vertical-align: middle;
+	}
+</style>
+
 <input class="address-id" asp-for="Id" type="hidden" />
 <div class="edit-address">
 	<div class="inputs">
