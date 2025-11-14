@@ -12,6 +12,10 @@ namespace GlideBuy.Core.Domain.Common
 
 		public string Company { get; set; }
 
+		public int? CountryId { get; set; }
+
 		public string Country { get; set; }
+
+		public DateTime CreateOnUtc { get; set; }
 	}
 }

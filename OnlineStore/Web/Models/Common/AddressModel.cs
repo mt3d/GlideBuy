@@ -1,4 +1,5 @@
-﻿using GlideBuy.Models;
+﻿using GlideBuy.Core.Domain.Common;
+using GlideBuy.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace GlideBuy.Web.Models.Common
@@ -35,5 +36,18 @@ namespace GlideBuy.Web.Models.Common
 
 		public IList<SelectListItem> AvailableCountries { get; set; }
 
+		public Address ToEntity()
+		{
+			var address = new Address();
+
+			address.Id = Id;
+			address.FirstName = FirstName;
+			address.LastName = LastName;
+			address.Email = Email;
+			//address.Company = Company;
+			address.CountryId = CountryId;
+
+			return address;
+		}
 	}
 }

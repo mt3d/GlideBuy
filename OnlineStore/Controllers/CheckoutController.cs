@@ -3,6 +3,8 @@ using GlideBuy.Core.Domain.Orders;
 using GlideBuy.Data.Repositories;
 using GlideBuy.Services.Orders;
 using GlideBuy.Web.Factories;
+using GlideBuy.Web.Models.Checkout;
+using GlideBuy.Core.Domain.Common;
 
 namespace GlideBuy.Controllers
 {
@@ -90,6 +92,76 @@ namespace GlideBuy.Controllers
 			{
 				return View();
 			}
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> OpcSaveBillingInformation(CheckoutBillingAddressModel model, IFormCollection form)
+		{
+			try
+			{
+				if (_orderSettings.CheckoutDisabled)
+				{
+					throw new Exception("Checkout is disabled");
+				}
+
+				_ = int.TryParse(form["billing_address_id"], out var billingAddressId);
+
+				if (billingAddressId > 0) // existing address
+				{
+
+				}
+				else
+				{
+					var newAddressModel = model.BillingNewAddress;
+
+					// Handle custom attributes
+
+					if (!ModelState.IsValid)
+					{
+						var billingAddressModel = new CheckoutBillingAddressModel();
+
+						return Json(new
+						{
+							update_section = new
+							{
+								name = "billing"
+							},
+							wrong_billing_address = true,
+							error = true,
+							message = string.Join(", ",
+								ModelState.Values
+									.Where(p => p.Errors.Any())
+									.SelectMany(p => p.Errors) // Merge all into IEnumerable<ModelError>
+									.Select(p => p.ErrorMessage) // Select only ErrorMessage from the sequence elements
+							)
+						});
+					}
+
+					// The model is valid, create an address entity.
+
+					// TODO: Search for the address first
+					Address address = null;
+
+					if (address == null)
+					{
+						address = newAddressModel.ToEntity();
+						address.CreateOnUtc = DateTime.UtcNow;
+
+						// TODO: Insert address
+						// TODO: InsertCustomerAddress
+					}
+
+					//TODO: Update customer
+				}
+			}
+			catch (Exception ex)
+			{
+				// TODO: Log the exception.
+
+				return Json(new { error = 1, message = ex.Message });
+			}
+
+			throw new NotImplementedException();
 		}
 	}
 }

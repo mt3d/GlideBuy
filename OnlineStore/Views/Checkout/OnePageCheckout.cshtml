@@ -2,6 +2,10 @@
 @model OnePageCheckoutModel
 @{
 	Layout = "_ColumnsOne";
+
+	var storeLocation = "";
+	// var storeLocation = webHelper.GetStoreLocation();
+
 }
 @{
 	var billingAddressStepNumber = 1;
@@ -53,15 +57,44 @@
 	<div class="page-body checkout-data">
 		<ol class="opc" id="checkout-steps">
 			<li id="opc-billing" class="tab-section allow">
+
 				<div class="step-title">
 					<span class="number">@billingAddressStepNumber</span>
 					<h2 class="title">Billing Address</h2>
 				</div>
-				<div id="checkout-step-billing" class="step a-item" style="">
-					<div id="checkout-billing-load">
-						@await Html.PartialAsync("OpcBillingAddress", Model.BillingAddress)
+
+				<div id="checkout-step-billing" class="step a-item" style="display: none;">
+
+					<form id="co-billing-form" action="" method="post">
+						<div id="checkout-billing-load">
+							@await Html.PartialAsync("OpcBillingAddress", Model.BillingAddress)
+						</div>
+					</form>
+
+					<script>
+						Billing.init(
+							'#co-billing-form',
+							'@(storeLocation)checkout/OpcSaveBillingInformation/',
+							@(Model.DisableBillingAddressCheckoutStep.ToString().ToLowerInvariant()),
+							true
+							);
+					</script>
+
+					<div class="buttons" id="billing-buttons-container">
+						<button>
+							Save
+						</button>
+
+						<button type="button" name="save" class="button-1 new-address-next-step-button" onclick="Billing.save()">
+							Continue
+						</button>
+
+						<span class="please-wait" id="billing-please-wait" style="display: none;">
+							Loading next step...
+						</span>
 					</div>
 				</div>
+
 			</li>
 			@if (Model.ShippingRequired)
 			{
