@@ -1,6 +1,8 @@
 ﻿using GlideBuy.Core.Caching;
 using GlideBuy.Core.Configuration;
+using GlideBuy.Services.Common;
 using GlideBuy.Services.Configuration;
+using GlideBuy.Services.Customers;
 using GlideBuy.Services.Orders;
 
 namespace GlideBuy.Infrastructure.StartupConfigurations
@@ -22,6 +24,8 @@ namespace GlideBuy.Infrastructure.StartupConfigurations
 			services.AddScoped<IOrderProcessingService, OrderProcessingService>();
 
 			services.AddScoped<ISettingService, SettingService>();
+			services.AddScoped<IAddressService, AddressService>();
+			services.AddScoped<ICustomerService, CustomerService>();
 
 			// TODO: Use Singleton.
 			TypeFinder typeFinder = new TypeFinder();
