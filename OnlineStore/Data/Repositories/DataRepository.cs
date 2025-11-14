@@ -91,5 +91,15 @@ namespace GlideBuy.Data
 
 			return await ExecuteWithCachingAsync(GetAllAsync, cachKeyFactory);
 		}
+
+		public async Task InsertAsync(T entity)
+		{
+			ArgumentNullException.ThrowIfNull(entity);
+
+			await context.AddAsync<T>(entity);
+			await context.SaveChangesAsync();
+
+			// TODO: Publish event
+		}
 	}
 }

@@ -6,10 +6,6 @@ namespace GlideBuy.Data
 	{
 		//	IQueryable<T> All { get; }
 
-		//	// Aka Insert
-		//	void Add(T entity);
-		//	Task AddAsync(T entity);
-
 		//	void Add(IList<T> entitiies);
 		//	Task AddAsync(IList<T> entities);
 
@@ -32,9 +28,11 @@ namespace GlideBuy.Data
 		//	IList<T> GetByIds(IList<long> ids, bool includeDeleted = true);
 		//	Task<IList<T>> GetByIdsAsync(IList<long> ids, bool includeDeleted = true);
 
-		public Task<IList<T>> GetAllAsync(
+		Task<IList<T>> GetAllAsync(
 			Func<IQueryable<T>, IQueryable<T>>? queryModifier = null,
 			Func<ICacheKeyBuilder, CacheKey>? cachKeyFactory = null,
 			bool includeDeleted = true);
+
+		Task InsertAsync(T entity);
 	}
 }
