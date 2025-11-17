@@ -1,4 +1,5 @@
-﻿using GlideBuy.Models;
+﻿using GlideBuy.Core.Domain.Common;
+using GlideBuy.Models;
 using GlideBuy.Models.Common;
 using GlideBuy.Models.Localization;
 
@@ -79,7 +80,11 @@ namespace GlideBuy.Core.Domain.Customers
 
 		public int? BillingAddressId { get; set; }
 
+		public Address? BillingAddress { get; set; }
+
 		public int? ShippingAddressId { get; set; }
+
+		public Address? ShippingAddress { get; set; }
 
 		public bool MustChangePassword { get; set; }
 	}

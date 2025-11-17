@@ -5,6 +5,8 @@ using GlideBuy.Services.Orders;
 using GlideBuy.Web.Factories;
 using GlideBuy.Web.Models.Checkout;
 using GlideBuy.Core.Domain.Common;
+using GlideBuy.Services.Common;
+using GlideBuy.Services.Customers;
 
 namespace GlideBuy.Controllers
 {
@@ -14,17 +16,23 @@ namespace GlideBuy.Controllers
 		private IShoppingCartService _shoppingCartService;
 		private OrderSettings _orderSettings;
 		private ICheckoutModelFactory _checkoutModelFactory;
+		private IAddressService _addressService;
+		private ICustomerService _customerService;
 
 		public CheckoutController(
 			OrderRepository orderRepository,
 			IShoppingCartService shoppingCartService,
 			OrderSettings orderSettings,
-			ICheckoutModelFactory checkoutModelFactory)
+			ICheckoutModelFactory checkoutModelFactory,
+			IAddressService addressService,
+			ICustomerService customerService)
 		{
 			this.repository = orderRepository;
 			_shoppingCartService = shoppingCartService;
 			_orderSettings = orderSettings;
 			_checkoutModelFactory = checkoutModelFactory;
+			_addressService = addressService;
+			_customerService = customerService;
 		}
 
 		public async Task<IActionResult> Index()
@@ -147,8 +155,8 @@ namespace GlideBuy.Controllers
 						address = newAddressModel.ToEntity();
 						address.CreateOnUtc = DateTime.UtcNow;
 
-						// TODO: Insert address
-						// TODO: InsertCustomerAddress
+						await _addressService.InsertAddressAsync(address);
+						// await _customerService.InsertCustomerAddressAsync(customer, address);
 					}
 
 					//TODO: Update customer
