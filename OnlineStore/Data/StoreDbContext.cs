@@ -1,5 +1,6 @@
 ﻿using GlideBuy.Core.Domain.Common;
 using GlideBuy.Core.Domain.Configuration;
+using GlideBuy.Core.Domain.Customers;
 using GlideBuy.Core.Domain.Directory;
 using GlideBuy.Core.Domain.Orders;
 using GlideBuy.Models;
@@ -24,6 +25,8 @@ namespace GlideBuy.Data
 
 		public DbSet<Address> Addresses => Set<Address>();
 		public DbSet<Country> Countries => Set<Country>();
+
+		public DbSet<Customer> Customers => Set<Customer>();
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
