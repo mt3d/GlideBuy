@@ -1,12 +1,12 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
-using GlideBuy.Infrastructure;
 using GlideBuy.Services.ProductCatalog;
 using GlideBuy.Data.Repositories;
 using GlideBuy.Data;
 using GlideBuy.Web.Factories;
 using GlideBuy.Services.Orders;
 using GlideBuy.Services.Shipping;
+using GlideBuy.Core.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 

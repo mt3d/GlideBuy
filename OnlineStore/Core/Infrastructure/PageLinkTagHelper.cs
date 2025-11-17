@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc; // IUrlHelper
 using GlideBuy.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
-namespace GlideBuy.Infrastructure
+namespace GlideBuy.Core.Infrastructure
 {
 	/*
 	 * Tag helper: Generates HTML markup for links.
@@ -44,9 +44,9 @@ namespace GlideBuy.Infrastructure
 		public Dictionary<string, object> PageUrlValues { get; set; } = new Dictionary<string, object>();
 
 		public bool PageClassesEnabled { get; set; } = false;
-		public string PageClass { get; set; } = String.Empty;
-		public string PageClassNormal { get; set; } = String.Empty;
-		public string PageClassSelected { get; set; } = String.Empty;
+		public string PageClass { get; set; } = string.Empty;
+		public string PageClassNormal { get; set; } = string.Empty;
+		public string PageClassSelected { get; set; } = string.Empty;
 
 		/*
 		 * Populates a "div" element with "a" elements.

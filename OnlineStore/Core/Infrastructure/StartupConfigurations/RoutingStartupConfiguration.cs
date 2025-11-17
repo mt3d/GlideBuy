@@ -1,4 +1,4 @@
-﻿namespace GlideBuy.Infrastructure.StartupConfigurations
+﻿namespace GlideBuy.Core.Infrastructure.StartupConfigurations
 {
 	public class RoutingStartupConfiguration : IStartupConfiguration
 	{

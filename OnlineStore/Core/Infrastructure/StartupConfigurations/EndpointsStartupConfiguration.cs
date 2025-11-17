@@ -1,4 +1,6 @@
-﻿namespace GlideBuy.Infrastructure.StartupConfigurations
+﻿using GlideBuy.Core.Infrastructure;
+
+namespace GlideBuy.Core.Infrastructure.StartupConfigurations
 {
 	public class EndpointsStartupConfiguration : IStartupConfiguration
 	{

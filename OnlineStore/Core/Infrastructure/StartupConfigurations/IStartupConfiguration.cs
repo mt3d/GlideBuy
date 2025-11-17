@@ -1,4 +1,4 @@
-﻿namespace GlideBuy.Infrastructure.StartupConfigurations
+﻿namespace GlideBuy.Core.Infrastructure.StartupConfigurations
 {
 	/// <summary>
 	/// An object for configuring related services and middleware during startup

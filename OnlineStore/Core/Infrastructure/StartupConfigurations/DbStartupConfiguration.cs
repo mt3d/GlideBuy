@@ -1,7 +1,6 @@
-﻿
-using GlideBuy.Data;
+﻿using GlideBuy.Data;
 
-namespace GlideBuy.Infrastructure.StartupConfigurations
+namespace GlideBuy.Core.Infrastructure.StartupConfigurations
 {
 	public class DbStartupConfiguration : IStartupConfiguration
 	{

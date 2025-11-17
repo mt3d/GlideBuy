@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
 
-namespace GlideBuy.Infrastructure
+namespace GlideBuy.Core.Infrastructure
 {
 	public static class SessionExtensions
 	{
@@ -12,7 +12,7 @@ namespace GlideBuy.Infrastructure
 		public static T? GetJson<T>(this ISession session, string key)
 		{
 			var sessionData = session.GetString(key);
-			return sessionData == null ? default(T) : JsonSerializer.Deserialize<T>(sessionData);
+			return sessionData == null ? default : JsonSerializer.Deserialize<T>(sessionData);
 		}
 	}
 }

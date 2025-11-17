@@ -112,6 +112,8 @@ namespace GlideBuy.Controllers
 					throw new Exception("Checkout is disabled");
 				}
 
+				// var customer = await _workContext.GetCurrentCustomerAsync();
+
 				_ = int.TryParse(form["billing_address_id"], out var billingAddressId);
 
 				if (billingAddressId > 0) // existing address

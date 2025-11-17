@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace GlideBuy.Infrastructure
+namespace GlideBuy.Core.Infrastructure
 {
 	public class TypeFinder
 	{

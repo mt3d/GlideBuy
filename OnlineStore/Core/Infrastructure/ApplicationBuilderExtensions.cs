@@ -1,7 +1,6 @@
-﻿using GlideBuy.Infrastructure;
-using GlideBuy.Infrastructure.StartupConfigurations;
+﻿using GlideBuy.Core.Infrastructure.StartupConfigurations;
 
-namespace GlideBuy.Infrastructure
+namespace GlideBuy.Core.Infrastructure
 {
 	public static class ApplicationBuilderExtensions
 	{
@@ -13,7 +12,7 @@ namespace GlideBuy.Infrastructure
 			var instances = startupConfigurationClasses
 								.Select(startup => (IStartupConfiguration)Activator.CreateInstance(startup))
 								.Where(startup => startup != null)
-								.OrderBy(startup => (int)(startup.Order));
+								.OrderBy(startup => (int)startup.Order);
 
 			foreach (var instance in instances)
 			{

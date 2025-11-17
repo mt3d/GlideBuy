@@ -1,11 +1,12 @@
 ﻿using GlideBuy.Core.Caching;
 using GlideBuy.Core.Configuration;
+using GlideBuy.Core.Infrastructure;
 using GlideBuy.Services.Common;
 using GlideBuy.Services.Configuration;
 using GlideBuy.Services.Customers;
 using GlideBuy.Services.Orders;
 
-namespace GlideBuy.Infrastructure.StartupConfigurations
+namespace GlideBuy.Core.Infrastructure.StartupConfigurations
 {
 	public class ServicesStartupConfiguration : IStartupConfiguration
 	{

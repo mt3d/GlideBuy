@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Html;
 
-namespace GlideBuy.Infrastructure.Localization
+namespace GlideBuy.Core.Infrastructure.Localization
 {
 	public class LocalizedString : HtmlString
 	{
