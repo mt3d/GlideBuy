@@ -5,6 +5,7 @@ using GlideBuy.Services.Common;
 using GlideBuy.Services.Configuration;
 using GlideBuy.Services.Customers;
 using GlideBuy.Services.Orders;
+using GlideBuy.Support;
 
 namespace GlideBuy.Core.Infrastructure.StartupConfigurations
 {
@@ -21,6 +22,8 @@ namespace GlideBuy.Core.Infrastructure.StartupConfigurations
 			services.AddSingleton<ICacheKeyManager, CacheKeyManager>();
 			services.AddSingleton<IStaticCacheManager, MemoryCacheManager>();
 			services.AddSingleton<ICacheKeyBuilder, MemoryCacheManager>();
+
+			services.AddScoped<IWorkContext, WebWorkContext>();
 
 			services.AddScoped<IOrderProcessingService, OrderProcessingService>();
 
