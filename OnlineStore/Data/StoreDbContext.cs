@@ -27,6 +27,7 @@ namespace GlideBuy.Data
 		public DbSet<Country> Countries => Set<Country>();
 
 		public DbSet<Customer> Customers => Set<Customer>();
+		public DbSet<CustomerRole> CustomerRoles => Set<CustomerRole>();
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{

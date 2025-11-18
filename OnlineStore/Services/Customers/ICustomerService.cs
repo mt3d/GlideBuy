@@ -6,5 +6,7 @@ namespace GlideBuy.Services.Customers
 	public interface ICustomerService
 	{
 		Task InsertCustomerAddressAsync(Customer customer, Address address);
+
+		Task<Customer> InsertGuestCustomerAsync();
 	}
 }
