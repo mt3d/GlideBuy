@@ -72,7 +72,7 @@ namespace GlideBuy.Core.Domain.Customers
 
 		public string LastIpAddress { get; set; }
 
-		public DateTime CreateOnUtc { get; set; }
+		public DateTime CreatedOnUtc { get; set; }
 
 		public DateTime? LastLoginDateUtc { get; set; }
 
@@ -87,5 +87,9 @@ namespace GlideBuy.Core.Domain.Customers
 		public Address? ShippingAddress { get; set; }
 
 		public bool MustChangePassword { get; set; }
+
+		public int? CustomerRoleId { get; set; }
+
+		public CustomerRole? CustomerRole { get; set; }
 	}
 }
