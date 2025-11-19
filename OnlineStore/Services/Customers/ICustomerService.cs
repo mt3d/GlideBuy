@@ -8,5 +8,7 @@ namespace GlideBuy.Services.Customers
 		Task InsertCustomerAddressAsync(Customer customer, Address address);
 
 		Task<Customer> InsertGuestCustomerAsync();
+
+		Task<Customer?> GetCustomerByGuidAsync(Guid customerGuid);
 	}
 }

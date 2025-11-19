@@ -6,6 +6,6 @@ namespace GlideBuy.Core
 	{
 		Task<Customer> GetCurrentCustomerAsync();
 
-		Task SetCurrentCustomerAsync(Customer customer);
+		Task SetCurrentCustomerAsync(Customer? customer = null);
 	}
 }

@@ -66,5 +66,34 @@ namespace GlideBuy.Services.Customers
 
 			return customerRole;
 		}
+
+		public async Task<Customer?> GetCustomerByGuidAsync(Guid customerGuid)
+		{
+			if (customerGuid == Guid.Empty)
+			{
+				return null;
+			}
+
+			// TODO: Use customer repo instead
+			var query = _context.Customers.Where(c => c.CustomerGuid == customerGuid).OrderBy(c => c.Id);
+
+			/**
+			 * the reason ShortTermCacheManager is used instead of StaticCacheManager in
+			 * this scenario has to do with data freshness, request-level guarantees, and
+			 * avoidance of stale customer data. Customer entities are particularly
+			 * sensitive and must remain accurate during the entire HTTP request lifecycle,
+			 * especially when they are used for authentication, authorization, and checkout logic.
+			 * 
+			 * If you cache a customer object in a static/global cache, such as
+			 * StaticCacheManager, that cached version might persist for minutes or hours
+			 * depending on the cache settings.
+			 * 
+			 * Short-term cache avoids database round-trips within a single request only.
+			 * This optimizes performance by preventing duplicated queries while guaranteeing
+			 * fresh data for the next request.
+			 */
+			// TODO: Use short-term cache manager
+			return await query.FirstOrDefaultAsync();
+		}
 	}
 }
