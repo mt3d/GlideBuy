@@ -30,6 +30,7 @@ namespace GlideBuy.Core.Infrastructure.StartupConfigurations
 			services.AddScoped<ISettingService, SettingService>();
 			services.AddScoped<IAddressService, AddressService>();
 			services.AddScoped<ICustomerService, CustomerService>();
+			services.AddScoped<IOrderTotalCalculationService, OrderTotalCalculationService>();
 
 			// TODO: Use Singleton.
 			TypeFinder typeFinder = new TypeFinder();
