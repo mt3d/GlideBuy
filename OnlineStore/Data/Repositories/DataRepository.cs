@@ -101,5 +101,18 @@ namespace GlideBuy.Data
 
 			// TODO: Publish event
 		}
+
+		public async Task UpdateAsync(T entity, bool publishEvent = true)
+		{
+			ArgumentNullException.ThrowIfNull(entity);
+
+			context.Update(entity); // no database I/O performed
+			await context.SaveChangesAsync();
+
+			if (publishEvent)
+			{
+				// TODO: Publish an event.
+			}
+		}
 	}
 }

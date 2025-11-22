@@ -7,6 +7,8 @@ using GlideBuy.Web.Models.Checkout;
 using GlideBuy.Core.Domain.Common;
 using GlideBuy.Services.Common;
 using GlideBuy.Services.Customers;
+using GlideBuy.Core;
+using GlideBuy.Models;
 
 namespace GlideBuy.Controllers
 {
@@ -18,6 +20,8 @@ namespace GlideBuy.Controllers
 		private ICheckoutModelFactory _checkoutModelFactory;
 		private IAddressService _addressService;
 		private ICustomerService _customerService;
+		private IWorkContext _workContext;
+		private IOrderProcessingService _orderProcessingService;
 
 		public CheckoutController(
 			OrderRepository orderRepository,
@@ -25,7 +29,9 @@ namespace GlideBuy.Controllers
 			OrderSettings orderSettings,
 			ICheckoutModelFactory checkoutModelFactory,
 			IAddressService addressService,
-			ICustomerService customerService)
+			ICustomerService customerService,
+			IWorkContext workContext,
+			IOrderProcessingService orderProcessingService)
 		{
 			this.repository = orderRepository;
 			_shoppingCartService = shoppingCartService;
@@ -33,6 +39,8 @@ namespace GlideBuy.Controllers
 			_checkoutModelFactory = checkoutModelFactory;
 			_addressService = addressService;
 			_customerService = customerService;
+			_workContext = workContext;
+			_orderProcessingService = orderProcessingService;
 		}
 
 		public async Task<IActionResult> Index()
@@ -112,7 +120,8 @@ namespace GlideBuy.Controllers
 					throw new Exception("Checkout is disabled");
 				}
 
-				// var customer = await _workContext.GetCurrentCustomerAsync();
+				var customer = await _workContext.GetCurrentCustomerAsync();
+				var cart = await _shoppingCartService.GetShoppingCartAsync();
 
 				_ = int.TryParse(form["billing_address_id"], out var billingAddressId);
 
@@ -158,11 +167,17 @@ namespace GlideBuy.Controllers
 						address.CreateOnUtc = DateTime.UtcNow;
 
 						await _addressService.InsertAddressAsync(address);
-						// await _customerService.InsertCustomerAddressAsync(customer, address);
+						await _customerService.InsertCustomerAddressAsync(customer, address);
 					}
 
 					//TODO: Update customer
+					await _customerService.UpdateCustomerAsync(customer);
 				}
+
+				// TODO: Handle shipping in the future
+
+				// Load the next step since shipping is not available.
+				return await OpcLoadStepAfterShippingMethod(cart);
 			}
 			catch (Exception ex)
 			{
@@ -170,8 +185,26 @@ namespace GlideBuy.Controllers
 
 				return Json(new { error = 1, message = ex.Message });
 			}
+		}
 
-			throw new NotImplementedException();
+		private async Task<JsonResult> OpcLoadStepAfterShippingMethod(IList<ShoppingCartItem> cart)
+		{
+			var customer = await _workContext.GetCurrentCustomerAsync();
+
+			var isPaymentRequired = await _orderProcessingService.IsPaymentRequired(cart);
+
+			if (isPaymentRequired)
+			{
+				return Json(new
+				{
+					goto_section = "payment_method"
+				});
+			}
+
+			return Json(new
+			{
+				goto_section = "confirm_order"
+			});
 		}
 	}
 }

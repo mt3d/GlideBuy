@@ -34,5 +34,7 @@ namespace GlideBuy.Data
 			bool includeDeleted = true);
 
 		Task InsertAsync(T entity);
+
+		Task UpdateAsync(T entity, bool publishEvent = true);
 	}
 }

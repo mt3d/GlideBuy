@@ -4,6 +4,14 @@ var Checkout = {
     // TODO: Complete
     ajaxFailure: function () {
 
+    },
+
+    setStepResponse: function (response) {
+
+        if (response.goto_section) {
+            Checkout.gotoSection(response.goto_section);
+            return true;
+        }
     }
 }
 
@@ -31,5 +39,13 @@ var Billing = {
             complete: this.resetLoadWaiting,
             error: Checkout.ajaxFailure
         });
+    },
+
+    nextStep: function (response) {
+        if (response.error) {
+            return false;
+        }
+
+        Checkout.setStepResponse(response);
     }
 }
