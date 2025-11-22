@@ -5,18 +5,38 @@ namespace GlideBuy.Services.Orders
 {
 	public class OrderProcessingService : IOrderProcessingService
 	{
-		private readonly OrderSettings orderSettings;
+		private readonly OrderSettings _orderSettings;
+		private readonly IOrderTotalCalculationService _orderTotalCalculationService;
 
-		public OrderProcessingService(OrderSettings orderSettings)
+		public OrderProcessingService(
+			OrderSettings orderSettings,
+			IOrderTotalCalculationService orderTotalCalculationService)
 		{
-			this.orderSettings = orderSettings;
+			_orderSettings = orderSettings;
+			_orderTotalCalculationService = orderTotalCalculationService;
+		}
+
+		public async Task<bool> IsPaymentRequired(IList<ShoppingCartItem> cart, bool? useRewardPoints = null)
+		{
+			ArgumentNullException.ThrowIfNull(cart);
+
+			var result = true;
+
+			var total = (await _orderTotalCalculationService.GetShoppingCartTotalAsync(cart)).shoppingCartTotal;
+
+			if (total is decimal.Zero)
+			{
+				result = false;
+			}
+
+			return result;
 		}
 
 		public async Task<bool> ValidateMinOrderSubtotalAmountAsync(IList<ShoppingCartItem> cart)
 		{
 			ArgumentNullException.ThrowIfNull(cart);
 
-			if (!cart.Any() || orderSettings.MinOrderSubtotalAmount <= decimal.Zero)
+			if (!cart.Any() || _orderSettings.MinOrderSubtotalAmount <= decimal.Zero)
 			{
 				return true;
 			}

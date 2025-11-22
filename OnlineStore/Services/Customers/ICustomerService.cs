@@ -10,5 +10,7 @@ namespace GlideBuy.Services.Customers
 		Task<Customer> InsertGuestCustomerAsync();
 
 		Task<Customer?> GetCustomerByGuidAsync(Guid customerGuid);
+
+		Task UpdateCustomerAsync(Customer customer);
 	}
 }

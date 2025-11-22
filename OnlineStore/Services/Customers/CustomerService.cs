@@ -95,5 +95,10 @@ namespace GlideBuy.Services.Customers
 			// TODO: Use short-term cache manager
 			return await query.FirstOrDefaultAsync();
 		}
+
+		public async Task UpdateCustomerAsync(Customer customer)
+		{
+
+		}
 	}
 }
