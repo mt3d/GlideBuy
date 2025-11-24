@@ -1,14 +1,16 @@
-﻿@model ProductListViewModel
-
-@foreach (var p in Model.Products ?? Enumerable.Empty<Product>())
-{
-	<partial name="ProductSummary" model="p" />
+﻿@using GlideBuy.Components
+@{
+	Layout = "_ColumnsOne";
 }
 
-<div page-model="@Model.PagingInfo" page-action="Index"
-	page-classes-enabled="true" page-class="btn"
-	page-class-normal="btn-outline-dark"
-	page-class-selected="btn-primary"
-	page-url-category="@Model.CurrentCategory!"
-	class="btn-group pull-right m-1">
+<div class="page home-page">
+	<div class="page-body">
+@*         @await Component.InvokeAsync(typeof(TopicBlockViewComponent), new { systemName = "HomepageText" })
+ *@     @await Component.InvokeAsync(typeof(HomePageCategoriesViewComponent))
+
+@*      @await Component.InvokeAsync(typeof(HomepageProductsViewComponent))
+        @await Component.InvokeAsync(typeof(HomepageBestSellersViewComponent))
+        @await Component.InvokeAsync(typeof(HomepageNewsViewComponent))
+        @await Component.InvokeAsync(typeof(HomepagePollsViewComponent)) *@
+	</div>
 </div>

@@ -20,23 +20,24 @@ namespace GlideBuy.Controllers
 
 		public ViewResult Index(string? category, int productPage = 1)
 		{
-			return View(new ProductListViewModel
-			{
-				Products = productRepository.Products.Include(p => p.Category)
-					.Where(p => category == null || p.Category.Name == category)
-					.OrderBy(p => p.ProductId)
-					.Skip((productPage - 1) * PageSize)
-					.Take(PageSize),
-				PagingInfo = new PagingInfo
-				{
-					CurrentPage = productPage,
-					ItemsPerPage = PageSize,
-					TotalItems = category == null
-						? productRepository.Products.Count()
-						: productRepository.Products.Include(p => p.Category).Where(e => e.Category.Name == category).Count()
-				},
-				CurrentCategory = category
-			});
+			//return View(new ProductListViewModel
+			//{
+			//	Products = productRepository.Products.Include(p => p.Category)
+			//		.Where(p => category == null || p.Category.Name == category)
+			//		.OrderBy(p => p.ProductId)
+			//		.Skip((productPage - 1) * PageSize)
+			//		.Take(PageSize),
+			//	PagingInfo = new PagingInfo
+			//	{
+			//		CurrentPage = productPage,
+			//		ItemsPerPage = PageSize,
+			//		TotalItems = category == null
+			//			? productRepository.Products.Count()
+			//			: productRepository.Products.Include(p => p.Category).Where(e => e.Category.Name == category).Count()
+			//	},
+			//	CurrentCategory = category
+			//});
+			return View();
 		}
 	}
 }

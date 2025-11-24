@@ -16,15 +16,6 @@ builder.Services.AddDbContext<StoreDbContext>(opts => {
 	opts.UseSqlServer(builder.Configuration["ConnectionStrings:OnlineStoreConnection"]);
 });
 
-builder.Services.AddScoped<ProductRepository>();
-builder.Services.AddScoped<OrderRepository>();
-builder.Services.AddScoped<ManufacturerRepository>();
-builder.Services.AddScoped<IShoppingCartModelsFactory, ShoppingCartModelsFactory>();
-builder.Services.AddScoped<ICheckoutModelFactory, CheckoutModelFactory>();
-builder.Services.AddScoped<IAddressModelFactory, AddressModelFactory>();
-builder.Services.AddScoped<IProductService, ProductService>();
-builder.Services.AddScoped<IShippingService, ShippingService>();
-
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession();
 

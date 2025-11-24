@@ -4,7 +4,11 @@
 	{
 		public void ConfigureServices(IServiceCollection services, IConfiguration configuration)
 		{
-			services.AddControllersWithViews();
+			services.AddControllersWithViews()
+				.AddRazorOptions(options =>
+				{
+					options.ViewLocationFormats.Add("/{0}.cshtml");
+				});
 
 			// TODO: Configure AddSessionStateTempDataProvider or AddCookieTempDataProvider
 

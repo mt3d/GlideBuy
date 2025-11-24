@@ -1,11 +1,15 @@
 ﻿using GlideBuy.Core.Caching;
 using GlideBuy.Core.Configuration;
 using GlideBuy.Core.Infrastructure;
+using GlideBuy.Data.Repositories;
 using GlideBuy.Services.Common;
 using GlideBuy.Services.Configuration;
 using GlideBuy.Services.Customers;
 using GlideBuy.Services.Orders;
+using GlideBuy.Services.ProductCatalog;
+using GlideBuy.Services.Shipping;
 using GlideBuy.Support;
+using GlideBuy.Web.Factories;
 
 namespace GlideBuy.Core.Infrastructure.StartupConfigurations
 {
@@ -31,6 +35,17 @@ namespace GlideBuy.Core.Infrastructure.StartupConfigurations
 			services.AddScoped<IAddressService, AddressService>();
 			services.AddScoped<ICustomerService, CustomerService>();
 			services.AddScoped<IOrderTotalCalculationService, OrderTotalCalculationService>();
+
+			services.AddScoped<ProductRepository>();
+			services.AddScoped<OrderRepository>();
+			services.AddScoped<ManufacturerRepository>();
+
+			services.AddScoped<IShoppingCartModelsFactory, ShoppingCartModelsFactory>();
+			services.AddScoped<ICheckoutModelFactory, CheckoutModelFactory>();
+			services.AddScoped<IAddressModelFactory, AddressModelFactory>();
+			services.AddScoped<IProductService, ProductService>();
+			services.AddScoped<IShippingService, ShippingService>();
+			services.AddScoped<ICatalogModelFactory, CatalogModelFactory>();
 
 			// TODO: Use Singleton.
 			TypeFinder typeFinder = new TypeFinder();
