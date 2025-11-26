@@ -4,7 +4,7 @@ namespace GlideBuy.Data
 {
 	public interface IDataRepository<T>
 	{
-		//	IQueryable<T> All { get; }
+		IQueryable<T> Table { get; }
 
 		//	void Add(IList<T> entitiies);
 		//	Task AddAsync(IList<T> entities);

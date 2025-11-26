@@ -8,6 +8,7 @@
 	/// </summary>
 	public interface IStaticCacheManager : IDisposable, ICacheKeyBuilder
 	{
+		// TODO: Rename to TryGetOrLoadAsync
 		/// <summary>
 		/// Get a cached item. If the item is not found, then load it and cache it.
 		/// </summary>

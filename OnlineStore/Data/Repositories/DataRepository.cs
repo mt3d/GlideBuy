@@ -11,7 +11,7 @@ namespace GlideBuy.Data
 		protected readonly StoreDbContext context;
 		protected readonly IStaticCacheManager staticCacheManager;
 
-		protected DbSet<T> Table;
+		public IQueryable<T> Table { get; }
 
 		public DataRepository(StoreDbContext context, IStaticCacheManager staticCacheManager)
 		{
