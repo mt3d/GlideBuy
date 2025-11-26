@@ -3,6 +3,7 @@ using GlideBuy.Core.Domain.Configuration;
 using GlideBuy.Core.Domain.Customers;
 using GlideBuy.Core.Domain.Directory;
 using GlideBuy.Core.Domain.Orders;
+using GlideBuy.Core.Domain.Seo;
 using GlideBuy.Models;
 using GlideBuy.Models.Localization;
 using Microsoft.EntityFrameworkCore;
@@ -28,6 +29,8 @@ namespace GlideBuy.Data
 
 		public DbSet<Customer> Customers => Set<Customer>();
 		public DbSet<CustomerRole> CustomerRoles => Set<CustomerRole>();
+
+		public DbSet<UrlRecord> UrlRecoreds => Set<UrlRecord>();
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
