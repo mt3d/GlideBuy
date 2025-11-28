@@ -1,12 +1,14 @@
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity;
-using GlideBuy.Services.ProductCatalog;
-using GlideBuy.Data.Repositories;
-using GlideBuy.Data;
-using GlideBuy.Web.Factories;
-using GlideBuy.Services.Orders;
-using GlideBuy.Services.Shipping;
 using GlideBuy.Core.Infrastructure;
+using GlideBuy.Data;
+using GlideBuy.Data.Repositories;
+using GlideBuy.Services.Orders;
+using GlideBuy.Services.ProductCatalog;
+using GlideBuy.Services.Shipping;
+using GlideBuy.Support.Mvc.Routing;
+using GlideBuy.Web.Factories;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,6 +33,9 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>()
 	.AddEntityFrameworkStores<AppIdentityDbContext>();
 
 builder.Services.AddSingleton<RouteProvider>();
+builder.Services.AddSingleton<GenericUrlRouteProvider>();
+builder.Services.AddSingleton<ICustomUrlHelper, CustomUrlHelper>();
+builder.Services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
 
 var app = builder.Build();
 

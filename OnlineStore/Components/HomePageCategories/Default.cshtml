@@ -1,5 +1,8 @@
-﻿@using GlideBuy.Web.Models.Catalog
+﻿@using GlideBuy.Models
+@using GlideBuy.Support.Mvc.Routing
+@using GlideBuy.Web.Models.Catalog
 @model IList<CategoryModel>
+@inject ICustomUrlHelper CustomUrlHelper
 
 @if (Model.Count > 0)
 {
@@ -10,7 +13,15 @@
 				<div class="item-box">
 					<div class="category-item">
 						<h2 class="title">
-							<a href="" title="">
+							@*
+								Calculates the correct URL format based on the routing
+								configuration (and the entity's search engine name. The SeName
+								is the slug stored in the database for that category.)
+							*@
+							<a
+								@* href="@(Url.RouteUrl<Category>(new { SearchEngineName = item.SearchEngineName }))" *@
+									href="@(await CustomUrlHelper.RouteGenericUrlAsync<Category>(new { SearchEngineName = item.SearchEngineName }))"
+									title="">
 								@item.Name
 							</a>
 						</h2>

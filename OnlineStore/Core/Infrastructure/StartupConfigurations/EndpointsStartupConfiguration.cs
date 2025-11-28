@@ -11,14 +11,12 @@ namespace GlideBuy.Core.Infrastructure.StartupConfigurations
 
 		public void ConfigureApp(IApplicationBuilder app)
 		{
-			app.UseRouting();
+			//app.UseRouting();
 
 			app.UseEndpoints(endpoints =>
 			{
-				// Resolve<IRoutePublisher>
-				// GetServiceProvider(scope)?.GetService(type);
-				// scope = null, type = IRoutePublisher
-				// IServiceProvider
+				// EngineContext.Current.Resolve<IRoutePublisher>
+				// => GetServiceProvider()?.GetService(typeof(IRoutePubliser));
 				//
 				// ServiceProvider?.GetService<IHttpContextAccessor>().HttpContext.RequestServices
 				// if null -> ServiceProvider
@@ -26,6 +24,7 @@ namespace GlideBuy.Core.Infrastructure.StartupConfigurations
 
 
 				app.ApplicationServices.GetService<RouteProvider>()?.AddRoutes(endpoints);
+				app.ApplicationServices.GetService<GenericUrlRouteProvider>()?.AddRoutes(endpoints);
 			});
 		}
 

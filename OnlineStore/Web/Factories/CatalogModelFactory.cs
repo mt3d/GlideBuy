@@ -35,7 +35,10 @@ namespace GlideBuy.Web.Factories
 					var categoryModel = new CategoryModel
 					{
 						Id = category.Id,
-						Name = category.Name
+						Name = category.Name,
+
+						// TODO: Use a service to generate a search-engine friendly name
+						SearchEngineName = category.Name
 					};
 
 					return categoryModel;

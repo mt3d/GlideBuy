@@ -1,11 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using GlideBuy.Core.Domain.Seo;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GlideBuy.Models
 {
-	public class Category
+	public class Category : BaseEntity, ISlugSupported
 	{
-		public int Id { get; set; }
-
 		public string Name { get; set; } = string.Empty;
 
 		public string Description { get; set; } = string.Empty;

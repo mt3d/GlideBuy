@@ -13,5 +13,7 @@
 		public string MetaDescription { get; set; }
 
 		public string MetaTitle { get; set; }
+
+		public string SearchEngineName { get; set; }
 	}
 }
