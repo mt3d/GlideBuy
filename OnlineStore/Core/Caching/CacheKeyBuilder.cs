@@ -81,7 +81,7 @@ namespace GlideBuy.Core.Caching
 			// TODO: Use CacheConfig
 			cacheKey.CacheTimeMinute = 60;
 
-			return key;
+			return cacheKey;
 		}
 	}
 
