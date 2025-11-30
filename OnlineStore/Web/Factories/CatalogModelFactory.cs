@@ -1,8 +1,10 @@
 ﻿using GlideBuy.Core.Caching;
 using GlideBuy.Data;
+using GlideBuy.Services.Seo;
 using GlideBuy.Web.Infrastructure.Cache;
 using GlideBuy.Web.Models.Catalog;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace GlideBuy.Web.Factories
 {
@@ -10,13 +12,16 @@ namespace GlideBuy.Web.Factories
 	{
 		private readonly IStaticCacheManager _staticCacheManager;
 		private readonly StoreDbContext _context;
+		private readonly IUrlRecordService _urlRecordService;
 
 		public CatalogModelFactory(
 			IStaticCacheManager staticCacheManager,
-			StoreDbContext storeDbContext)
+			StoreDbContext storeDbContext,
+			IUrlRecordService urlRecordService)
 		{
 			_staticCacheManager = staticCacheManager;
 			_context = storeDbContext;
+			_urlRecordService = urlRecordService;
 		}
 
 		public async Task<List<CategoryModel>> PrepareHomePageCategoryModelsAsync()
@@ -30,7 +35,8 @@ namespace GlideBuy.Web.Factories
 				// TODO: Use categories service
 				var categories = await _context.Categories.ToListAsync();
 
-				return categories.Select(category =>
+				// TODO: Use the .NET 10 AsynEnumerable.
+				return await categories.ToAsyncEnumerable().SelectAwait(async category =>
 				{
 					var categoryModel = new CategoryModel
 					{
@@ -38,11 +44,11 @@ namespace GlideBuy.Web.Factories
 						Name = category.Name,
 
 						// TODO: Use a service to generate a search-engine friendly name
-						SearchEngineName = category.Name
+						SearchEngineName = await _urlRecordService.GetSeNameAsync(category)
 					};
 
 					return categoryModel;
-				}).ToList();
+				}).ToListAsync();
 			});
 
 			return model;

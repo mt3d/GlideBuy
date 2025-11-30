@@ -7,6 +7,7 @@ using GlideBuy.Services.Configuration;
 using GlideBuy.Services.Customers;
 using GlideBuy.Services.Orders;
 using GlideBuy.Services.ProductCatalog;
+using GlideBuy.Services.Seo;
 using GlideBuy.Services.Shipping;
 using GlideBuy.Support;
 using GlideBuy.Web.Factories;
@@ -46,6 +47,7 @@ namespace GlideBuy.Core.Infrastructure.StartupConfigurations
 			services.AddScoped<IProductService, ProductService>();
 			services.AddScoped<IShippingService, ShippingService>();
 			services.AddScoped<ICatalogModelFactory, CatalogModelFactory>();
+			services.AddScoped<IUrlRecordService, UrlRecordService>();
 
 			// TODO: Use Singleton.
 			TypeFinder typeFinder = new TypeFinder();
