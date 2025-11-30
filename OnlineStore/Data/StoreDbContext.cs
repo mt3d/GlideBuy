@@ -30,7 +30,7 @@ namespace GlideBuy.Data
 		public DbSet<Customer> Customers => Set<Customer>();
 		public DbSet<CustomerRole> CustomerRoles => Set<CustomerRole>();
 
-		public DbSet<UrlRecord> UrlRecoreds => Set<UrlRecord>();
+		public DbSet<UrlRecord> UrlRecords => Set<UrlRecord>();
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{

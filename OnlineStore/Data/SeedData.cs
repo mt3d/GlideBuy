@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using GlideBuy.Models;
+using GlideBuy.Core.Domain.Seo;
 
 namespace GlideBuy.Data
 {
@@ -49,6 +50,17 @@ namespace GlideBuy.Data
 			if (!context.Categories.Any())
 			{
 				context.Categories.AddRange(categories);
+			}
+
+			if (!context.UrlRecords.Any())
+			{
+				context.UrlRecords.Add(new UrlRecord { EntityId = 1, EntityName = "Category", IsActive = true, Slug = "smartphone" });
+				context.UrlRecords.Add(new UrlRecord { EntityId = 2, EntityName = "Category", IsActive = true, Slug = "smartwatch" });
+				context.UrlRecords.Add(new UrlRecord { EntityId = 3, EntityName = "Category", IsActive = true, Slug = "earbuds" });
+				context.UrlRecords.Add(new UrlRecord { EntityId = 4, EntityName = "Category", IsActive = true, Slug = "laptops" });
+				context.UrlRecords.Add(new UrlRecord { EntityId = 5, EntityName = "Category", IsActive = true, Slug = "e-reader" });
+				context.UrlRecords.Add(new UrlRecord { EntityId = 6, EntityName = "Category", IsActive = true, Slug = "accessories" });
+				context.UrlRecords.Add(new UrlRecord { EntityId = 7, EntityName = "Category", IsActive = true, Slug = "smarthome" });
 			}
 			
 			if (!context.Products.Any())
@@ -196,8 +208,6 @@ namespace GlideBuy.Data
 				}
 				);
 				context.SaveChanges();
-
-				Console.WriteLine(context.Products);
 			}
 		}
 	}
