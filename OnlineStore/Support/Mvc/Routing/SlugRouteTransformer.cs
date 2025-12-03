@@ -17,13 +17,16 @@ namespace GlideBuy.Support.Mvc.Routing
 	 */
 	public class SlugRouteTransformer : DynamicRouteValueTransformer
 	{
-		private readonly UrlRecordService _urlRecordService;
+		private readonly IUrlRecordService _urlRecordService;
 
-		public SlugRouteTransformer(UrlRecordService urlRecordService)
+		public SlugRouteTransformer(IUrlRecordService urlRecordService)
 		{
 			_urlRecordService = urlRecordService;
 		}
 
+		/**
+		 * The routing middleware calls it when a matching dynamic endpoint is found, typically one that specifies {SeName:slug}. The method starts by copying the route values and then ensuring that a SeName key exists. It queries the IUrlRecordService using the slug to retrieve the UrlRecord. If no record is found, the method returns unchanged values, allowing MVC to fall back to other routes. If a record exists, the method publishes a routing event that allows plugins to short circuit the process. If the event does not stop processing, the transformer proceeds to examine whether the request contains a catalog path such as a category or manufacturer slug preceding the product slug. If so, it delegates to TryProductCatalogRoutingAsync, a method that specifically handles URLs of the form /catalogSlug/productSlug, depending on the configured product URL structure. This method verifies that the catalog portion is correct for the product and language, validates that the slugs match the active records, and potentially issues 301 redirects via InternalRedirect when discrepancies are detected. If everything is correct, it sets the controller to Product, the action to ProductDetails, and injects route parameters such as product ID and catalog seName, thereby completing the routing transformation.
+		 */
 		public override async ValueTask<RouteValueDictionary> TransformAsync(HttpContext httpContext, RouteValueDictionary values)
 		{
 			// 1. Extract the "slug" (e.g., "apple-macbook") from the URL.
@@ -33,6 +36,7 @@ namespace GlideBuy.Support.Mvc.Routing
 			}
 
 			// 2. Query the database.
+			// TODO: How could it be not a url record?
 			if (await _urlRecordService.GetBySlugAsync(slug?.ToString() ?? "") is not UrlRecord urlRecord)
 			{
 				return values;
@@ -47,6 +51,9 @@ namespace GlideBuy.Support.Mvc.Routing
 
 			// 5. Default Routing (e.g. /product)
 			await SingleSlugRoutingAsync(httpContext, values, urlRecord, catalogPath);
+
+			Console.WriteLine(values);
+			Console.WriteLine("Hello");
 
 			return values;
 		}
@@ -64,11 +71,15 @@ namespace GlideBuy.Support.Mvc.Routing
 		{
 			// TODO: Check if the slug is active.
 			var slug = urlRecord.Slug;
+			Console.WriteLine(slug.ToString());
 
 			switch (urlRecord.EntityName)
 			{
 				case var name when name.Equals(nameof(Product), StringComparison.InvariantCultureIgnoreCase):
 					RouteToAction(values, "Product", "ProductDetails", slug, ("productid", urlRecord.EntityId));
+					return;
+				case var name when name.Equals(nameof(Category), StringComparison.InvariantCultureIgnoreCase):
+					RouteToAction(values, "Catalog", "Category", slug, ("categoryid", urlRecord.EntityId));
 					return;
 			}
 		}
@@ -78,6 +89,11 @@ namespace GlideBuy.Support.Mvc.Routing
 			values["controller"] = controller;
 			values["action"] = action;
 			values["SeName"] = slug;
+
+			foreach (var (key, value) in parameters)
+			{
+				values[key] = value;
+			}
 		}
 	}
 }

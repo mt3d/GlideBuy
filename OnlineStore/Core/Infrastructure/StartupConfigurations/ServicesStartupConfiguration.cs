@@ -2,6 +2,7 @@
 using GlideBuy.Core.Configuration;
 using GlideBuy.Core.Infrastructure;
 using GlideBuy.Data.Repositories;
+using GlideBuy.Services.Catalog;
 using GlideBuy.Services.Common;
 using GlideBuy.Services.Configuration;
 using GlideBuy.Services.Customers;
@@ -10,6 +11,7 @@ using GlideBuy.Services.ProductCatalog;
 using GlideBuy.Services.Seo;
 using GlideBuy.Services.Shipping;
 using GlideBuy.Support;
+using GlideBuy.Support.Mvc.Routing;
 using GlideBuy.Web.Factories;
 
 namespace GlideBuy.Core.Infrastructure.StartupConfigurations
@@ -48,6 +50,10 @@ namespace GlideBuy.Core.Infrastructure.StartupConfigurations
 			services.AddScoped<IShippingService, ShippingService>();
 			services.AddScoped<ICatalogModelFactory, CatalogModelFactory>();
 			services.AddScoped<IUrlRecordService, UrlRecordService>();
+			services.AddScoped<ICategoryService,  CategoryService>();
+
+			// TODO: Check if the database is installed. Why?
+			services.AddScoped<SlugRouteTransformer>();
 
 			// TODO: Use Singleton.
 			TypeFinder typeFinder = new TypeFinder();

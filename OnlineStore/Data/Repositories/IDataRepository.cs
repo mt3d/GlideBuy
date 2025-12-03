@@ -36,5 +36,7 @@ namespace GlideBuy.Data
 		Task InsertAsync(T entity);
 
 		Task UpdateAsync(T entity, bool publishEvent = true);
+
+		Task<T?> GetByIdAsync(int? id, Func<ICacheKeyBuilder, CacheKey> getCacheKey = null, bool includeDeleted = true);
 	}
 }

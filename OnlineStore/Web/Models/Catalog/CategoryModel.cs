@@ -14,6 +14,6 @@
 
 		public string MetaTitle { get; set; }
 
-		public string SearchEngineName { get; set; }
+		public string SeName { get; set; }
 	}
 }

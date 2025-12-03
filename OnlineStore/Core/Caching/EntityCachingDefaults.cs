@@ -7,5 +7,7 @@ namespace GlideBuy.Core.Caching
 		public static string EntityTypeName => typeof(T).Name.ToLowerInvariant();
 
 		public static CacheKey AllCacheKey => new($"GlideBuy.{EntityTypeName}.all");
+
+		public static CacheKey ByIdCacheKey => new($"GlideBuy.{EntityTypeName}.byid.{{0}}");
 	}
 }

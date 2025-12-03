@@ -33,18 +33,20 @@ namespace GlideBuy.Core.Infrastructure
 
 			// TODO: Move to a static class
 			var CatalogSeName = "CatalogSeName";
-			var SearchEngineName = "SearchEngineName";
+			var SeName = "SeName";
 
 			// Matches: /en/category-slug/product-slug
-			var genericCatalogPattern = $"{lang}/{{{CatalogSeName}}}/{{{SearchEngineName}}}";
+			var genericCatalogPattern = $"{lang}/{{{CatalogSeName}}}/{{{SeName}}}";
 			// Matches: /en/product-slug (or category-slug, blog-slug, etc.)
-			var genericPattern = $"{lang}/{{{SearchEngineName}}}";
+			var genericPattern = $"{lang}/{{{SeName}}}";
 
 			/**
-			 * What is MapDynamicControllerRoute? It tells ASP.NET Core: "I see a URL pattern like /some-text, but I don't know which Controller handles it. Please ask the SlugRouteTransformer class to figure it out."
+			 * What is MapDynamicControllerRoute? It tells ASP.NET Core: "I see a URL
+			 * pattern like /some-text, but I don't know which Controller handles it.
+			 * Please ask the SlugRouteTransformer class to figure it out."
 			 */
 			builder.MapDynamicControllerRoute<SlugRouteTransformer>(genericCatalogPattern);
-
+			builder.MapDynamicControllerRoute<SlugRouteTransformer>(genericPattern);
 
 
 

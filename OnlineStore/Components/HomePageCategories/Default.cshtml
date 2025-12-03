@@ -19,8 +19,8 @@
 								is the slug stored in the database for that category.)
 							*@
 							<a
-								@* href="@(Url.RouteUrl<Category>(new { SearchEngineName = item.SearchEngineName }))" *@
-									href="@(await CustomUrlHelper.RouteGenericUrlAsync<Category>(new { SearchEngineName = item.SearchEngineName }))"
+								@* href="@(Url.RouteUrl<Category>(new { SeName = item.SeName }))" *@
+									href="@(await CustomUrlHelper.RouteGenericUrlAsync<Category>(new { SeName = item.SeName }))"
 									title="">
 								@item.Name
 							</a>

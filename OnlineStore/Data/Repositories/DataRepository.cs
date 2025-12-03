@@ -9,14 +9,14 @@ namespace GlideBuy.Data
 	public class DataRepository<T> : IDataRepository<T> where T : BaseEntity
 	{
 		protected readonly StoreDbContext context;
-		protected readonly IStaticCacheManager staticCacheManager;
+		protected readonly IStaticCacheManager _staticCacheManager;
 
 		public IQueryable<T> Table { get; }
 
 		public DataRepository(StoreDbContext context, IStaticCacheManager staticCacheManager)
 		{
 			this.context = context;
-			this.staticCacheManager = staticCacheManager;
+			this._staticCacheManager = staticCacheManager;
 
 			/**
 			 * Entity Framework requires that this method return the same instance
@@ -53,10 +53,10 @@ namespace GlideBuy.Data
 				return await getData();
 			}
 
-			var cacheKey = getCacheKey(staticCacheManager)
-				?? staticCacheManager.BuildKeyWithDefaultCacheTime(EntityCachingDefaults<T>.AllCacheKey);
+			var cacheKey = getCacheKey(_staticCacheManager)
+				?? _staticCacheManager.BuildKeyWithDefaultCacheTime(EntityCachingDefaults<T>.AllCacheKey);
 
-			return await staticCacheManager.TryGetOrLoad(cacheKey, getData);
+			return await _staticCacheManager.TryGetOrLoad(cacheKey, getData);
 		}
 
 		/// <summary>
@@ -113,6 +113,39 @@ namespace GlideBuy.Data
 			{
 				// TODO: Publish an event.
 			}
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <remarks>
+		/// If getCacheKey is null, then caching will not be used. However, if a function
+		/// that returns a default is passed, then the default cache key will be used.
+		/// </remarks>
+		public async Task<T?> GetByIdAsync(int? id, Func<ICacheKeyBuilder, CacheKey> getCacheKey = null, bool includeDeleted = true)
+		{
+			if (!id.HasValue || id == 0)
+			{
+				return null;
+			}
+
+			async Task<T?> getEntityAsync()
+			{
+				return await AddDeletedFilter(Table, includeDeleted).FirstOrDefaultAsync(entity => entity.Id == id);
+			}
+
+			if (getCacheKey == null)
+			{
+				return await getEntityAsync();
+			}
+
+			// TODO: Add an option to use a short-term cach manager
+			ICacheKeyBuilder cacheKeyBuilder = _staticCacheManager;
+
+			var cacheKey = getCacheKey(cacheKeyBuilder)
+							?? cacheKeyBuilder.BuildKeyWithDefaultCacheTime(EntityCachingDefaults<T>.ByIdCacheKey, id);
+
+			return await _staticCacheManager.TryGetOrLoad(cacheKey, getEntityAsync);
 		}
 	}
 }

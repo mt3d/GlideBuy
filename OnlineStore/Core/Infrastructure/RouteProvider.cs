@@ -42,11 +42,11 @@
 				new { Controller = "Home", action = "Index", productPage = 1 });
 
 			// Shows the first page of items from a specific category
-			builder.MapControllerRoute("category",
-				"{category}",
-				new { Controller = "Home", action = "Index", productPage = 1 });
+			//builder.MapControllerRoute("category",
+			//	"{category}",
+			//	new { Controller = "Home", action = "Index", productPage = 1 });
 
-			builder.MapDefaultControllerRoute();
+			//builder.MapDefaultControllerRoute();
 		}
 	}
 }

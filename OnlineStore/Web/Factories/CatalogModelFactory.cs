@@ -44,7 +44,7 @@ namespace GlideBuy.Web.Factories
 						Name = category.Name,
 
 						// TODO: Use a service to generate a search-engine friendly name
-						SearchEngineName = await _urlRecordService.GetSeNameAsync(category)
+						SeName = await _urlRecordService.GetSeNameAsync(category)
 					};
 
 					return categoryModel;
