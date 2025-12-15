@@ -1,0 +1,23 @@
+﻿@using GlideBuy.Components.Logo
+<div class="header d-flex">
+	<div class="header-upper">
+
+	</div>
+
+	<div class="header-lower d-flex">
+		<div class="header-logo">
+			@await Component.InvokeAsync(typeof(LogoViewComponent))
+		</div>
+		<div class="search-box store-search-box">
+
+		</div>
+	</div>
+
+</div>
+
+<style>
+	.header {
+		width: 1200px;
+		margin: auto;
+	}
+</style>

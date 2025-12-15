@@ -1,0 +1,13 @@
+﻿@using GlideBuy.Models.Common
+@model LogoModel
+
+<a href="@Url.RouteUrl("Homeage")">
+	<img title="" alt="@Model.StoreName" src="@Model.LogoPath" />
+</a>
+
+<style>
+	.header-logo a img {
+		max-width: 250px;
+		opacity: 1;
+	}
+</style>

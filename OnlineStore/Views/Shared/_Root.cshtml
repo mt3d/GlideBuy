@@ -9,9 +9,15 @@
 <body>
 	<script src="~/lib/jquery/jquery.min.js"></script>
 
-	<div class="bg-dark text-white p-2">
+	@* TODO: Render Header *@
+	@* Alternatively, you can render a partial view with RenderPartialAsync. This method doesn't return an IHtmlContent. It streams the rendered output directly to the response. Because the method doesn't return a result, it must be called within a Razor code block. Since RenderPartialAsync streams rendered content, it provides better performance in some scenarios.*@
+	@{ await Html.RenderPartialAsync("_Header"); }
+
+@* 	<div class="bg-dark text-white p-2">
 		<span class="navbar-brand ml-2">Glide Buy</span>
-	</div>
+	</div> *@
+
+	@* TODO: Render header menu *@
 
 	<div class="main-wrapper-page">
 

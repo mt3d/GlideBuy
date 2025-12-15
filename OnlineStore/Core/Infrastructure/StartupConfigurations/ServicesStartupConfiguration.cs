@@ -51,6 +51,7 @@ namespace GlideBuy.Core.Infrastructure.StartupConfigurations
 			services.AddScoped<ICatalogModelFactory, CatalogModelFactory>();
 			services.AddScoped<IUrlRecordService, UrlRecordService>();
 			services.AddScoped<ICategoryService,  CategoryService>();
+			services.AddScoped<ICommonModelFactory, CommonModelFactory>();
 
 			// TODO: Check if the database is installed. Why?
 			services.AddScoped<SlugRouteTransformer>();
