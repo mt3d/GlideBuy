@@ -1,6 +1,5 @@
 ﻿using GlideBuy.Core.Caching;
 using GlideBuy.Core.Configuration;
-using GlideBuy.Core.Infrastructure;
 using GlideBuy.Data.Repositories;
 using GlideBuy.Services.Catalog;
 using GlideBuy.Services.Common;

@@ -16,10 +16,12 @@ namespace GlideBuy.Support
 
 		public WebWorkContext(
 			ICustomerService customerService,
-			IHttpContextAccessor httpContextAccessor)
+			IHttpContextAccessor httpContextAccessor,
+			CookieSettings cookieSettings)
 		{
 			_customerService = customerService;
 			_httpContextAccessor = httpContextAccessor;
+			_cookieSettings = cookieSettings;
 		}
 
 		private void SetCustomerCookie(Guid customerGuid)
@@ -46,7 +48,7 @@ namespace GlideBuy.Support
 			{
 				HttpOnly = true,
 				Expires = cookieExpirationDate,
-				Secure = true // TODO: Check if the connection is secure
+				Secure = false // TODO: Check if the connection is secure
 			};
 
 			_httpContextAccessor.HttpContext.Response.Cookies.Append(cookieName, customerGuid.ToString(), options);

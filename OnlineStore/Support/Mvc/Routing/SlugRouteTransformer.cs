@@ -52,9 +52,6 @@ namespace GlideBuy.Support.Mvc.Routing
 			// 5. Default Routing (e.g. /product)
 			await SingleSlugRoutingAsync(httpContext, values, urlRecord, catalogPath);
 
-			Console.WriteLine(values);
-			Console.WriteLine("Hello");
-
 			return values;
 		}
 

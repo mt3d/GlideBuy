@@ -4,6 +4,6 @@ namespace GlideBuy.Core.Security
 {
 	public class CookieSettings : ISettings
 	{
-		public int CustomerCookieExpiresHours { get; set; }
+		public int CustomerCookieExpiresHours { get; set; } = 1;
 	}
 }
