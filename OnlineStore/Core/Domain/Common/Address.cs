@@ -10,11 +10,11 @@ namespace GlideBuy.Core.Domain.Common
 
 		public string Email { get; set; }
 
-		public string Company { get; set; }
+		public string Company { get; set; } = string.Empty;
 
 		public int? CountryId { get; set; }
 
-		public string Country { get; set; }
+		public string Country { get; set; } = string.Empty;
 
 		public DateTime CreateOnUtc { get; set; }
 	}
