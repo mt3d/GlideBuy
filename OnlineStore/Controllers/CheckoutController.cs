@@ -9,10 +9,12 @@ using GlideBuy.Services.Common;
 using GlideBuy.Services.Customers;
 using GlideBuy.Core;
 using GlideBuy.Models;
+using GlideBuy.Support.Controllers;
+using Microsoft.AspNetCore.Mvc.Razor;
 
 namespace GlideBuy.Controllers
 {
-	public class CheckoutController : Controller
+	public class CheckoutController : BaseController
 	{
 		private OrderRepository repository;
 		private IShoppingCartService _shoppingCartService;
@@ -31,7 +33,8 @@ namespace GlideBuy.Controllers
 			IAddressService addressService,
 			ICustomerService customerService,
 			IWorkContext workContext,
-			IOrderProcessingService orderProcessingService)
+			IOrderProcessingService orderProcessingService,
+			IRazorViewEngine viewEngine) : base(viewEngine)
 		{
 			this.repository = orderRepository;
 			_shoppingCartService = shoppingCartService;
@@ -127,7 +130,7 @@ namespace GlideBuy.Controllers
 
 				if (billingAddressId > 0) // existing address
 				{
-
+					// TODO: Get customer by id and update it.
 				}
 				else
 				{
@@ -138,12 +141,14 @@ namespace GlideBuy.Controllers
 					if (!ModelState.IsValid)
 					{
 						var billingAddressModel = new CheckoutBillingAddressModel();
+						await _checkoutModelFactory.PrepareBillingAddressModelAsync(billingAddressModel, cart);
 
 						return Json(new
 						{
 							update_section = new
 							{
-								name = "billing"
+								name = "billing",
+								html = await RenderPartialViewToStringAsync("OpcBillingAddress", billingAddressModel)
 							},
 							wrong_billing_address = true,
 							error = true,
@@ -159,7 +164,7 @@ namespace GlideBuy.Controllers
 					// The model is valid, create an address entity.
 
 					// TODO: Search for the address first
-					Address address = null;
+					Address? address = null;
 
 					if (address == null)
 					{
@@ -183,7 +188,11 @@ namespace GlideBuy.Controllers
 			{
 				// TODO: Log the exception.
 
-				return Json(new { error = 1, message = ex.Message });
+				return Json(new 
+				{
+					error = true,
+					message = ex.Message
+				});
 			}
 		}
 

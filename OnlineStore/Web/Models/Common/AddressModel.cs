@@ -14,27 +14,27 @@ namespace GlideBuy.Web.Models.Common
 
 		public bool CountryEnabled { get; set; }
 		public int? CountryId { get; set; }
-		public string CountryName { get; set; }
+		//public string CountryName { get; set; }
 
-		public int? DefaultCountryId { get; set; }
+		//public int? DefaultCountryId { get; set; }
 
-		public bool CityEnabled { get; set; }
-		public bool CityRequired { get; set; }
-		public string City { get; set; }
+		//public bool CityEnabled { get; set; }
+		//public bool CityRequired { get; set; }
+		//public string City { get; set; }
 
-		public bool StreetAddressEnabled { get; set; }
-		public bool StreetAddressRequired { get; set; }
-		public string Address1 { get; set; }
+		//public bool StreetAddressEnabled { get; set; }
+		//public bool StreetAddressRequired { get; set; }
+		//public string Address1 { get; set; }
 
-		public bool StreetAddress2Enabled { get; set; }
-		public bool StreetAddress2Required { get; set; }
-		public string Address2 { get; set; }
+		//public bool StreetAddress2Enabled { get; set; }
+		//public bool StreetAddress2Required { get; set; }
+		//public string Address2 { get; set; }
 
-		public bool ZipCodeEnabled { get; set; }
-		public bool ZipCodeRequired { get; set; }
-		public string ZipCode { get; set; }
+		//public bool ZipCodeEnabled { get; set; }
+		//public bool ZipCodeRequired { get; set; }
+		//public string ZipCode { get; set; }
 
-		public IList<SelectListItem> AvailableCountries { get; set; }
+		public IList<SelectListItem> AvailableCountries { get; set; } = new List<SelectListItem>();
 
 		public Address ToEntity()
 		{

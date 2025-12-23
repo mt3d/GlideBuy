@@ -11,6 +11,6 @@ namespace GlideBuy.Web.Models.Checkout
 		public bool ShipToSameAddress { get; set; }
 		public bool ShipToSameAddressAllowed { get; set; }
 
-		public string VatNumber { get; set; }
+		// TODO: Add VAT Number.
 	}
 }

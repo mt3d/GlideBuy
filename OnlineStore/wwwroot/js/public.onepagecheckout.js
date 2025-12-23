@@ -10,6 +10,7 @@ var Checkout = {
 
         if (response.goto_section) {
             Checkout.gotoSection(response.goto_section);
+            console.log(response.goto_section);
             return true;
         }
     }
@@ -29,6 +30,7 @@ var Billing = {
     },
     
     save: function () {
+        console.log("Saving...");
 
         $.ajax({
             cache: false,
@@ -43,6 +45,12 @@ var Billing = {
 
     nextStep: function (response) {
         if (response.error) {
+            if (typeof response.message === 'string') {
+                alert(response.message);
+            } else {
+                alert(response.message.join("\n"));
+            }
+
             return false;
         }
 

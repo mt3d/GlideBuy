@@ -33,12 +33,12 @@ namespace GlideBuy.Web.Factories
 				DisableBillingAddressCheckoutStep = _orderSettings.DisableBillingAddressCheckoutStep // TODO: Check if the customer has saved addresses.
 			};
 
-			await PrepareBillingAddressModelAsyn(model.BillingAddress, cart);
+			await PrepareBillingAddressModelAsync(model.BillingAddress, cart);
 
 			return model;
 		}
 
-		public async Task PrepareBillingAddressModelAsyn(
+		public async Task PrepareBillingAddressModelAsync(
 			CheckoutBillingAddressModel model,
 			IList<ShoppingCartItem> cart,
 			int? selectedCountryId = null,

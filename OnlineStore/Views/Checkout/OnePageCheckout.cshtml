@@ -74,7 +74,7 @@
 					<script>
 						Billing.init(
 							'#co-billing-form',
-							'@(storeLocation)checkout/OpcSaveBillingInformation/',
+							'http://localhost:5000/checkout/OpcSaveBillingInformation/',
 							@(Model.DisableBillingAddressCheckoutStep.ToString().ToLowerInvariant()),
 							true
 							);

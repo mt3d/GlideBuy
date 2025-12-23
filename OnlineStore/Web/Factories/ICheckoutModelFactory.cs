@@ -6,5 +6,11 @@ namespace GlideBuy.Web.Factories
 	public interface ICheckoutModelFactory
 	{
 		Task<OnePageCheckoutModel> PrepareOnePageCheckoutModelAsync(IList<ShoppingCartItem> cart);
+
+		Task PrepareBillingAddressModelAsync(
+		   CheckoutBillingAddressModel model,
+		   IList<ShoppingCartItem> cart,
+		   int? selectedCountryId = null,
+		   bool prePopulateNewAddressWithCustomerFields = false);
 	}
 }
