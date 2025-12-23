@@ -25,6 +25,11 @@ namespace GlideBuy.Controllers
 		public async Task<IActionResult> Category(int categoryId)
 		{
 			var category = await _categoryService.GetCategoryByIdAsync(categoryId);
+			if (category is null)
+			{
+				return NotFound();
+			}
+
 			var categoryName = category.Name;
 			int productPage = 1;
 
