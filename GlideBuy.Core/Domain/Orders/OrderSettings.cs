@@ -1,9 +1,4 @@
 ﻿using GlideBuy.Core.Configuration;
-using GlideBuy.Models;
-using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.Extensions.Configuration;
-using System.Drawing;
-using System.Net.NetworkInformation;
 
 namespace GlideBuy.Core.Domain.Orders
 {

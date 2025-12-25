@@ -1,4 +1,6 @@
-﻿namespace GlideBuy.Models
+﻿using GlideBuy.Core.Domain.Orders;
+
+namespace GlideBuy.Models
 {
 	public class Cart
 	{
@@ -25,15 +27,5 @@
 		public decimal ComputeTotalValues() => Lines.Sum(e => e.Product.Price * e.Quantity);
 
 		public virtual void Clear() => Lines.Clear();
-	}
-
-	public class ShoppingCartItem
-	{
-		public int ShoppingCartItemId { get; set; }
-
-		// TODO: Store the product or just the ID?
-		public Product Product { get; set; } = new();
-
-		public int Quantity { get; set; }
 	}
 }

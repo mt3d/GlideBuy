@@ -1,7 +1,6 @@
 ﻿using GlideBuy.Core.Domain.Orders;
 using GlideBuy.Services.Orders;
 using GlideBuy.Web.Models.ShoppingCart;
-using GlideBuy.Models;
 using GlideBuy.Services.ProductCatalog;
 using GlideBuy.Core.Domain.Common;
 

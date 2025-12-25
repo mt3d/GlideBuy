@@ -1,4 +1,4 @@
-﻿using GlideBuy.Models;
+﻿using GlideBuy.Core.Domain.Orders;
 using GlideBuy.Services.ProductCatalog;
 
 namespace GlideBuy.Services.Shipping

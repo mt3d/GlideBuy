@@ -1,4 +1,5 @@
-﻿using GlideBuy.Models;
+﻿using GlideBuy.Core.Domain.Orders;
+using GlideBuy.Models;
 
 namespace GlideBuy.Services.Orders
 {

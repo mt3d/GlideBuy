@@ -1,4 +1,4 @@
-﻿using GlideBuy.Models;
+﻿using GlideBuy.Core.Domain.Orders;
 using GlideBuy.Web.Models.Checkout;
 
 namespace GlideBuy.Web.Factories

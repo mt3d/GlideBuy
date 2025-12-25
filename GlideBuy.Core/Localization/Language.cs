@@ -1,6 +1,4 @@
-﻿using GlideBuy.Pages.Admin.Product;
-
-namespace GlideBuy.Models.Localization
+﻿namespace GlideBuy.Models.Localization
 {
 	public class Language
 	{

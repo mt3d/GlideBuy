@@ -1,4 +1,5 @@
-﻿using GlideBuy.Core.Infrastructure;
+﻿using GlideBuy.Core.Domain.Orders;
+using GlideBuy.Core.Infrastructure;
 using GlideBuy.Models;
 using GlideBuy.Services.Shipping;
 
