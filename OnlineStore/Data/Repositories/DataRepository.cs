@@ -83,7 +83,7 @@ namespace GlideBuy.Data
 
 				if (queryModifier != null)
 				{
-					queryModifier(query);
+					query = queryModifier(query);
 				}
 
 				return await query.ToListAsync();
