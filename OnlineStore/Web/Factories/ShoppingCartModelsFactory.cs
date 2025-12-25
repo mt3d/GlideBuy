@@ -1,7 +1,7 @@
 ﻿using GlideBuy.Core.Domain.Orders;
 using GlideBuy.Services.Orders;
 using GlideBuy.Web.Models.ShoppingCart;
-using GlideBuy.Services.ProductCatalog;
+using GlideBuy.Services.Catalog;
 using GlideBuy.Core.Domain.Common;
 
 namespace GlideBuy.Web.Factories
@@ -36,7 +36,7 @@ namespace GlideBuy.Web.Factories
 
 			var cartItemModel = new ShoppingCartModel.ShoppingCartItemModel
 			{
-				ProductId = item.Product.ProductId ?? 0,
+				ProductId = item.Product.Id,
 				Sku = await productService.FormatSkuAsync(item.Product),
 				// TODO: Localize name
 				ProductName = item.Product.Name,

@@ -46,7 +46,7 @@ namespace GlideBuy.Data
 
 		private async Task<IList<T>> ExecuteWithCachingAsync(
 			Func<Task<IList<T>>> getData,
-			Func<IStaticCacheManager, CacheKey> getCacheKey)
+			Func<IStaticCacheManager, CacheKey>? getCacheKey)
 		{
 			if (getCacheKey == null)
 			{

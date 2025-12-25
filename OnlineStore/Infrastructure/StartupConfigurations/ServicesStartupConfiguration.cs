@@ -6,7 +6,6 @@ using GlideBuy.Services.Common;
 using GlideBuy.Services.Configuration;
 using GlideBuy.Services.Customers;
 using GlideBuy.Services.Orders;
-using GlideBuy.Services.ProductCatalog;
 using GlideBuy.Services.Seo;
 using GlideBuy.Services.Shipping;
 using GlideBuy.Support;

@@ -1,7 +1,11 @@
-﻿    <!-- Our Products Start -->
+﻿@using GlideBuy.Models.Catalog
+@model IList<ProductOverviewModel>
+
+<!-- Our Products Start -->
 <div class="container-fluid product py-5">
     <div class="container py-5">
         <div class="tab-class">
+
             <div class="row g-4">
                 <div class="col-lg-4 text-start wow fadeInLeft" data-wow-delay="0.1s">
                     <h1>Our Products</h1>
@@ -32,9 +36,19 @@
                     </ul>
                 </div>
             </div>
+
             <div class="tab-content">
+
                 <div id="tab-1" class="tab-pane fade show p-0 active">
                     <div class="row g-4">
+
+                        @foreach (var item in Model)
+                        {
+                            <div class="col-md-6 col-lg-4 col-xl-3">
+                                @await Html.PartialAsync("_ProductBox", item)
+                            </div>
+                        }
+
                         <div class="col-md-6 col-lg-4 col-xl-3">
                             <div class="product-item rounded wow fadeInUp" data-wow-delay="0.1s">
                                 <div class="product-item-inner border rounded">
@@ -81,6 +95,7 @@
                                 </div>
                             </div>
                         </div>
+
                         <div class="col-md-6 col-lg-4 col-xl-3">
                             <div class="product-item rounded wow fadeInUp" data-wow-delay="0.3s">
                                 <div class="product-item-inner border rounded">
@@ -409,6 +424,7 @@
                         </div>
                     </div>
                 </div>
+
                 <div id="tab-2" class="tab-pane fade show p-0">
                     <div class="row g-4">
                         <div class="col-md-6 col-lg-4 col-xl-3">
@@ -598,6 +614,7 @@
                         </div>
                     </div>
                 </div>
+
                 <div id="tab-3" class="tab-pane fade show p-0">
                     <div class="row g-4">
                         <div class="col-md-6 col-lg-4 col-xl-3">
@@ -785,6 +802,7 @@
                         </div>
                     </div>
                 </div>
+
                 <div id="tab-4" class="tab-pane fade show p-0">
                     <div class="row g-4">
                         <div class="col-md-6 col-lg-4 col-xl-3">

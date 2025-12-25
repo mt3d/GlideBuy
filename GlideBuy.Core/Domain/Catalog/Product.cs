@@ -1,14 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Mvc;
 using GlideBuy.Core.Domain.Catalog;
 
 namespace GlideBuy.Models
 {
-	public class Product
+	public class Product : BaseEntity
 	{
-		public long? ProductId { get; set; }
-
 		[Required(ErrorMessage = "Please enter a product name")]
 		public string Name { get; set; } = String.Empty;
 
@@ -22,7 +19,6 @@ namespace GlideBuy.Models
 		[Column(TypeName = "decimal(8, 2)")]
 		public decimal Price { get; set; }
 
-		//[Required(ErrorMessage = "Please specify a category")]
 		public Category? Category { get; set; }
 
 		// public Manufacturer Manufacturer {get;set;}
@@ -90,5 +86,14 @@ namespace GlideBuy.Models
 		/// Gets or sets how the inventory is managed.
 		/// </summary>
 		public InventoryManagementMethod InventoryManagementMethod { get; set; }
+
+		public bool Published { get; set; }
+
+		/// <summary>
+		/// For ordering products displayed on the home page.
+		/// </summary>
+		public int DisplayOrder { get; set; }
+
+		public bool ShowOnHomePage { get; set; }
 	}
 }

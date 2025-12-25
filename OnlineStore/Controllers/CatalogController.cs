@@ -38,7 +38,7 @@ namespace GlideBuy.Controllers
 				// TODO: Replace with category id.
 				Products = productRepository.Products.Include(p => p.Category)
 					.Where(p => categoryName == null || p.Category.Name == categoryName)
-					.OrderBy(p => p.ProductId)
+					.OrderBy(p => p.Id)
 					.Skip((productPage - 1) * PageSize)
 					.Take(PageSize),
 				PagingInfo = new PagingInfo

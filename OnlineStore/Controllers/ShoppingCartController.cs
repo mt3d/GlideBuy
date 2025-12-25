@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using GlideBuy.Models;
-using GlideBuy.Services.ProductCatalog;
+using GlideBuy.Services.Catalog;
 using GlideBuy.Web.Models.ShoppingCart;
 using GlideBuy.Web.Factories;
 using GlideBuy.Support.Controllers;
@@ -81,7 +81,7 @@ namespace GlideBuy.Controllers
 		{
 			var cart = await _shoppingCartService.GetShoppingCartAsync();
 
-			_shoppingCartService.DeleteShoppingCartItemAsync(cart.First(cl => cl.Product.ProductId == productId).Product);
+			_shoppingCartService.DeleteShoppingCartItemAsync(cart.First(cl => cl.Product.Id == productId).Product);
 
 			return RedirectToRoute("ShoppingCart", new { returnUrl = returnUrl });
 		}

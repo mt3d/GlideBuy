@@ -1,5 +1,5 @@
 ﻿using GlideBuy.Core.Domain.Orders;
-using GlideBuy.Services.ProductCatalog;
+using GlideBuy.Services.Catalog;
 
 namespace GlideBuy.Services.Shipping
 {

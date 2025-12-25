@@ -13,12 +13,12 @@
 </h3>
 <EditForm Model="Product" OnValidSubmit="SaveProduct">
 	<DataAnnotationsValidator/>
-	@if (Product.ProductId.HasValue && Product.ProductId.Value != 0) {
-		<div class="form-group">
+@* 	@if (Product.Id.HasValue && Product.Id.Value != 0) {
+ *@		<div class="form-group">
 			<label>ID</label>
-			<input class="form-control" disabled value="@Product.ProductId" />
+			<input class="form-control" disabled value="@Product.Id" />
 		</div>
-	}
+	@* } *@
 	<div class="form-group">
 		<label>Name</label>
 		<ValidationMessage For="@(() => Product.Name)" />

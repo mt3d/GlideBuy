@@ -1,12 +1,13 @@
 ﻿using GlideBuy.Models;
 
-namespace GlideBuy.Services.ProductCatalog
+namespace GlideBuy.Services.Catalog
 {
 	public interface IProductService
 	{
 		#region Products
 
 		Product? GetProductById(long productId);
+
 		Task<Product?> GetProductByIdAsync(long productId);
 
 		// TODO: Use PagedList
@@ -19,6 +20,8 @@ namespace GlideBuy.Services.ProductCatalog
 		bool CheckProductAvailability(Product product, DateTime? dateTime = null);
 
 		Task<string> FormatSkuAsync(Product product, string? attributesXml = null);
+
+		Task<IList<Product>> GetAllProductsDisplayedOnHomepageAsync();
 
 		#endregion
 	}

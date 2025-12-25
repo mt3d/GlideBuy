@@ -69,7 +69,7 @@ namespace GlideBuy.Data.Repositories
 
 			return context.Products
 				.Include(p => p.Category)
-				.FirstOrDefault(p => p.ProductId == id);
+				.FirstOrDefault(p => p.Id == id);
 		}
 
 		public async Task<Product?> GetByIdAsync(long? id, bool includeDeleted = true)
@@ -83,7 +83,7 @@ namespace GlideBuy.Data.Repositories
 
 			return await context.Products
 				.Include(p => p.Category)
-				.FirstOrDefaultAsync(p => p.ProductId == id);
+				.FirstOrDefaultAsync(p => p.Id == id);
 		}
 
 		//IList<T> GetByIds(IList<long> ids, bool includeDeleted = true);

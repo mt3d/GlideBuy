@@ -2,7 +2,7 @@ using GlideBuy.Core.Infrastructure;
 using GlideBuy.Data;
 using GlideBuy.Data.Repositories;
 using GlideBuy.Services.Orders;
-using GlideBuy.Services.ProductCatalog;
+using GlideBuy.Services.Catalog;
 using GlideBuy.Services.Shipping;
 using GlideBuy.Support.Mvc.Routing;
 using GlideBuy.Web.Factories;

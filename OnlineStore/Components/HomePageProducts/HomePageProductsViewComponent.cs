@@ -1,12 +1,25 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using GlideBuy.Models.Catalog;
+using GlideBuy.Services.Catalog;
+using Microsoft.AspNetCore.Mvc;
 
 namespace GlideBuy.Components
 {
 	public class HomePageProductsViewComponent : ViewComponent
 	{
+		private readonly IProductService _productService;
+
+		public HomePageProductsViewComponent(IProductService productService)
+		{
+			_productService = productService;
+		}
+
 		public async Task<IViewComponentResult> InvokeAsync()
 		{
-			return View();
+			var products = _productService.GetAllProductsDisplayedOnHomepageAsync();
+
+			var model = new List<ProductOverviewModel>();
+
+			return View(model);
 		}
 	}
 }

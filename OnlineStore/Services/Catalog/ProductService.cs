@@ -1,16 +1,30 @@
 ﻿using GlideBuy.Data.Repositories;
 using GlideBuy.Models;
 using GlideBuy.Core.Domain.Catalog;
+using GlideBuy.Data;
 
-namespace GlideBuy.Services.ProductCatalog
+namespace GlideBuy.Services.Catalog
 {
 	public class ProductService : IProductService
 	{
 		protected readonly ProductRepository productRepository;
+		protected readonly IDataRepository<Product> _productRepository;
 
-		public ProductService(ProductRepository productRepository)
+		public ProductService(ProductRepository productRepository, IDataRepository<Product> repo)
 		{
 			this.productRepository = productRepository;
+			_productRepository = repo;
+		}
+
+		public async Task<IList<Product>> GetAllProductsDisplayedOnHomepageAsync()
+		{
+			var products = await _productRepository.GetAllAsync(query =>
+			{
+				return query.OrderBy(p => p.DisplayOrder).ThenBy(p => p.Id)
+					.Where(p => p.Published && !p.Deleted && p.ShowOnHomePage);
+			}, cache => cache.BuildKeyWithDefaultCacheTime(CatalogDefaults.ProductsHomepageCacheKey));
+
+			return products;
 		}
 
 		public Product? GetProductById(long productId)

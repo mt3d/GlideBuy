@@ -8,7 +8,7 @@ namespace GlideBuy.Models
 
 		public virtual void AddItem(Product product, int quantity)
 		{
-			ShoppingCartItem? line = Lines.Where(p => p.Product.ProductId == product.ProductId).FirstOrDefault();
+			ShoppingCartItem? line = Lines.Where(p => p.Product.Id == product.Id).FirstOrDefault();
 
 			if (line == null)
 			{
@@ -21,7 +21,7 @@ namespace GlideBuy.Models
 
 		public virtual void RemoveLine(Product product)
 		{
-			Lines.RemoveAll(l => l.Product.ProductId == product.ProductId);
+			Lines.RemoveAll(l => l.Product.Id == product.Id);
 		}
 
 		public decimal ComputeTotalValues() => Lines.Sum(e => e.Product.Price * e.Quantity);
