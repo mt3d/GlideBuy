@@ -1,5 +1,24 @@
-﻿@using GlideBuy.Models.Catalog
+﻿@using GlideBuy.Core.Domain.Orders
+@using GlideBuy.Models.Catalog
 @model ProductOverviewModel
+
+@{
+    var addToCartLink = "";
+    var cartTypeId = (int)CartType.ShoppingCart;
+    var quantity = 1;
+
+    // TODO: Check if redirection is required after adding to cart.
+    if (false)
+    {
+
+    }
+    else
+    {
+        addToCartLink = Url.RouteUrl("AddProductToCart-Catalog");
+    }
+
+    // TODO: Handle wishlist link
+}
 
 <div class="product-item rounded wow fadeInUp" data-wow-delay="0.1s">
     <div class="product-item-inner border rounded">
@@ -37,6 +56,15 @@
         </div>
     </div>
     <div class="product-item-add border border-top-0 rounded-bottom text-center p-4 pt-0">
+
+@*      <form id="@Model.Id" asp-controller="ShoppingCart" asp-action="AddProduct" method="post">
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" name="returnUrl" value="@ViewContext.HttpContext.Request.PathAndQuery()" />
+            <span class="card-text p-1">
+                @Model.ShortDescription
+                <button type="submit" style="float:right" class="btn btn-success btn-sm pull-right">Add To Cart</button>
+            </span>
+        </form> *@
 
         @* TODO: Configure add to cart button *@
         <a href="#"

@@ -1,10 +1,13 @@
-﻿@model ProductListViewModel
+﻿@* TODO: Old View. Remove *@
 
-@foreach (var p in Model.Products ?? Enumerable.Empty<Product>())
+@model ProductListViewModel
+
+@* @foreach (var p in Model.Products ?? Enumerable.Empty<Product>())
 {
 	<partial name="ProductSummary" model="p" />
-}
+} *@
 
+/@* Page navigation controls *@
 <div page-model="@Model.PagingInfo" page-action="Index"
 	page-classes-enabled="true" page-class="btn"
 	page-class-normal="btn-outline-dark"

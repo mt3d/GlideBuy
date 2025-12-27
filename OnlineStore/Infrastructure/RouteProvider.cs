@@ -11,6 +11,12 @@
 		 */
 		public void AddRoutes(IEndpointRouteBuilder builder)
 		{
+			// Add product to cart from a product list page or component. Called using AJAX.
+			// TODO: Add min(0) constraint.
+			builder.MapControllerRoute(name: "AddProductToCart-Catalog",
+				pattern: $"addproducttocart/catalog/{{productId}}/{{cartTypeId}}/{{quantity}}",
+				defaults: new { controller = "ShoppingCart", action = "AddProductToCart_Catalog" });
+
 			builder.MapControllerRoute(name: "ShoppingCart",
 				pattern: "cart",
 				new { controller = "ShoppingCart", action = "Cart" });
