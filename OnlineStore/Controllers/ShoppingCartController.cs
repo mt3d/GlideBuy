@@ -63,17 +63,30 @@ namespace GlideBuy.Controllers
 			return RedirectToRoute("LoginOrCheckoutAsGuest", new { returnUrl = Url.RouteUrl("ShoppingCart") });
 		}
 
+
 		[HttpPost]
-		public IActionResult AddProduct(long productId, string returnUrl)
+		public async Task<IActionResult> AddProductToCart_Catalog(
+			int productId,
+			int cartTypeId,
+			int quantity)
 		{
 			Product? product = productService.GetProductById(productId);
-
-			if (product != null)
+			if (product is null)
 			{
-				_shoppingCartService.AddToCartAsync(product, 1);
+				return Json(new
+				{
+					success = false,
+					message = "No product found with the specified ID"
+				});
 			}
 
-			return RedirectToRoute("ShoppingCart", new { returnUrl = returnUrl });
+			_shoppingCartService.AddToCartAsync(product, 1);
+
+			return Json(new
+			{
+				success = true,
+				message = "The product has been added to the shopping cart"
+			});
 		}
 
 		[HttpPost]

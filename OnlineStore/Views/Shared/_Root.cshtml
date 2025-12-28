@@ -28,15 +28,11 @@
 
     <!-- Template Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
-
-	@* TODO: Remove *@
-@* 	<meta name="viewport" content="width=device-width" />
-	<title>Glide Buy</title>
-	<link href="/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
-	<link href="/css/site.css" rel="stylesheet" /> *@
 </head>
 <body>
-	<script src="~/lib/jquery/jquery.min.js"></script>
+    @{
+        await Html.RenderPartialAsync("_Notifications");
+    }
 
 	@RenderBody()
 
@@ -49,5 +45,11 @@
 
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
+
+    <script src="js/public.common.js"></script>
+    <script src="js/public.cart.js"></script>
+    <script>
+        Cart.init(false)
+    </script>
 </body>
 </html>
