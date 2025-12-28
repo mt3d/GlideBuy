@@ -6,3 +6,7 @@
         $('#loading-block-window').hide('slow');
     }
 }
+
+function setLocation(url) {
+    window.location.href = url;
+}
