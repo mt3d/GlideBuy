@@ -277,123 +277,155 @@ namespace GlideBuy.Data
 				new Category
 				{
 					Id = 1,
-					Name = "Computers & Accessories"
+					Name = "Computers & Accessories",
+					DisplayOrder = 1
 				},
 				new Category
 				{
 					Id = 2,
-					Name = "Smartphone & Tablets"
+					Name = "Smartphone & Tablets",
+					DisplayOrder = 2
 				},
 				new Category
 				{
 					Id = 3,
-					Name = "TV, Video & Audio"
+					Name = "TV, Video & Audio",
+					DisplayOrder = 3
 				},
 				new Category
 				{
 					Id = 4,
-					Name = "Speakers & Home Music"
+					Name = "Speakers & Home Music",
+					DisplayOrder = 4
 				},
 				new Category
 				{
 					Id = 5,
-					Name = "Cameras, Photo & Video"
+					Name = "Cameras, Photo & Video",
+					DisplayOrder = 5
 				},
 				new Category
 				{
 					Id = 6,
-					Name = "Printers & Ink"
+					Name = "Printers & Ink",
+					DisplayOrder = 6
 				},
 				new Category
 				{
 					Id = 7,
-					Name = "Charging Situations"
+					Name = "Charging Situations",
+					DisplayOrder = 7
 				},
 				new Category
 				{
 					Id = 8,
-					Name = "Headphones"
+					Name = "Headphones",
+					DisplayOrder = 8
 				},
 				new Category
 				{
 					Id = 9,
-					Name = "Wearable Electronics"
+					Name = "Wearable Electronics",
+					DisplayOrder = 9
 				},
 				new Category
 				{
 					Id = 10,
-					Name = "Powerbanks"
+					Name = "Powerbanks",
+					DisplayOrder = 10
 				},
 				new Category
 				{
 					Id = 11,
-					Name = "HDD/SDD Data Storage"
+					Name = "HDD/SDD Data Storage",
+					DisplayOrder = 11
 				},
 				new Category
 				{
 					Id = 12,
-					Name = "Video Games"
+					Name = "Video Games",
+					DisplayOrder = 12
 				},
 				new Category
 				{
 					Id = 13,
 					Name = "Computers",
-					ParentCategoryId = 1
+					ParentCategoryId = 1,
+					DisplayOrder = 13
 				},
 				new Category
 				{
 					Id = 14,
 					Name = "Laptops & Tablets",
-					ParentCategoryId = 13
+					ParentCategoryId = 13,
+					DisplayOrder = 14
 				},
 				new Category
 				{
 					Id = 15,
 					Name = "Desktop Computers",
-					ParentCategoryId = 13
+					ParentCategoryId = 13,
+					DisplayOrder = 15
 				},
 				new Category
 				{
 					Id = 16,
 					Name = "External Computers",
-					ParentCategoryId = 13
+					ParentCategoryId = 13,
+					DisplayOrder = 16
 				},
 				new Category
 				{
 					Id = 17,
 					Name = "Internal Components",
-					ParentCategoryId = 13
+					ParentCategoryId = 13,
+					DisplayOrder = 17
 				},
 				new Category
 				{
 					Id = 18,
 					Name = "Networking Products (NAS)",
-					ParentCategoryId = 13
+					ParentCategoryId = 13,
+					DisplayOrder = 18
 				},
 				new Category
 				{
 					Id = 19,
 					Name = "Single Board Computers",
-					ParentCategoryId = 13
+					ParentCategoryId = 13,
+					DisplayOrder = 19
 				},
 				new Category
 				{
 					Id = 20,
 					Name = "Desktop Barebones",
-					ParentCategoryId = 13
+					ParentCategoryId = 13,
+					DisplayOrder = 20
 				},
 				new Category
 				{
 					Id = 21,
 					Name = "Accessories",
-					ParentCategoryId = 1
+					ParentCategoryId = 1,
+					DisplayOrder = 21
 				},
 			};
 
 			if (!context.Categories.Any())
 			{
 				context.Categories.AddRange(categories);
-				await context.SaveChangesAsync();
+
+				await context.Database.OpenConnectionAsync();
+				try
+				{
+					await context.Database.ExecuteSqlRawAsync("SET IDENTITY_INSERT dbo.Categories ON");
+					await context.SaveChangesAsync();
+					await context.Database.ExecuteSqlRawAsync("SET IDENTITY_INSERT dbo.Categories OFF");
+				}
+				finally
+				{
+					await context.Database.CloseConnectionAsync();
+				}
 			}
 		}
 	}
