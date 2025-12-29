@@ -1,4 +1,6 @@
-﻿namespace GlideBuy.Models.Catalog
+﻿using GlideBuy.Web.Models.Media;
+
+namespace GlideBuy.Models.Catalog
 {
 	public class ProductOverviewModel
 	{
@@ -9,5 +11,7 @@
 		public string ShortDescription { get; set; }
 
 		public string FullDescription { get; set; }
+
+		public IList<PictureModel> PictureModels { get; set; }
 	}
 }

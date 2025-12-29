@@ -6,6 +6,8 @@ namespace GlideBuy.Web.Factories
 	public interface IProductModelFactory
 	{
 		Task<IEnumerable<ProductOverviewModel>> PrepareProductOverviewModelsAsync(
-			IEnumerable<Product> products);
+			IEnumerable<Product> products,
+			bool preparePictureModel = true,
+			int? productThumbPictrueSize = null);
 	}
 }

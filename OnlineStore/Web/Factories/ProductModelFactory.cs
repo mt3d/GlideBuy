@@ -1,12 +1,24 @@
 ﻿using GlideBuy.Models;
 using GlideBuy.Models.Catalog;
+using GlideBuy.Web.Models.Media;
 
 namespace GlideBuy.Web.Factories
 {
 	public class ProductModelFactory : IProductModelFactory
 	{
+		private async Task<IList<PictureModel>> PrepareProductOverviewPictureModelsAsync(Product product, int? productThumbPictureSize = null)
+		{
+			ArgumentNullException.ThrowIfNull(product);
+
+			var cachedPictures = new List<PictureModel>();
+
+			return cachedPictures;
+		}
+
 		public async Task<IEnumerable<ProductOverviewModel>> PrepareProductOverviewModelsAsync(
-			IEnumerable<Product> products)
+			IEnumerable<Product> products,
+			bool preparePictureModel = true,
+			int? productThumbPictrueSize = null)
 		{
 			ArgumentNullException.ThrowIfNull(products);
 
@@ -24,6 +36,10 @@ namespace GlideBuy.Web.Factories
 				};
 
 				// TODO: Handle price
+				if (preparePictureModel)
+				{
+					model.PictureModels = await PrepareProductOverviewPictureModelsAsync(product, productThumbPictrueSize);
+				}
 				
 				// TODO: Handle picture
 
