@@ -1,4 +1,5 @@
-﻿using GlideBuy.Models;
+﻿using GlideBuy.Core;
+using GlideBuy.Models;
 
 namespace GlideBuy.Services.Catalog
 {
@@ -22,6 +23,11 @@ namespace GlideBuy.Services.Catalog
 		Task<string> FormatSkuAsync(Product product, string? attributesXml = null);
 
 		Task<IList<Product>> GetAllProductsDisplayedOnHomepageAsync();
+
+		Task<IPagedList<Product>> SearchProductAsync(
+			int pageIndex = 0,
+			int pageSize = int.MaxValue,
+			IList<int>? categoryIds = null);
 
 		#endregion
 	}

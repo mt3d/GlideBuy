@@ -2,6 +2,9 @@
 using GlideBuy.Models;
 using GlideBuy.Core.Domain.Catalog;
 using GlideBuy.Data;
+using GlideBuy.Core;
+using Microsoft.EntityFrameworkCore;
+using GlideBuy.Data.Extensions;
 
 namespace GlideBuy.Services.Catalog
 {
@@ -9,11 +12,16 @@ namespace GlideBuy.Services.Catalog
 	{
 		protected readonly ProductRepository productRepository;
 		protected readonly IDataRepository<Product> _productRepository;
+		protected readonly StoreDbContext _context;
 
-		public ProductService(ProductRepository productRepository, IDataRepository<Product> repo)
+		public ProductService(
+			ProductRepository productRepository,
+			IDataRepository<Product> repo,
+			StoreDbContext context)
 		{
 			this.productRepository = productRepository;
 			_productRepository = repo;
+			_context = context;
 		}
 
 		public async Task<IList<Product>> GetAllProductsDisplayedOnHomepageAsync()
@@ -129,6 +137,29 @@ namespace GlideBuy.Services.Catalog
 			}
 
 			return (sku, mpn, gtin);
+		}
+
+		public async Task<IPagedList<Product>> SearchProductAsync(
+			int pageIndex = 0,
+			int pageSize = int.MaxValue,
+			IList<int>? categoryIds = null)
+		{
+			var query = _context.Products.Where(p => !p.Deleted);
+
+			if (categoryIds is not null)
+			{
+				categoryIds.Remove(0);
+
+				if (categoryIds.Any())
+				{
+					var productCategoryQuery = query
+						.Include(p => p.Category)
+						.Where(p => categoryIds.Contains(p.Category.Id))
+						.OrderBy(c => c.DisplayOrder);
+				}
+			}
+
+			return await query.ToPagedListAsync(pageIndex, pageSize);
 		}
 	}
 }
