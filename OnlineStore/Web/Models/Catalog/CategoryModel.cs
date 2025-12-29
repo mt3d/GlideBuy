@@ -15,5 +15,7 @@
 		public string MetaTitle { get; set; }
 
 		public string SeName { get; set; }
+
+		public CatalogProductsModel CatalogProductsModel { get; set; }
 	}
 }
