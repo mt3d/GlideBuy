@@ -1,11 +1,13 @@
-﻿using GlideBuy.Core.Caching;
+﻿using GlideBuy.Core;
+using GlideBuy.Core.Caching;
 using GlideBuy.Data;
+using GlideBuy.Models;
 using GlideBuy.Models.Catalog;
+using GlideBuy.Services.Catalog;
 using GlideBuy.Services.Seo;
 using GlideBuy.Web.Infrastructure.Cache;
 using GlideBuy.Web.Models.Catalog;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
 
 namespace GlideBuy.Web.Factories
 {
@@ -14,15 +16,21 @@ namespace GlideBuy.Web.Factories
 		private readonly IStaticCacheManager _staticCacheManager;
 		private readonly StoreDbContext _context;
 		private readonly IUrlRecordService _urlRecordService;
+		private readonly IProductService _productService;
+		private readonly IProductModelFactory _productModelFactory;
 
 		public CatalogModelFactory(
 			IStaticCacheManager staticCacheManager,
 			StoreDbContext storeDbContext,
-			IUrlRecordService urlRecordService)
+			IUrlRecordService urlRecordService,
+			IProductService productService,
+			IProductModelFactory productModelFactory)
 		{
 			_staticCacheManager = staticCacheManager;
 			_context = storeDbContext;
 			_urlRecordService = urlRecordService;
+			_productService = productService;
+			_productModelFactory = productModelFactory;
 		}
 
 		// TODO: Remove?
@@ -107,6 +115,57 @@ namespace GlideBuy.Web.Factories
 			}
 
 			return result;
+		}
+
+		public async Task<CategoryModel> PrepareCategoryModelAsync(Category category)
+		{
+			var model = new CategoryModel
+			{
+				Id = category.Id,
+				// TODO: Localize
+				Name = category.Name,
+				Description = category.Description,
+				SeName = await _urlRecordService.GetSeNameAsync(category),
+				CatalogProductsModel = await PrepareCategoryProductsModelAsync(category)
+			};
+
+			// TODO: Handle breadcrumb.
+			// TODO: Handle subcategories
+
+			return model;
+		}
+
+		public async Task<CatalogProductsModel> PrepareCategoryProductsModelAsync(Category category)
+		{
+			var model = new CatalogProductsModel
+			{
+
+			};
+
+			// TODO: Prepare sorting options.
+			// TODO: Prepare price ranges.
+			// TODO: Prepare filters.
+
+			var categoryIds = new List<int> { category.Id };
+			// TODO: Add subcategories.
+
+			var products = await _productService.SearchProductAsync(0, 3, categoryIds);
+			await PrepareCatalogProductsAsync(model, products);
+
+			return model;
+		}
+
+		private async Task PrepareCatalogProductsAsync(CatalogProductsModel model, IPagedList<Product> products)
+		{
+			if (!products.Any())
+			{
+
+			}
+			else
+			{
+				model.Products = (await _productModelFactory.PrepareProductOverviewModelsAsync(products)).ToList();
+				model.LoadPagedList(products);
+			}
 		}
 	}
 }

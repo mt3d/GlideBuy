@@ -68,7 +68,6 @@ namespace GlideBuy.Support.Mvc.Routing
 		{
 			// TODO: Check if the slug is active.
 			var slug = urlRecord.Slug;
-			Console.WriteLine(slug.ToString());
 
 			switch (urlRecord.EntityName)
 			{

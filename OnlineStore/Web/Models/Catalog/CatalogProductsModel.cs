@@ -1,9 +1,10 @@
 ﻿using GlideBuy.Models.Catalog;
+using GlideBuy.Web.UI.Paging;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace GlideBuy.Web.Models.Catalog
 {
-	public class CatalogProductsModel
+	public record CatalogProductsModel : BasePageableModel
 	{
 		public string NoResultMessage { get; set; }
 

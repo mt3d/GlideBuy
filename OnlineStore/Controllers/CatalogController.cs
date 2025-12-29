@@ -1,14 +1,15 @@
 ﻿using GlideBuy.Data.Repositories;
-using GlideBuy.Models.ViewModels;
 using GlideBuy.Services.Catalog;
+using GlideBuy.Web.Factories;
+using GlideBuy.Web.Models.Catalog;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace GlideBuy.Controllers
 {
 	public class CatalogController : Controller
 	{
 		private readonly ICategoryService _categoryService;
+		private readonly ICatalogModelFactory _catalogModelFactory;
 
 		private readonly ProductRepository productRepository;
 
@@ -16,10 +17,12 @@ namespace GlideBuy.Controllers
 
 		public CatalogController(
 			ProductRepository productRepository,
-			ICategoryService categoryService)
+			ICategoryService categoryService,
+			ICatalogModelFactory categoryModelFactory)
 		{
 			this.productRepository = productRepository;
 			_categoryService = categoryService;
+			_catalogModelFactory = categoryModelFactory;
 		}
 
 		public async Task<IActionResult> Category(int categoryId)
@@ -30,27 +33,9 @@ namespace GlideBuy.Controllers
 				return NotFound();
 			}
 
-			var categoryName = category.Name;
-			int productPage = 1;
+			var model = await _catalogModelFactory.PrepareCategoryModelAsync(category);
 
-			return View(new ProductListViewModel
-			{
-				// TODO: Replace with category id.
-				Products = productRepository.Products.Include(p => p.Category)
-					.Where(p => categoryName == null || p.Category.Name == categoryName)
-					.OrderBy(p => p.Id)
-					.Skip((productPage - 1) * PageSize)
-					.Take(PageSize),
-				PagingInfo = new PagingInfo
-				{
-					CurrentPage = productPage,
-					ItemsPerPage = PageSize,
-					TotalItems = categoryName == null
-						? productRepository.Products.Count()
-						: productRepository.Products.Include(p => p.Category).Where(e => e.Category.Name == categoryName).Count()
-				},
-				CurrentCategory = categoryName
-			});
+			return View(model);
 		}
 	}
 }

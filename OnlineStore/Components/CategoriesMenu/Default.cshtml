@@ -69,7 +69,7 @@
                                             @foreach (var ssub in sub.Subcategories)
                                             {
                                                 <li class="d-flex w-100 pt-1">
-                                                    <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0" href="href=" @(await _urlHelper.RouteGenericUrlAsync<Category>(new { SeName = category.SeName }))"">@ssub.Name</a>
+                                                    <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0" href="@(await _urlHelper.RouteGenericUrlAsync<Category>(new { SeName = category.SeName }))">@ssub.Name</a>
                                                 </li>
                                             }
                                         </ul>
