@@ -4,6 +4,8 @@
 	{
 		public bool IsEditable { get; set; }
 
+		public int NumberOfItems { get; set; }
+
 		public string Subtotal { get; set; }
 
 		public string SubtotalDiscount { get; set; }

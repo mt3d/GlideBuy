@@ -9,219 +9,322 @@
 
 @inject OrderSettings orderSettings
 
-<div class="container-fluid py-5">
-	<div class="container py-5">
+<!-- Items in the cart + Order summary -->
+<section class="container pb-5 mb-2 mb-md-3 mb-lg-4 mb-xl-5">
 
-		@await Html.PartialAsync("_OrderReviewData", Model.OrderReviewData)
+	@* TODO: Should be probably out of here, if the component is going to be resused elsewhere. *@
+	<h1 class="h3 mb-4">Shopping cart</h1>
 
-		@if (Model.Items.Count > 0)
+	@* TODO: Decide if should be removed *@
+	@await Html.PartialAsync("_OrderReviewData", Model.OrderReviewData)
+
+	@if (Model.Items.Count > 0)
+	{
+		if (Model.Warnings.Count > 0)
 		{
-			if (Model.Warnings.Count > 0)
-			{
-				<div class="message-error">
-					<ul>
-						@foreach (string warning in Model.Warnings)
-						{
-							<li>@warning</li>
-						}
-					</ul>
-				</div>
-			}
+			<div class="message-error">
+				<ul>
+					@foreach (string warning in Model.Warnings)
+					{
+						<li>@warning</li>
+					}
+				</ul>
+			</div>
+		}
 
-			<form asp-route="ShoppingCart" method="post" id="shopping-cart-form">
+		<form asp-route="ShoppingCart" method="post" id="shopping-cart-form" class="row">
 
-				<div class="table-responsive">
-					<table class="table">
+			<!-- Items list -->
+			<div class="col-lg-8">
+				<div class="pe-lg-2 pe-xl-3 me-xl-3">
+
+					@* TODO: Move to a view component *@
+					<p class="fs-sm">Buy <span class="text-dark-emphasis fw-semibold">$183</span> more to get <span class="text-dark-emphasis fw-semibold">Free Shipping</span></p>
+					<div class="progress w-100 overflow-visible mb-4" role="progressbar" aria-label="Free shipping progress" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="height: 4px">
+						<div class="progress-bar bg-warning rounded-pill position-relative overflow-visible" style="width: 75%; height: 4px">
+							<div class="position-absolute top-50 end-0 d-flex align-items-center justify-content-center translate-middle-y bg-body border border-warning rounded-circle me-n1" style="width: 1.5rem; height: 1.5rem">
+								<i class="ci-star-filled text-warning"></i>
+							</div>
+						</div>
+					</div>
+
+					<!-- Table of items -->
+					<table class="table position-relative z-2 mb-4">
 						<colgroup>
 							@if (Model.ShowSku)
 							{
 								<col width="1" />
 							}
-							@if (Model.ShowProductImages)
-							{
-								<col width="1" />
-							}
-							<col />
+							<col /> @* Product Name *@
 							@if (Model.ShowVendorName)
 							{
 								<col width="1" />
 							}
-							<col width="1" />
-							<col width="1" />
-							<col width="1" />
+							<col width="1" /> @* Product Price *@
+							<col width="1" /> @* Product Quantity *@
+							<col width="1" /> @* Product Total Price *@
 							@if (Model.IsEditable)
 							{
-								<col width="1" />
+								<col width="1" /> @* Remove product *@
 							}
 						</colgroup>
 						<thead>
 							<tr>
 								@if (Model.ShowSku)
 								{
-									<th scope="col">SKU</th>
+									<th></th>
 								}
-								@if (Model.ShowProductImages)
-								{
-									<th scope="col">Image</th>
-								}
-								<th scope="col">Name</th>
-
+								<th scope="col" class="fs-sm fw-normal py-3 ps-0">
+									<span class="text-body">Product</span>
+								</th>
 								@if (Model.ShowVendorName)
 								{
-									<th scope="col">Vendor Name</th>
+									<th></th>
 								}
-								<th scope="col">Unit Price</th>
-								<th scope="col">Quantity</th>
-								<th scope="col">Total</th>
-								@if (Model.IsEditable)
-								{
-									<th scope="col">Remove</th>
-								}
+								<th scope="col" class="text-body fs-sm fw-normal py-3 d-none d-xl-table-cell">
+									<span class="text-body">Price</span>
+								</th>
+								<th scope="col" class="text-body fs-sm fw-normal py-3 d-none d-md-table-cell">
+									<span class="text-body">Quantity</span>
+								</th>
+								<th scope="col" class="text-body fs-sm fw-normal py-3 d-none d-md-table-cell">
+									<span class="text-body">Total</span>
+								</th>
+
+								@* TODO: Handle clearing the cart *@
+								<th scope="col" class="py-0 px-0">
+									<div class="nav justify-content-end">
+										<button type="button" class="nav-link d-inline-block text-decoration-underline text-nowrap py-3 px-0">Clear cart</button>
+									</div>
+								</th>
 							</tr>
 						</thead>
-						<tbody>
+						<tbody class="align-middle">
 							@foreach (var item in Model.Items)
 							{
+								<!-- Item -->
 								<tr>
 									@if (Model.ShowSku)
 									{
-										<td class="sku">
-											<label class="">SKU:</label>
-											<span class="">@item.Sku</span>
-										</td>
+										<td></td>
 									}
 
-									@* TODO: Show product image *@
+									<td class="py-3 ps-0">
+										<div class="d-flex align-items-center">
+											@if (Model.ShowProductImages)
+											{
+												@* TODO: Handle product link *@
+												<a class="flex-shrink-0" href="">
+													<img src="assets/img/shop/electronics/thumbs/08.png" width="110" alt="@item.ProductName">
+												</a>
 
-									<th scope="row">
-										<p class="mb-0 py-4">@item.ProductName</p>
-									</th>
+												@* TODO: Handle discounts *@
+												if (false)
+												{
+													<a class="position-relative flex-shrink-0" href="">
+														<span class="badge text-bg-danger position-absolute top-0 start-0">-10%</span>
+														<img src="assets/img/shop/electronics/thumbs/09.png" width="110" alt="@item.ProductName">
+													</a>
+												}
+											}
 
-									@* TODO: Show vendor name *@
+											<div class="w-100 min-w-0 ps-2 ps-xl-3">
 
-									<td>
-										<p class="mb-0 py-4">@item.UnitPrice</p>
-									</td>
+												<h5 class="d-flex animate-underline mb-2">
+													@* TODO: Handle product link *@
+													<a class="d-block fs-sm fw-medium text-truncate animate-target" href="">@item.ProductName</a>
+												</h5>
 
-									@* TODO: Implement changing the quantity using this form control. *@
-									<td>
-										<div class="input-group quantity py-4" style="width: 100px;">
-											<div class="input-group-btn">
-												<button class="btn btn-sm btn-minus rounded-circle bg-light border">
-													<i class="fa fa-minus"></i>
-												</button>
-											</div>
-											<input type="text" class="form-control form-control-sm text-center border-0"
-												   value="@item.Quantity">
-											<div class="input-group-btn">
-												<button class="btn btn-sm btn-plus rounded-circle bg-light border">
-													<i class="fa fa-plus"></i>
-												</button>
+												<ul class="list-unstyled gap-1 fs-xs mb-0">
+													@* TODO: Handle product attributes *@
+													<li><span class="text-body-secondary">Color:</span> <span class="text-dark-emphasis fw-medium">White</span></li>
+													<li><span class="text-body-secondary">Model:</span> <span class="text-dark-emphasis fw-medium">128GB</span></li>
+
+													@* Price for small screens*@
+													<li class="d-xl-none">
+														<span class="text-body-secondary">Price:</span> <span class="text-dark-emphasis fw-medium">$899.00</span>
+													</li>
+
+													@* TODO: Handle discounts *@
+													@if (false)
+													{
+														<li class="d-xl-none"><span class="text-body-secondary">Price:</span> <span class="text-dark-emphasis fw-medium">$989.00 <del class="text-body-tertiary fw-normal">$1,099.00</del></span></li>
+													}
+												</ul>
+
+												@* TODO: Handle changing the quantity (for small screens) *@
+												<div class="count-input rounded-2 d-md-none mt-3">
+													<button type="button" class="btn btn-sm btn-icon" data-decrement aria-label="Decrement quantity">
+														<i class="ci-minus"></i>
+													</button>
+													<input type="number" class="form-control form-control-sm" value="@item.Quantity" readonly>
+													<button type="button" class="btn btn-sm btn-icon" data-increment aria-label="Increment quantity">
+														<i class="ci-plus"></i>
+													</button>
+												</div>
+
 											</div>
 										</div>
 									</td>
 
-									<td>
-										<p class="mb-0 py-4">@item.Subtotal</p>
+									@if (Model.ShowVendorName)
+									{
+										<td></td>
+									}
+
+									<td class="h6 py-3 d-none d-xl-table-cell">@item.UnitPrice</td>
+									@* TODO: Handle discounts *@
+									@if (false)
+									{
+										<td class="h6 py-3 d-none d-xl-table-cell">$989.00 <del class="text-body-tertiary fs-xs fw-normal">$1,099.00</del></td>
+									}
+
+									@* TODO: Handle changing the quantity (for large screens) *@
+									<td class="py-3 d-none d-md-table-cell">
+										<div class="count-input">
+											<button type="button" class="btn btn-icon" data-decrement aria-label="Decrement quantity">
+												<i class="ci-minus"></i>
+											</button>
+											<input type="number" class="form-control" value="@item.Quantity" readonly>
+											<button type="button" class="btn btn-icon" data-increment aria-label="Increment quantity">
+												<i class="ci-plus"></i>
+											</button>
+										</div>
 									</td>
 
+									<td class="h6 py-3 d-none d-md-table-cell">@item.Subtotal</td>
+
+									@* Handle removing cart items *@
 									@if (Model.IsEditable)
 									{
-										<td class="py-4">
-											<form asp-action="RemoveProduct" method="post">
-												<input type="hidden" name="productId" value="@item.ProductId" />
-												<input type="hidden" name="returnUrl" value="@Model?.ReturnUrl" />
-												<button class="btn btn-md rounded-circle bg-light border">
-													<i class="fa fa-times text-danger"></i>
-												</button>
-											</form>
+										<td class="text-end py-3 px-0">
+											<button type="button" class="btn-close fs-sm" data-bs-toggle="tooltip" data-bs-custom-class="tooltip-sm" data-bs-title="Remove" aria-label="Remove from cart"></button>
 										</td>
 									}
 								</tr>
 							}
 						</tbody>
 					</table>
-				</div>
 
-				<div class="cart-options">
-					<div class="common-buttons">
-						@if (Model.IsEditable)
-						{
-							@*Hidden button for updating the cart*@
-							<button type="submit" name="updatecart" style="display: none">Update Cart</button>
-							<button type="submit" name="continueshopping" class="continue-shopping-button">
-								Continue Shopping
-							</button>
+					@if (Model.IsEditable)
+					{
+						@* TODO: Hidden button for updating the cart*@
+						<button type="submit" name="updatecart" style="display: none">Update Cart</button>
 
-							@await Component.InvokeAsync(typeof(EstimateShippingViewComponent))
-						}
-					</div>
+						@* TODO: Why inside "IsEditible?" *@
+						<div class="nav position-relative z-2 mb-4 mb-lg-0">
+							<a class="nav-link animate-underline px-0" href="">
+								<i class="ci-chevron-left fs-lg me-1"></i>
+								<span class="animate-target">Continue shopping</span>
+							</a>
+						</div>
 
+						@* TODO: Decide if should be removed *@
+						@await Component.InvokeAsync(typeof(EstimateShippingViewComponent))
+					}
+
+					@* TODO: Decide if should be removed. *@
 					@if (Model.IsEditable || Model.IsReadyToCheckout)
 					{
 						@await Html.PartialAsync("_CheckoutAttributes", Model)
 						@await Component.InvokeAsync(typeof(SelectedCheckoutAttributesViewComponent))
 					}
+
 				</div>
+			</div>
 
-				@if (Model.IsEditable)
-				{
-					@* TODO: Implement coupons and gift cards*@
-					<div class="mt-5">
-						<input type="text" class="border-0 border-bottom rounded me-5 py-3 mb-4" placeholder="Coupon Code">
-						<button class="btn btn-primary rounded-pill px-4 py-3" type="button">Apply Coupon</button>
-					</div>
-				}
+			<!-- Order summary (sticky sidebar) -->
+			<aside class="col-lg-4" style="margin-top: -100px">
+				<div class="position-sticky top-0" style="padding-top: 100px">
 
-				<div class="row g-4 justify-content-end">
-					<div class="col-8"></div>
-					<div class="col-sm-8 col-md-7 col-lg-6 col-xl-4">
-						<div class="bg-light rounded">
+					<div class="bg-body-tertiary rounded-5 p-4 mb-3">
+						<div class="p-sm-2 p-lg-0 p-xl-2">
+							<h5 class="border-bottom pb-4 mb-4">Order summary</h5>
 
 							@await Component.InvokeAsync(typeof(OrderTotalsViewComponent), new { isEditable = Model.IsEditable })
 
-							@if (Model.IsEditable)
-							{
-								if (!string.IsNullOrEmpty(Model.MinOrderSubtotalWarning))
+							<div>
+								@if (Model.IsEditable)
 								{
-									<div class="min-amount-warning">
-										@Model.MinOrderSubtotalWarning
-									</div>
+									if (!string.IsNullOrEmpty(Model.MinOrderSubtotalWarning))
+									{
+										@* TODO: Style *@
+										<div class="min-amount-warning">
+											@Model.MinOrderSubtotalWarning
+										</div>
+									}
 								}
-							}
 
-							@if (Model.IsEditable || Model.IsReadyToCheckout)
-							{
-								if (Model.HasTermsOfServiceOnCartPage)
+								@if (Model.IsEditable || Model.IsReadyToCheckout)
 								{
-									@*TODO: Design terms of service section*@
+									if (Model.HasTermsOfServiceOnCartPage)
+									{
+										@*TODO: Design terms of service section*@
+									}
 								}
-							}
 
-							@if (orderSettings.CheckoutDisabled)
-							{
-								<div>Checkout Disabled</div>
-							}
-							else
-							{
-								<button class="btn btn-primary rounded-pill px-4 py-3 text-uppercase mb-4 ms-4"
-										type="button">
-									Checkout
-								</button>
-							}
+								@if (orderSettings.CheckoutDisabled)
+								{
+									@* TODO: Style correctly. *@
+									<div>Checkout Disabled</div>
+								}
+								else
+								{
+									<a class="btn btn-lg btn-primary w-100" href="checkout-v1-delivery-1.html">
+										Proceed to checkout
+										<i class="ci-chevron-right fs-lg ms-1 me-n1"></i>
+									</a>
+								}
 
-							@*TODO: Handle payment methods butttons*@
+								@* TODO: Implement this section. *@
+								<div class="nav justify-content-center fs-sm mt-3">
+									<a class="nav-link text-decoration-underline p-0 me-1" href="#authForm" data-bs-toggle="offcanvas" role="button">Create an account</a>
+									and get
+									<span class="text-dark-emphasis fw-medium ms-1">239 bonuses</span>
+								</div>
 
+							</div>
 						</div>
 					</div>
+
+					@if (Model.IsEditable)
+					{
+						@* TODO: Implement coupons and gift cards*@
+						<div class="accordion bg-body-tertiary rounded-5 p-4">
+							<div class="accordion-item border-0">
+								<h3 class="accordion-header" id="promoCodeHeading">
+									<button type="button" class="accordion-button animate-underline collapsed py-0 ps-sm-2 ps-lg-0 ps-xl-2" data-bs-toggle="collapse" data-bs-target="#promoCode" aria-expanded="false" aria-controls="promoCode">
+										<i class="ci-percent fs-xl me-2"></i>
+										<span class="animate-target me-2">Apply promo code</span>
+									</button>
+								</h3>
+								<div class="accordion-collapse collapse" id="promoCode" aria-labelledby="promoCodeHeading">
+									<div class="accordion-body pt-3 pb-2 ps-sm-2 px-lg-0 px-xl-2">
+
+										@* TODO: Was originally a form element isntead of div.*@
+										<div class="needs-validation d-flex gap-2" novalidate>
+											<div class="position-relative w-100">
+												<input type="text" class="form-control" placeholder="Enter promo code" required>
+												<div class="invalid-tooltip bg-transparent py-0">Enter a valid promo code!</div>
+											</div>
+											<button type="submit" class="btn btn-dark">Apply</button>
+										</div>
+
+									</div>
+								</div>
+							</div>
+						</div>
+					}
+
 				</div>
-			</form>
-		}
-		else
-		{
-			<div class="no-data">
-				Shopping Cart is Empty @*Localize*@
-			</div>
-		}
-	</div>
-</div>
+			</aside>
+
+		</form>
+	}
+	else
+	{
+		<div class="row">
+			Shopping Cart is Empty @*Localize*@
+		</div>
+	}
+</section>

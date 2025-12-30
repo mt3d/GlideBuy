@@ -1,30 +1,30 @@
 ﻿@using GlideBuy.Web.Models.ShoppingCart
 @model OrderTotalsModel
 
-<div class="p-4">
-	<h1 class="display-6 mb-4">Cart <span class="fw-normal">Total</span></h1>
-	<div class="d-flex justify-content-between mb-4">
-		<h5 class="mb-0 me-4">Subtotal:</h5>
-		<p class="mb-0">@Model.Subtotal</p>
+<ul class="list-unstyled fs-sm gap-3 mb-0">
+	<li class="d-flex justify-content-between">
+		Subtotal (@Model.NumberOfItems items):
+		<span class="text-dark-emphasis fw-medium">$@Model.Subtotal</span>
+	</li>
+	@* TODO: Handle discount *@
+	<li class="d-flex justify-content-between">
+		Saving:
+		<span class="text-danger fw-medium">-$110.00</span>
+	</li>
+	@* TODO: Handle tax *@
+	<li class="d-flex justify-content-between">
+		Tax collected:
+		<span class="text-dark-emphasis fw-medium">$73.40</span>
+	</li>
+	@* TODO: Handle shipping *@
+	<li class="d-flex justify-content-between">
+		Shipping:
+		<span class="text-dark-emphasis fw-medium">Calculated at checkout</span>
+	</li>
+</ul>
+<div class="border-top pt-4 mt-4">
+	<div class="d-flex justify-content-between mb-3">
+		<span class="fs-sm">Estimated total:</span>
+		<span class="h5 mb-0">$@Model.Total</span>
 	</div>
-
-	<div class="d-flex justify-content-between">
-		<h5 class="mb-0 me-4">Shipping</h5>
-		<div>
-			<p class="mb-0">Flat rate: $3.00</p>
-		</div>
-	</div>
-	<p class="mb-0 text-end">Shipping to Ukraine.</p>
-
-</div>
-<div class="py-4 mb-4 border-top border-bottom d-flex justify-content-between">
-	<h5 class="mb-0 ps-4 me-4">Total</h5>
-	@if (!string.IsNullOrEmpty(Model.Total))
-	{
-		<p class="mb-0 pe-4">@Model.Total</p>
-	}
-	else
-	{
-		<p>Calculated during checkout</p>
-	}
 </div>

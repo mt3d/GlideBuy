@@ -109,7 +109,9 @@ namespace GlideBuy.Web.Factories
 				return model;
 			}
 
-			// 1. Subtotal
+			// 1. Subtotal (TODO: Should be without discounts)
+			model.NumberOfItems = cart.Count;
+			model.Subtotal = cart.Sum(e => e.Product.Price * e.Quantity).ToString();
 
 			// 2. Shipping Info
 
@@ -117,7 +119,7 @@ namespace GlideBuy.Web.Factories
 
 			// 4. Tax
 
-			// 5. Total
+			// 5. Total (TODO: Also with discounts)
 			var totalDecimal = cart.Sum(e => e.Product.Price * e.Quantity);
 			// TODO: Use price formatter
 			model.Total = totalDecimal.ToString("c");
