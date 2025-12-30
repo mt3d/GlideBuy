@@ -38,10 +38,6 @@
     <link rel="stylesheet" href="assets/css/theme.min.css" id="theme-styles">
 </head>
 <body>
-    @{
-        await Html.RenderPartialAsync("_Notifications");
-    }
-
     <!-- Shopping cart offcanvas -->
     <div class="offcanvas offcanvas-end pb-sm-2 px-sm-2" id="shoppingCart" tabindex="-1" aria-labelledby="shoppingCartLabel" style="width: 500px">
 
@@ -411,6 +407,8 @@
         </a>
     </div>
 
+
+    <script src="js/jquery/jquery.min.js"></script>
 
     <!-- Vendor scripts -->
     <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
