@@ -12,9 +12,9 @@ namespace GlideBuy.Components
 			_catalogModelFactory = catalogModelFactory;
 		}
 
-		public async Task<IViewComponentResult> InvokeAsync(bool isStatic)
+		public async Task<IViewComponentResult> InvokeAsync(bool isCategoriesMenuStatic)
 		{
-			ViewBag.IsStatic = isStatic;
+			ViewBag.IsStatic = isCategoriesMenuStatic;
 
 			var model = await _catalogModelFactory.PrepareCategoriesMegaMenuModelAsync();
 
