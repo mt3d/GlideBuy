@@ -12,6 +12,8 @@ namespace GlideBuy.Web.Factories
 			bool validateCheckoutAttributes = false,
 			bool prepareAndDisplayOrderReviewData = false);
 
+		Task<OrderSummaryModel> PrepareOrderSummaryModelAsync(bool isCartPage);
+
 		Task<OrderTotalsModel> PrepareOrderTotalsModelAsync(
 			IList<ShoppingCartItem> cart,
 			bool isEditable);

@@ -144,7 +144,248 @@
     </ol>
     </nav>
 
-    @await Component.InvokeAsync(typeof(OrderSummaryViewComponent), new { overriddenModel = Model })
+@*     @await Component.InvokeAsync(typeof(OrderSummaryViewComponent), new { overriddenModel = Model })
+ *@
+
+    <!-- Items in the cart + Order summary -->
+<section class="container pb-5 mb-2 mb-md-3 mb-lg-4 mb-xl-5">
+
+	@* TODO: Should be probably out of here, if the component is going to be resused elsewhere. *@
+	<h1 class="h3 mb-4">Shopping cart</h1>
+
+	@* TODO: Decide if should be removed *@
+	@await Html.PartialAsync("_OrderReviewData", Model.OrderReviewData)
+
+	@if (Model.Items.Count > 0)
+	{
+		if (Model.Warnings.Count > 0)
+		{
+			<div class="message-error">
+				<ul>
+					@foreach (string warning in Model.Warnings)
+					{
+						<li>@warning</li>
+					}
+				</ul>
+			</div>
+		}
+
+        @*
+            The form gets sumbitted when 1) Updating the cart 2) Going back to Shopping
+            3) Proceeding with checkout 4) Applying a coupon 5) Applying a gift card
+        *@
+		<form asp-route="ShoppingCart" method="post" id="shopping-cart-form" class="row">
+
+			<!-- Items list -->
+			<div class="col-lg-8">
+				<div class="pe-lg-2 pe-xl-3 me-xl-3">
+
+					@* TODO: Move to a view component *@
+					<p class="fs-sm">Buy <span class="text-dark-emphasis fw-semibold">$183</span> more to get <span class="text-dark-emphasis fw-semibold">Free Shipping</span></p>
+					<div class="progress w-100 overflow-visible mb-4" role="progressbar" aria-label="Free shipping progress" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="height: 4px">
+						<div class="progress-bar bg-warning rounded-pill position-relative overflow-visible" style="width: 75%; height: 4px">
+							<div class="position-absolute top-50 end-0 d-flex align-items-center justify-content-center translate-middle-y bg-body border border-warning rounded-circle me-n1" style="width: 1.5rem; height: 1.5rem">
+								<i class="ci-star-filled text-warning"></i>
+							</div>
+						</div>
+					</div>
+
+					<!-- Table of items -->
+					<table class="table position-relative z-2 mb-4">
+						<colgroup>
+							@if (Model.ShowSku)
+							{
+								<col width="1" />
+							}
+							<col /> @* Product Name *@
+							@if (Model.ShowVendorName)
+							{
+								<col width="1" />
+							}
+							<col width="1" /> @* Product Price *@
+							<col width="1" /> @* Product Quantity *@
+							<col width="1" /> @* Product Total Price *@
+							@if (Model.IsEditable)
+							{
+								<col width="1" /> @* Remove product *@
+							}
+						</colgroup>
+						<thead>
+							<tr>
+								@if (Model.ShowSku)
+								{
+									<th></th>
+								}
+								<th scope="col" class="fs-sm fw-normal py-3 ps-0">
+									<span class="text-body">Product</span>
+								</th>
+								@if (Model.ShowVendorName)
+								{
+									<th></th>
+								}
+								<th scope="col" class="text-body fs-sm fw-normal py-3 d-none d-xl-table-cell">
+									<span class="text-body">Price</span>
+								</th>
+								<th scope="col" class="text-body fs-sm fw-normal py-3 d-none d-md-table-cell">
+									<span class="text-body">Quantity</span>
+								</th>
+								<th scope="col" class="text-body fs-sm fw-normal py-3 d-none d-md-table-cell">
+									<span class="text-body">Total</span>
+								</th>
+
+								@* TODO: Handle clearing the cart *@
+								<th scope="col" class="py-0 px-0">
+									<div class="nav justify-content-end">
+										<button type="button" class="nav-link d-inline-block text-decoration-underline text-nowrap py-3 px-0">Clear cart</button>
+									</div>
+								</th>
+							</tr>
+						</thead>
+						<tbody class="align-middle">
+							@foreach (var item in Model.Items)
+							{
+								<!-- Item -->
+								<tr>
+									@if (Model.ShowSku)
+									{
+										<td></td>
+									}
+
+									<td class="py-3 ps-0">
+										<div class="d-flex align-items-center">
+											@if (Model.ShowProductImages)
+											{
+												@* TODO: Handle product link *@
+												<a class="flex-shrink-0" href="">
+													<img src="assets/img/shop/electronics/thumbs/08.png" width="110" alt="@item.ProductName">
+												</a>
+
+												@* TODO: Handle discounts *@
+												if (false)
+												{
+													<a class="position-relative flex-shrink-0" href="">
+														<span class="badge text-bg-danger position-absolute top-0 start-0">-10%</span>
+														<img src="assets/img/shop/electronics/thumbs/09.png" width="110" alt="@item.ProductName">
+													</a>
+												}
+											}
+
+											<div class="w-100 min-w-0 ps-2 ps-xl-3">
+
+												<h5 class="d-flex animate-underline mb-2">
+													@* TODO: Handle product link *@
+													<a class="d-block fs-sm fw-medium text-truncate animate-target" href="">@item.ProductName</a>
+												</h5>
+
+												<ul class="list-unstyled gap-1 fs-xs mb-0">
+													@* TODO: Handle product attributes *@
+													<li><span class="text-body-secondary">Color:</span> <span class="text-dark-emphasis fw-medium">White</span></li>
+													<li><span class="text-body-secondary">Model:</span> <span class="text-dark-emphasis fw-medium">128GB</span></li>
+
+													@* Price for small screens*@
+													<li class="d-xl-none">
+														<span class="text-body-secondary">Price:</span> <span class="text-dark-emphasis fw-medium">$899.00</span>
+													</li>
+
+													@* TODO: Handle discounts *@
+													@if (false)
+													{
+														<li class="d-xl-none"><span class="text-body-secondary">Price:</span> <span class="text-dark-emphasis fw-medium">$989.00 <del class="text-body-tertiary fw-normal">$1,099.00</del></span></li>
+													}
+												</ul>
+
+												@* TODO: Handle changing the quantity (for small screens) *@
+												<div class="count-input rounded-2 d-md-none mt-3">
+													<button type="button" class="btn btn-sm btn-icon" data-decrement aria-label="Decrement quantity">
+														<i class="ci-minus"></i>
+													</button>
+													<input type="number" class="form-control form-control-sm" value="@item.Quantity" readonly>
+													<button type="button" class="btn btn-sm btn-icon" data-increment aria-label="Increment quantity">
+														<i class="ci-plus"></i>
+													</button>
+												</div>
+
+											</div>
+										</div>
+									</td>
+
+									@if (Model.ShowVendorName)
+									{
+										<td></td>
+									}
+
+									<td class="h6 py-3 d-none d-xl-table-cell">@item.UnitPrice</td>
+									@* TODO: Handle discounts *@
+									@if (false)
+									{
+										<td class="h6 py-3 d-none d-xl-table-cell">$989.00 <del class="text-body-tertiary fs-xs fw-normal">$1,099.00</del></td>
+									}
+
+									@* TODO: Handle changing the quantity (for large screens) *@
+									<td class="py-3 d-none d-md-table-cell">
+										<div class="count-input">
+											<button type="button" class="btn btn-icon" data-decrement aria-label="Decrement quantity">
+												<i class="ci-minus"></i>
+											</button>
+											<input type="number" class="form-control" value="@item.Quantity" readonly>
+											<button type="button" class="btn btn-icon" data-increment aria-label="Increment quantity">
+												<i class="ci-plus"></i>
+											</button>
+										</div>
+									</td>
+
+									<td class="h6 py-3 d-none d-md-table-cell">@item.Subtotal</td>
+
+									@* Handle removing cart items *@
+									@if (Model.IsEditable)
+									{
+										<td class="text-end py-3 px-0">
+											<button type="button" class="btn-close fs-sm" data-bs-toggle="tooltip" data-bs-custom-class="tooltip-sm" data-bs-title="Remove" aria-label="Remove from cart"></button>
+										</td>
+									}
+								</tr>
+							}
+						</tbody>
+					</table>
+
+					@if (Model.IsEditable)
+					{
+						@* TODO: Hidden button for updating the cart*@
+						<button type="submit" name="updatecart" style="display: none">Update Cart</button>
+
+						@* TODO: Why inside "IsEditible?" *@
+						<div class="nav position-relative z-2 mb-4 mb-lg-0">
+							<a class="nav-link animate-underline px-0" href="">
+								<i class="ci-chevron-left fs-lg me-1"></i>
+								<span class="animate-target">Continue shopping</span>
+							</a>
+						</div>
+
+						@* TODO: Decide if should be removed *@
+						@await Component.InvokeAsync(typeof(EstimateShippingViewComponent))
+					}
+
+					@* TODO: Decide if should be removed. *@
+					@if (Model.IsEditable || Model.IsReadyToCheckout)
+					{
+						@await Html.PartialAsync("_CheckoutAttributes", Model)
+						@await Component.InvokeAsync(typeof(SelectedCheckoutAttributesViewComponent))
+					}
+
+				</div>
+			</div>
+
+            @await Component.InvokeAsync(typeof(OrderSummaryViewComponent), new { isCartPage = true })
+
+		</form>
+	}
+	else
+	{
+		<div class="row">
+			Shopping Cart is Empty @*Localize*@
+		</div>
+	}
+</section>
 
     @* TODO: Move to a view component *@
     <!-- Trending products (Carousel) -->

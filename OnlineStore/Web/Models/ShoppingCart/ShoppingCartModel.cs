@@ -31,8 +31,10 @@ namespace GlideBuy.Web.Models.ShoppingCart
 
 		public IList<string> Warnings { get; set; }
 
+		// TODO: Remove.
 		public string MinOrderSubtotalWarning { get; set; }
 
+		// TODO: Remove.
 		public bool HasTermsOfServiceOnCartPage { get; set; }
 
 		public bool HasTermsOfServiceOnOrderConfirmPage { get; set; }

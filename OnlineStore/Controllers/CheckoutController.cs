@@ -63,8 +63,19 @@ namespace GlideBuy.Controllers
 				return RedirectToRoute("CheckoutOnePage");
 			}
 
-			return RedirectToRoute("CheckoutBillingAddress");
+			return RedirectToRoute("CheckoutShippingMethod");
 		}
+
+		#region Multi-Step Checkout
+
+		public async Task<IActionResult> ShippingMethod()
+		{
+			return View();
+		}
+
+		#endregion
+
+		#region One Page Checkout (WIP / To be redesigned)
 
 		public async Task<IActionResult> OnePageCheckout()
 		{
@@ -88,28 +99,6 @@ namespace GlideBuy.Controllers
 			var model = await _checkoutModelFactory.PrepareOnePageCheckoutModelAsync(cart);
 
 			return View(model);
-		}
-
-		public ViewResult ShippingAddress()
-		{
-			return View(new Order());
-		}
-
-		[HttpPost]
-		public async Task<IActionResult> ShippingAddress(Order order)
-		{
-			var cart = await _shoppingCartService.GetShoppingCartAsync();
-
-			if (ModelState.IsValid)
-			{
-				order.Lines = cart.ToArray();
-				repository.Save(order);
-				cart.Clear();
-				return RedirectToPage("/Completed", new { orderId = order.OrderId });
-			} else
-			{
-				return View();
-			}
 		}
 
 		[HttpPost]
@@ -214,5 +203,7 @@ namespace GlideBuy.Controllers
 				goto_section = "confirm_order"
 			});
 		}
+
+		#endregion
 	}
 }

@@ -1,8 +1,6 @@
 ﻿using GlideBuy.Web.Factories;
-using GlideBuy.Web.Models.ShoppingCart;
 using Microsoft.AspNetCore.Mvc;
 using GlideBuy.Services.Orders;
-using GlideBuy.Core.Domain.Orders;
 
 namespace GlideBuy.Components
 {
@@ -26,23 +24,9 @@ namespace GlideBuy.Components
 		/// <param name="prepareAndDisplayOrderReviewData"></param>
 		/// <param name="overriddenModel"></param>
 		/// <returns></returns>
-		public async Task<IViewComponentResult> InvokeAsync(
-			bool? prepareAndDisplayOrderReviewData,
-			ShoppingCartModel overriddenModel)
+		public async Task<IViewComponentResult> InvokeAsync(bool isCartPage)
 		{
-			if (overriddenModel is not null)
-			{
-				return View(overriddenModel);
-			}
-
-			// Get current store
-
-			// TODO: Expand the parameters of GetShoppingCartAsync()
-			IList<ShoppingCartItem> cartItems = await _shoppingCartService.GetShoppingCartAsync();
-
-			// Create the shopping cart model
-			ShoppingCartModel model = new();
-			model = await shoppingCartModelFactory.PrepareShoppingCartModelAsync(model, cartItems, isEditable: false);
+			var model = await shoppingCartModelFactory.PrepareOrderSummaryModelAsync(isCartPage: isCartPage);
 			return View(model);
 		}
 	}

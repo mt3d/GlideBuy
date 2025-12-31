@@ -134,5 +134,13 @@ namespace GlideBuy.Web.Factories
 
 			return model;
 		}
+
+		public async Task<OrderSummaryModel> PrepareOrderSummaryModelAsync(bool isCartPage)
+		{
+			var model = new OrderSummaryModel();
+			model.IsCartPage = isCartPage;
+
+			return model;
+		}
 	}
 }
