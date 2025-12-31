@@ -7,7 +7,6 @@ namespace GlideBuy.Components.NavigationBar
 		public async Task<IViewComponentResult> InvokeAsync(bool isCategoriesMenuStatic)
 		{
 			ViewBag.IsCategoriesMenuStatic = isCategoriesMenuStatic;
-			Console.WriteLine(ViewBag.IsCategoriesMenuStatic);
 
 			return View();
 		}
