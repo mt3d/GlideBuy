@@ -15,27 +15,27 @@
     <!-- Webmanifest + Favicon / App icons -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <link rel="manifest" href="manifest.json">
-    <link rel="icon" type="image/png" href="assets/app-icons/icon-32x32.png" sizes="32x32">
-    <link rel="apple-touch-icon" href="assets/app-icons/icon-180x180.png">
+    <link rel="manifest" href="~/manifest.json">
+    <link rel="icon" type="image/png" href="~/assets/app-icons/icon-32x32.png" sizes="32x32">
+    <link rel="apple-touch-icon" href="~/assets/app-icons/icon-180x180.png">
 
     <!-- Theme switcher (color modes) -->
-    <script src="assets/js/theme-switcher.js"></script>
+    <script src="~/assets/js/theme-switcher.js"></script>
 
     <!-- Preloaded local web font (Inter) -->
-    <link rel="preload" href="assets/fonts/inter-variable-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="~/assets/fonts/inter-variable-latin.woff2" as="font" type="font/woff2" crossorigin>
 
     <!-- Font icons -->
-    <link rel="preload" href="assets/icons/cartzilla-icons.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="stylesheet" href="assets/icons/cartzilla-icons.min.css">
+    <link rel="preload" href="~/assets/icons/cartzilla-icons.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="~/assets/icons/cartzilla-icons.min.css">
 
     <!-- Vendor styles -->
-    <link rel="stylesheet" href="assets/vendor/swiper/swiper-bundle.min.css">
+    <link rel="stylesheet" href="~/assets/vendor/swiper/swiper-bundle.min.css">
 
     <!-- Bootstrap + Theme styles -->
-    <link rel="preload" href="assets/css/theme.min.css" as="style">
-    <link rel="preload" href="assets/css/theme.rtl.min.css" as="style">
-    <link rel="stylesheet" href="assets/css/theme.min.css" id="theme-styles">
+    <link rel="preload" href="~/assets/css/theme.min.css" as="style">
+    <link rel="preload" href="~/assets/css/theme.rtl.min.css" as="style">
+    <link rel="stylesheet" href="~/assets/css/theme.min.css" id="theme-styles">
 </head>
 <body>
     <!-- Shopping cart offcanvas -->
@@ -59,7 +59,7 @@
             <!-- Item -->
             <div class="d-flex align-items-center">
                 <a class="flex-shrink-0" href="shop-product-general-electronics.html">
-                    <img src="assets/img/shop/electronics/thumbs/08.png" width="110" alt="iPhone 14">
+                    <img src="~/assets/img/shop/electronics/thumbs/08.png" width="110" alt="iPhone 14">
                 </a>
                 <div class="w-100 min-w-0 ps-2 ps-sm-3">
                     <h5 class="d-flex animate-underline mb-2">
@@ -85,7 +85,7 @@
             <div class="d-flex align-items-center">
                 <a class="position-relative flex-shrink-0" href="shop-product-general-electronics.html">
                     <span class="badge text-bg-danger position-absolute top-0 start-0">-10%</span>
-                    <img src="assets/img/shop/electronics/thumbs/09.png" width="110" alt="iPad Pro">
+                    <img src="~/assets/img/shop/electronics/thumbs/09.png" width="110" alt="iPad Pro">
                 </a>
                 <div class="w-100 min-w-0 ps-2 ps-sm-3">
                     <h5 class="d-flex animate-underline mb-2">
@@ -110,7 +110,7 @@
             <!-- Item -->
             <div class="d-flex align-items-center">
                 <a class="flex-shrink-0" href="shop-product-general-electronics.html">
-                    <img src="assets/img/shop/electronics/thumbs/01.png" width="110" alt="Smart Watch">
+                    <img src="~/assets/img/shop/electronics/thumbs/01.png" width="110" alt="Smart Watch">
                 </a>
                 <div class="w-100 min-w-0 ps-2 ps-sm-3">
                     <h5 class="d-flex animate-underline mb-2">
@@ -374,19 +374,19 @@
             <div class="d-md-flex align-items-center border-top py-4">
                 <div class="d-flex gap-2 gap-sm-3 justify-content-center ms-md-auto mb-4 mb-md-0 order-md-2">
                     <div>
-                        <img src="assets/img/payment-methods/visa-dark-mode.svg" alt="Visa">
+                        <img src="~/assets/img/payment-methods/visa-dark-mode.svg" alt="Visa">
                     </div>
                     <div>
-                        <img src="assets/img/payment-methods/mastercard.svg" alt="Mastercard">
+                        <img src="~/assets/img/payment-methods/mastercard.svg" alt="Mastercard">
                     </div>
                     <div>
-                        <img src="assets/img/payment-methods/paypal-dark-mode.svg" alt="PayPal">
+                        <img src="~/assets/img/payment-methods/paypal-dark-mode.svg" alt="PayPal">
                     </div>
                     <div>
-                        <img src="assets/img/payment-methods/google-pay-dark-mode.svg" alt="Google Pay">
+                        <img src="~/assets/img/payment-methods/google-pay-dark-mode.svg" alt="Google Pay">
                     </div>
                     <div>
-                        <img src="assets/img/payment-methods/apple-pay-dark-mode.svg" alt="Apple Pay">
+                        <img src="~/assets/img/payment-methods/apple-pay-dark-mode.svg" alt="Apple Pay">
                     </div>
                 </div>
                 <p class="text-body fs-xs text-center text-md-start mb-0 me-4 order-md-1">&copy; All rights reserved. Made by <span class="animate-underline"><a class="animate-target text-dark-emphasis fw-medium text-decoration-none" href="https://1.envato.market/coderthemes" target="_blank" rel="noreferrer">Coderthemes</a></span></p>
@@ -407,17 +407,24 @@
         </a>
     </div>
 
-
-    <script src="js/jquery/jquery.min.js"></script>
+    <!--
+        The moment you introduce ~/, you are no longer writing a valid client side URL.
+    The tilde has no meaning in HTML or in the browser. Its meaning exists only in ASP.NET,
+    where ~ is a virtual path token that represents the application root. Because that token
+    must be resolved on the server before the response is sent to the browser, Razor must
+    intervene. At that point, the element becomes something that participates in Razor’s
+    processing pipeline, and Visual Studio reflects this by classifying the element as a
+    tag helper enabled element.-->
+    <script src="~/js/jquery/jquery.min.js"></script>
 
     <!-- Vendor scripts -->
-    <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+    <script src="~/assets/vendor/swiper/swiper-bundle.min.js"></script>
 
     <!-- Bootstrap + Theme scripts -->
-    <script src="assets/js/theme.min.js"></script>
+    <script src="~/assets/js/theme.min.js"></script>
 
-    <script src="js/public.common.js"></script>
-    <script src="js/public.cart.js"></script>
+    <script src="~/js/public.common.js"></script>
+    <script src="~/js/public.cart.js"></script>
     <script>
         Cart.init(false)
     </script>
