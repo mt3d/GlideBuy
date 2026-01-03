@@ -37,19 +37,22 @@
                     </a>
                 </li>
 
-                @foreach (var category in Model.Categories)
+                @* TODO: Implement correctly menu height *@
+                @for (int i = 0; i < Model.Categories.Count; i++)
                 {
                     <li class="dropend position-static">
 
-                        <div class="position-relative rounded pt-2 pb-1 px-lg-2" data-bs-toggle="dropdown" data-bs-trigger="hover">
-                            <a class="dropdown-item fw-medium stretched-link d-none d-lg-flex" href="@(await _urlHelper.RouteGenericUrlAsync<Category>(new { SeName = category.SeName }))">
-                                <i class="ci-computer fs-xl opacity-60 pe-1 me-2"></i>
-                                <span class="text-truncate">@category.Name</span>
+                        <div class="position-relative rounded @(i == 0 ? "pt-2" : "") pb-1 px-lg-2" data-bs-toggle="dropdown" data-bs-trigger="hover">
+
+                            <a class="dropdown-item fw-medium stretched-link d-none d-lg-flex" href="@(await _urlHelper.RouteGenericUrlAsync<Category>(new { SeName = @Model.Categories[i].SeName }))">
+                                <i class="@Model.Categories[i].IconName fs-xl opacity-60 pe-1 me-2"></i>
+                                <span class="text-truncate">@Model.Categories[i].Name</span>
                                 <i class="ci-chevron-right fs-base ms-auto me-n1"></i>
                             </a>
+
                             <div class="dropdown-item fw-medium text-wrap stretched-link d-lg-none">
-                                <i class="ci-computer fs-xl opacity-60 pe-1 me-2"></i>
-                                @category.Name
+                                <i class="@@Model.Categories[i].IconName fs-xl opacity-60 pe-1 me-2"></i>
+                                @Model.Categories[i].Name
                                 <i class="ci-chevron-down fs-base ms-auto me-n1"></i>
                             </div>
                         </div>
@@ -57,7 +60,7 @@
                         <div class="dropdown-menu rounded-4 p-4" style="top: 1rem; height: calc(100% - .1875rem); --cz-dropdown-spacer: .3125rem; animation: none;">
                             <div class="d-flex flex-column flex-lg-row h-100 gap-4">
                                 
-                                @foreach (var sub in category.Subcategories)
+                                @foreach (var sub in Model.Categories[i].Subcategories)
                                 {
                                     <div style="min-width: 194px">
 
@@ -69,7 +72,7 @@
                                             @foreach (var ssub in sub.Subcategories)
                                             {
                                                 <li class="d-flex w-100 pt-1">
-                                                    <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0" href="@(await _urlHelper.RouteGenericUrlAsync<Category>(new { SeName = category.SeName }))">@ssub.Name</a>
+                                                    <a class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0" href="@(await _urlHelper.RouteGenericUrlAsync<Category>(new { SeName = ssub.SeName }))">@ssub.Name</a>
                                                 </li>
                                             }
                                         </ul>

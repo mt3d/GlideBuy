@@ -156,6 +156,8 @@ namespace GlideBuy.Services.Catalog
 						.Include(p => p.Category)
 						.Where(p => categoryIds.Contains(p.Category.Id))
 						.OrderBy(c => c.DisplayOrder);
+
+					query = productCategoryQuery;
 				}
 			}
 

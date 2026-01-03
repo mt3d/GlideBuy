@@ -1,11 +1,7 @@
 using GlideBuy.Core.Infrastructure;
 using GlideBuy.Data;
-using GlideBuy.Data.Repositories;
 using GlideBuy.Services.Orders;
-using GlideBuy.Services.Catalog;
-using GlideBuy.Services.Shipping;
 using GlideBuy.Support.Mvc.Routing;
-using GlideBuy.Web.Factories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.EntityFrameworkCore;

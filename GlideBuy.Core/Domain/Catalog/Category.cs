@@ -17,13 +17,17 @@ namespace GlideBuy.Models
 
 		public int PictureId { get; set; }
 
-		public int ParentCategoryId { get; set; }
+		public int? ParentCategoryId { get; set; } = 0;
+
+		public Category? ParentCategory { get; set; }
 
 		public bool Published { get; set; }
 
 		public bool Deleted { get; set; }
 
 		public int DisplayOrder { get; set; }
+
+		public string IconName { get; set; }
 
 		public DateTime CreatedOnUtc { get; set; }
 

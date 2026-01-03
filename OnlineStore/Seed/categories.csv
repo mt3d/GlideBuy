@@ -1,0 +1,211 @@
+Id|Name|ParentCategoryId|DisplayOrder|Icon
+1|Computers & Accessories||1|ci-computer
+2|Computers|1|1|
+3|Laptops & Tablets|2|1|
+4|Desktop Computers|2|2|
+5|External Components|2|3|
+6|Interal Components|2|4|
+7|Networking Products (NAS)|2|5|
+8|Single Board Computers|2|6|
+9|Desktop Barebones|2|7|
+10|Accessories|1|2|
+11|Monitors|10|1|
+12|Bags, Cases & Sleeves|10|2|
+13|Batteries|10|3|
+14|Charges & Adapters|10|4|
+15|Cooling Pads|10|5|
+16|Mounts|10|6|
+17|Replacement Screens|10|7|
+18|Security Locks|10|8|
+19|Stands|10|9|
+20|Smartphones & Tablets||2|ci-smartphone-2
+21|Smartphones|20|1|
+22|Apple iPhone|21|1|
+23|Google Pixel|21|2|
+24|Android Smartphones|21|3|
+25|Phablets|21|4|
+26|Tablets|20|2|
+27|Apple iPad|26|1|
+28|Android Tablets|26|2|
+29|Tablets with Keyboard|26|3|
+30|Accessories|20|3|
+31|Accessory Kits|30|1|
+32|Batteries & Battery Packs|30|2|
+33|Bags & Cases|30|3|
+34|Cables|30|4|
+35|Car Accessories|30|5|
+36|Charges & Power Adapters|30|6|
+37|FM Transmitters|30|7|
+38|Lens Attachments|30|8|
+39|Mounts & Standsv|30|9|
+40|Repair Kits|30|10|
+41|Replacement Parts|30|11|
+42|Styluses|30|12|
+43|TV, Video & Audio||3|ci-monitor-2
+44|TV, Video & Audio|43|1|
+45|TV Sets|44|1|
+46|Home Theater Systems|44|2|
+47|DVD Players & Recorders|44|3|
+48|Blue-ray Players & Recorders|44|4|
+49|HD DVD Players & Recorders|44|5|
+50|DVD-VCR Combos|44|6|
+51|DTV Converters|44|7|
+52|AV Receivers|44|8|
+53|AV Amplifiers|44|9|
+54|Projectors|44|10|
+55|Projection Screens|44|11|
+56|Satelite Television|44|12|
+57|TV-DTD Combos|44|13|
+58|Sound Systems|44|14|
+59|Home Cinema Systems|44|2|
+60|Streaming Media Players|44|3|
+61|VCRs|44|4|
+62|Video Glasses|44|5|
+63|Lens Attachments|44|6|
+64|Subwoofers|44|7|
+65|Sound Boosters|44|8|
+66|Speakers & Home Music||4|ci-speaker-2
+67|Speakers|66|1|
+68|Smart Speakers|67|1|
+69|Bluetooth Speakers|67|2|
+70|Bookshelf Speakers|67|3|
+71|Ceiling & In-Wall Speakers|67|4|
+72|Center-Channel Speakers|67|5|
+73|Floorstanding Speakers|67|6|
+74|Outdoor Speakers|67|7|
+75|Satellite Speakers|67|8|
+76|Sound Bars|67|9|
+77|Surround Sound Systems|67|10|
+78|Home Audio|66|2|
+79|Home Theater|78|1|
+80|Wireless & Streaming Audio|78|2|
+81|Stereo System Components|78|3|
+82|Compact Radios & Stereos|78|4|
+83|Home Audio Accessories|78|5|
+84|Subwoofers|78|6|
+85|Cameras, Photo & Video||5|ci-camera-2
+86|Cameras & Lenses|85|1|
+87|Point & Shoot Cameras|86|1|
+88|DSLR Cameras|86|2|
+89|Mirrorless Cameras|86|3|
+90|Body Mounted Cameras|86|4|
+91|Camcorders|86|5|
+92|Camcorder Lenses|86|6|
+93|Camera Lenses|86|7|
+94|Macro & Ringlight Flashes|86|8|
+95|Shoe Mount Flashes|86|9|
+96|Tripods & Monopods|86|10|
+97|Video Studio|86|11|
+98|Accessories|85|2|
+99|Bags & Cases|98|1|
+100|Binoculars & Scopes|98|2|
+101|Batteries & Chargers|98|3|
+102|Cables & Cords|98|4|
+103|Camcorder Accessories|98|5|
+104|Cleaning Equipment|98|6|
+105|Protector Foils|98|7|
+106|Filters & Accessories|98|8|
+107|Remote Controls|98|9|
+108|Rain Covers|98|10|
+109|Viewfinders|98|11|
+110|Printers & Ink||6|ci-printer-2
+111|By type|110|1|
+112|All-in-One|111|1|
+113|Copying|111|2|
+114|Faxing|111|3|
+115|Photo Printing|111|4|
+116|Printing Only|111|5|
+117|Scanning|111|6|
+118|Scanners|110|2|
+119|Business Card Scanners|118|1|
+120|Document Scanners|118|2|
+121|Flatbed & Photo Scanners|118|3|
+122|Slide & Negative Scanners|118|4|
+123|Printers|110|3|
+124|Dot Matrix Printers|123|1|
+125|Inkjet Printers|123|2|
+126|Label Printers|123|3|
+127|Laser Printers|123|4|
+128|Photo Printers|123|5|
+129|Wide Format Printers|123|6|
+130|Plotter Printers|123|7|
+131|Charging Stations||7|ci-battery-2 
+132|Charging Stations|131|1|
+133|Portable Power Stations|132|1|
+134|Inverter Power Stations|132|2|
+135|Outdoor Generators|132|3|
+136|Gasoline Generators|132|4|
+137|Cell Phone Chargers|132|5|
+138|Power Strips|132|6|
+139|Wall Charges|132|7|
+140|Headphones||8|ci-headphones-2
+141|Headphones|140|1|
+142|Earbud Headphones|141|1|
+143|Over-Ear Headphones|141|2|
+144|On-Ear Headphones|141|3|
+145|Bluetooth Headphones|141|4|
+146|Sports & Fitness|141|5|
+147|Noise-Cancelling|141|6|
+148|Accessories|140|2|
+149|Cases & Sleeves|148|1|
+150|Cables & Cords|148|2|
+151|Ear Pads|148|3|
+152|Repair Kits|148|4|
+153|Cleaning Equipment|148|5|
+154|Wearable Electronics||9|ci-watch-2
+155|Wearable Gadgets|154|1|
+156|Smartwatches|155|1|
+157|Fitness Trackers|155|2|
+158|Smart Glasses|155|3|
+159|Rings|155|4|
+160|Virtual Reality|155|5|
+161|Clips, Arm & Wristbands|155|6|
+162|Accessories|155|7|
+163|Powerbanks||10|ci-powerbank
+164|Powerbanks|163|1|
+165|Fast Charging|164|1|
+166|Built In Cable|164|2|
+167|Built In Wall Plug|164|3|
+168|LED Indicator Lights|164|4|
+169|Pocket Size|164|5|
+170|Wireless Charging|164|6|
+171|Short Circuit Protection|164|7|
+172|Scratch Resistant|164|8|
+173|Flashlight|164|9|
+174|Lightweight|164|10|
+175|HDD/SSD Data Storage||11|ci-hard-drive-2
+176|Data Storage|175|1|
+177|External Hard Drives|176|1|
+178|External SSD|176|2|
+179|External Zip Drives|176|3|
+180|Floppy & Tape Drives|176|4|
+181|Internal Hard Drives|176|5|
+182|Internal SSD|176|6|
+183|Network Attached Storage|176|7|
+184|USB Flash Drives|176|8|
+185|Video Games||12|ci-game
+186|Games & Hardware|185|1|
+187|Video Games|186|1|
+188|PlayStation 5|186|2|
+189|PlayStation 4|186|3|
+190|Xbox Series X|186|4|
+191|Xbox Series S|186|5|
+192|Nintendo Switch|186|6|
+193|Gaming PC|186|7|
+194|Gaming Laptops|186|8|
+195|Wii U|186|9|
+196|Wii|186|10|
+197|Nintendo 3DS|186|11|
+198|Nintendo 2DS|186|12|
+199|Nintendo DS|186|13|
+200|Wii|186|14|
+201|Mac|186|2|
+202|PlayStation Vita|186|3|
+203|Sony PSP|186|4|
+204|Retro Gaming|186|5|
+205|Microconsoles|186|6|
+206|Controllers|186|7|
+207|Accessories|186|8|
+208|Digital Games Screens|186|9|
+209|Game Pass|186|10|
+210|PlayStation Plus|186|11|

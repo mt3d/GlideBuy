@@ -4,6 +4,7 @@ using GlideBuy.Core.Domain.Catalog;
 
 namespace GlideBuy.Models
 {
+	// TODO: Remove data annotations.
 	public class Product : BaseEntity
 	{
 		[Required(ErrorMessage = "Please enter a product name")]
@@ -18,6 +19,8 @@ namespace GlideBuy.Models
 		[Range(0.01, double.MaxValue, ErrorMessage = "Please enter a positive price")]
 		[Column(TypeName = "decimal(8, 2)")]
 		public decimal Price { get; set; }
+
+		public int CategoryId { get; set; }
 
 		public Category? Category { get; set; }
 

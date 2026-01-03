@@ -13,5 +13,7 @@
 		public bool HaveSubCategories { get; set; }
 
 		public List<CategorySimpleModel> Subcategories { get; set; } = new List<CategorySimpleModel>();
+
+		public string IconName { get; set; }
 	}
 }
