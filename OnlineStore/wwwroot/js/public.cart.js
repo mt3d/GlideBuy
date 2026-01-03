@@ -1,9 +1,11 @@
 ﻿
 var Cart = {
     processingRequest: false,
+    headercartselector: '',
 
-    init: function () {
+    init: function (headercartselector) {
         this.processingRequest = false;
+        this.headercartselector = headercartselector;
     },
     // Add product to cart the cart from the catalog page.
     addProductToCart_catalog: function (addUrl) {
@@ -34,6 +36,10 @@ var Cart = {
     },
     processingSuccess: function (response) {
         // TODO: Update cart section
+        if (response.updateheadercarthtml) {
+            $(Cart.headercartselector).html(response.updateheadercarthtml)
+        }
+
         // TODO: Display notification (success or failure)
 
         if (response.redirect) {

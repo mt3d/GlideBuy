@@ -80,12 +80,22 @@ namespace GlideBuy.Controllers
 				});
 			}
 
+			// TODO: Handle warnings.
 			_shoppingCartService.AddToCartAsync(product, 1);
+
+			// TODO: Handle wishlist.
+
+			// TODO: If shopping cart. Display notifications if necessary.
+
+			var shoppingCart = await _shoppingCartService.GetShoppingCartAsync();
+
+			var updateheadercarthtml = shoppingCart.Sum(item => item.Quantity);
 
 			return Json(new
 			{
 				success = true,
-				message = "The product has been added to the shopping cart"
+				message = "The product has been added to the shopping cart",
+				updateheadercarthtml
 			});
 		}
 

@@ -429,10 +429,10 @@
     <!-- Bootstrap + Theme scripts -->
     <script src="~/assets/js/theme.min.js"></script>
 
-    <script src="~/js/public.common.js"></script>
-    <script src="~/js/public.cart.js"></script>
+    <script src="~/js/public.common.js" asp-append-version="true"></script>
+    <script src="~/js/public.cart.js" asp-append-version="true"></script>
     <script>
-        Cart.init(false)
+        Cart.init('.cart-qty')
     </script>
 </body>
 </html>
