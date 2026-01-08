@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\OnlineStore\GlideBuy.csproj" />
+    <ProjectReference Include="..\GlideBuy\GlideBuy.csproj" />
   </ItemGroup>
 
 </Project>
