@@ -17,5 +17,7 @@ namespace GlideBuy.Web.Factories
 		Task<OrderTotalsModel> PrepareOrderTotalsModelAsync(
 			IList<ShoppingCartItem> cart,
 			bool isEditable);
+
+		Task<MiniShoppingCartModel> PrepareMiniShoppingCartModelAsync();
 	}
 }

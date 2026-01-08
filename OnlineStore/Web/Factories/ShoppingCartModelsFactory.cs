@@ -12,17 +12,22 @@ namespace GlideBuy.Web.Factories
 		private readonly OrderSettings _orderSettings;
 		private readonly CommonSettings _commonSettings;
 		private readonly IOrderProcessingService orderProcessingService;
+		private readonly IShoppingCartService _shoppingCartService;
+		private readonly IProductService _productService;
 
 		public ShoppingCartModelsFactory(
 			IProductService productService,
 			OrderSettings orderSettings,
 			CommonSettings commonSettings,
-			IOrderProcessingService orderProcessingService)
+			IOrderProcessingService orderProcessingService,
+			IShoppingCartService shoppingCartService)
 		{
 			this.productService = productService;
 			_orderSettings = orderSettings;
 			_commonSettings = commonSettings;
 			this.orderProcessingService = orderProcessingService;
+			_shoppingCartService = shoppingCartService;
+			_productService = productService;
 		}
 
 		private async Task<ShoppingCartModel.ShoppingCartItemModel> PrepareShoppingCartItemModelAsync(
@@ -139,6 +144,37 @@ namespace GlideBuy.Web.Factories
 		{
 			var model = new OrderSummaryModel();
 			model.IsCartPage = isCartPage;
+
+			return model;
+		}
+
+		public async Task<MiniShoppingCartModel> PrepareMiniShoppingCartModelAsync()
+		{
+			// TODO: Check if images should be displayed.
+			// TODO: Check if customer is guest
+			// TODO: Check if Checkout button should be displayed when the customer is guest.
+			var model = new MiniShoppingCartModel();
+
+			// TODO: Check if customer has shopping cart items.
+			if (true)
+			{
+				var cart = await _shoppingCartService.GetShoppingCartAsync();
+
+				foreach (var item in cart.OrderByDescending(x => x.ShoppingCartItemId).ToList()) // TODO: Only display a minimum number of items
+				{
+					var product = await _productService.GetProductByIdAsync(item.Product.Id);
+
+					var cartItemModel = new MiniShoppingCartModel.ShoppingCartItemModel
+					{
+						Id = item.ShoppingCartItemId,
+						ProductId = item.Product.Id,
+						ProductName = item.Product.Name,
+						Quantity = item.Quantity
+					};
+
+					model.Items.Add(cartItemModel);
+				}
+			}
 
 			return model;
 		}
