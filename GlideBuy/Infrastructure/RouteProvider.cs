@@ -1,4 +1,6 @@
-﻿namespace GlideBuy.Core.Infrastructure
+﻿using Microsoft.AspNetCore.Routing;
+
+namespace GlideBuy.Core.Infrastructure
 {
 	// TODO: Add an interface for testing purposes
 	public class RouteProvider
@@ -52,6 +54,16 @@
 			builder.MapControllerRoute(name: "CheckoutPaymentMethod",
 				pattern: $"checkout/paymentmethod",
 				defaults: new { controller = "Checkout", action = "PaymentMethod" });
+
+			// For confirming the order and adding it to the database. Redirect to other routes.
+			//builder.MapControllerRoute(name: "CheckoutConfirm",
+			//	pattern: $"checkout/confirm",
+			//	defaults: new { controller = "Checkout", action = "Confirm" });
+
+			// For displaying the "Thank you page" at the end of checkout.
+			builder.MapControllerRoute(name: "CheckoutCompleted",
+				pattern: $"checkout/completed/{{orderId:int?}}",
+				defaults: new { controller = "Checkout", action = "Completed" });
 
 			//builder.MapDefaultControllerRoute();
 		}

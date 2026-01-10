@@ -1,14 +1,15 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using GlideBuy.Core;
+using GlideBuy.Core.Domain.Common;
 using GlideBuy.Core.Domain.Orders;
 using GlideBuy.Data.Repositories;
-using GlideBuy.Services.Orders;
-using GlideBuy.Web.Factories;
-using GlideBuy.Web.Models.Checkout;
-using GlideBuy.Core.Domain.Common;
+using GlideBuy.Models;
 using GlideBuy.Services.Common;
 using GlideBuy.Services.Customers;
-using GlideBuy.Core;
+using GlideBuy.Services.Orders;
 using GlideBuy.Support.Controllers;
+using GlideBuy.Web.Factories;
+using GlideBuy.Web.Models.Checkout;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Razor;
 
 namespace GlideBuy.Controllers
@@ -64,6 +65,17 @@ namespace GlideBuy.Controllers
 			}
 
 			return RedirectToRoute("CheckoutDeliveryInformation");
+		}
+
+		public async Task<IActionResult> Completed(int? orderId)
+		{
+			// TODO: Check if anonymous checkout is allowed.
+
+			// TODO: Get the order by ID.
+			// TODO: If the order is null, redirect to the homepage.
+
+			// TODO: Create the model based on the order retrieved.
+			return View();
 		}
 
 		#region Multi-Step Checkout
@@ -170,6 +182,71 @@ namespace GlideBuy.Controllers
 			// TODO: This section cannot be bypassed, since the information is entered in this step.
 
 			return View(paymentMethodModel);
+		}
+
+		// TODO: Validate captcha.
+		// TODO: Should be PaymentMethod, because in case of errors, we will get redirected to PaymentMethod.
+		[HttpPost, ActionName("PaymentMethod")]
+		public async Task<IActionResult> ConfirmPaymentMethodAndOrder()
+		{
+			// TODO: Validate
+			// Check if checkout is disabled.
+			// Check if cart is empty.
+			// Check if anonymous checkout is enabled.
+
+			var cart = await _shoppingCartService.GetShoppingCartAsync();
+			var model = await _checkoutModelFactory.PreparePaymentMethodModelAsync(cart);
+
+			// TODO: Check if captcha is valid. If not add create PaymentMethod
+
+			try
+			{
+				// TODO: Check for minimum placement interval.
+				/**
+				 * The core logic begins inside the try block, and this is where payment processing becomes relevant. The first check inside this block enforces the minimum order placement interval. This is an anti-double-submit mechanism that protects against rapid repeated clicks, browser retries, or malicious automation. If this interval is violated, the method throws an exception, which is then handled uniformly by the catch block and surfaced to the user as a warning.
+				 */
+
+				// TODO: GetProcessPaymentRequestAsync. A ProcessPaymentRequest should be created
+				// since in our store, EnterPaymentInfo and ConfirmOrder are a single step.
+				// If the payment method requires redirect to an external page, this request will
+				// be retrieved once we get back to here.
+
+				/**
+				 * The next step is retrieving the ProcessPaymentRequest via _orderProcessingService.GetProcessPaymentRequestAsync(). This object is central to understanding NopCommerce’s payment architecture. It acts as a state container that survives across checkout steps, especially in scenarios where the payment method requires a redirect or additional information. If this request is null, the system checks whether a payment workflow is required at all. This covers cases such as zero-total orders, cash on delivery, or payment methods that do not require an intermediate payment info step. If a workflow is required, the user is redirected back to CheckoutPaymentInfo, because confirming the order without required payment data would be invalid. Otherwise, a new ProcessPaymentRequest is created.
+				 */
+
+				// TODO: SetProcessPaymentRequestAsync
+				/**
+				 * The populated request is then persisted using SetProcessPaymentRequestAsync, ensuring that downstream services and payment plugins can access it consistently.
+				 */
+
+				// TODO: PlaceOrderAsync
+				/**
+				 * The actual order creation occurs with PlaceOrderAsync(processPaymentRequest). This is the most critical call in the entire checkout process. Internally, this method performs a large number of operations in a controlled transaction-like sequence: validating the cart again, calculating totals, creating the order record, creating order items, adjusting inventory, applying discounts, and invoking the payment method’s ProcessPayment logic. The result of this operation is a PlaceOrderResult, which explicitly indicates success or failure rather than throwing exceptions for expected business errors.
+				 */
+
+				if (true) // if success
+				{
+					// TODO: SetProcessPaymentRequestAsync(null)
+					// TODO: PostProcessPaymentAsync
+					/**
+					 * If the order placement succeeds, the stored ProcessPaymentRequest is immediately cleared. This is essential to prevent stale payment data from being reused if the customer later places another order. After that, the method initiates post-payment processing by creating a PostProcessPaymentRequest containing the placed order and passing it to _paymentService.PostProcessPaymentAsync. This is where payment methods that require redirection, external authorization, or form POSTs take control. Examples include redirecting the user to PayPal, Stripe-hosted pages, or bank gateways.
+					 */
+
+					/**
+					 * The subsequent check of _webHelper.IsRequestBeingRedirected and _webHelper.IsPostBeingDone is subtle but extremely important. It allows payment plugins to fully control the HTTP response. If the payment plugin already issued a redirect or POST response, the controller must stop execution immediately and return an empty result, otherwise ASP.NET MVC would attempt to write another response and cause runtime errors. If no redirection occurred, the flow continues normally and the customer is redirected to the checkout completion page.
+					 */
+
+					return RedirectToRoute("CheckoutCompleted"); // TODO: Pass the order Id.
+				}
+			}
+			catch (Exception ex)
+			{
+				// TODO: Log the warning.
+				// TODO: Add new warning to the model.
+			}
+
+			return View(model);
 		}
 
 
