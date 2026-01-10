@@ -16,7 +16,6 @@ namespace GlideBuy.Controllers
 {
 	public class CheckoutController : BaseController
 	{
-		private OrderRepository repository;
 		private IShoppingCartService _shoppingCartService;
 		private OrderSettings _orderSettings;
 		private ICheckoutModelFactory _checkoutModelFactory;
@@ -26,7 +25,6 @@ namespace GlideBuy.Controllers
 		private IOrderProcessingService _orderProcessingService;
 
 		public CheckoutController(
-			OrderRepository orderRepository,
 			IShoppingCartService shoppingCartService,
 			OrderSettings orderSettings,
 			ICheckoutModelFactory checkoutModelFactory,
@@ -36,7 +34,6 @@ namespace GlideBuy.Controllers
 			IOrderProcessingService orderProcessingService,
 			IRazorViewEngine viewEngine) : base(viewEngine)
 		{
-			this.repository = orderRepository;
 			_shoppingCartService = shoppingCartService;
 			_orderSettings = orderSettings;
 			_checkoutModelFactory = checkoutModelFactory;

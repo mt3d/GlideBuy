@@ -1,54 +1,84 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
-using GlideBuy.Core.Domain.Payment;
+﻿using GlideBuy.Core.Domain.Payment;
 using GlideBuy.Core.Domain.Shipping;
 using GlideBuy.Models;
-using System.ComponentModel.DataAnnotations;
+using GlideBuy.Models.Common;
 
 namespace GlideBuy.Core.Domain.Orders
 {
-	public class Order
+	public class Order : BaseEntity, ISoftDeletable
 	{
-		[BindNever]
-		public int OrderId { get; set; }
-		[BindNever]
-		public ICollection<ShoppingCartItem> Lines { get; set; } = new List<ShoppingCartItem>();
+		public Guid OrderGuid { get; set; }
 
-		[Required(ErrorMessage = "Please enter a name")]
-		public string? Name { get; set; }
+		public int CustomerId { get; set; }
 
-		[Required(ErrorMessage = "Please enter the first address line")]
-		public string? Line1 { get; set; }
-		public string? Line2 { get; set; }
-		public string? Line3 { get; set; }
 
-		[Required(ErrorMessage = "Please enter a city name")]
-		public string? City { get; set; }
+		public int BillingAddressId { get; set; }
 
-		[Required(ErrorMessage = "Please enter a state name")]
-		public string? State { get; set; }
+		public int? ShippingAddressId { get; set; }
 
-		public string? Zip { get; set; }
+		public int? PickupAddressId { get; set; }
 
-		[Required(ErrorMessage = "Please enter a country name")]
-		public string? Country { get; set; }
-		public bool GiftWrap { get; set; }
+		public bool PickupInStore { get; set; }
 
-		[BindNever]
-		public bool Shipped { get; set; }
 
-		/// <summary>
-		/// Gets or sets the payment status
-		/// </summary>
 		public PaymentStatus PaymentStatus { get; set; }
 
-		/// <summary>
-		/// Gets or sets the order status
-		/// </summary>
 		public OrderStatus OrderStatus { get; set; }
 
-		/// <summary>
-		/// Gets or sets the shipping status
-		/// </summary>
 		public ShippingStatus ShippingStatus { get; set; }
+
+
+		public string PaymentMethodSystemName { get; set; }
+
+		public string CustomerCurrencyCode { get; set; }
+
+
+		public decimal OrderSubtotalInclTax { get; set; }
+
+		public decimal OrderSubtotalExclTax { get; set; }
+
+		public decimal OrderSubtotalDiscountInclTax { get; set; }
+
+		public decimal OrderSubtotalDiscountExclTax { get; set; }
+
+		public decimal OrderShippingInclTax { get; set; }
+
+		public decimal OrderShippingExclTax { get; set; }
+
+		public decimal PaymentMethodAdditionalFeeInclTax { get; set; }
+
+		public decimal PaymentMethodAttditionalFeeExclTax { get; set; }
+
+		public decimal TaxRates { get; set; }
+
+		public decimal OrderTax { get; set; }
+
+		public decimal OrderTotal { get; set; }
+
+
+		public string CustomerIp { get; set; }
+
+
+		public bool AllowStoringCreditCardInfo { get; set; }
+
+		public string CardType { get; set; }
+
+		public string CardName { get; set; }
+
+		public string CardNumber { get; set; }
+
+
+		public DateTime? PaidDateUtc { get; set; }
+
+		
+		public string ShippingMethod { get; set; }
+
+
+		public bool Deleted { get; set; }
+
+		public DateTime CreatedOnUtc { get; set; }
+
+		// Without prefix.
+		public string CustomOrderNumber { get; set; }
 	}
 }

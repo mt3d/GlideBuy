@@ -3,6 +3,7 @@ using GlideBuy.Models;
 
 namespace GlideBuy.Services.Orders
 {
+	// One of the longest services in the whole system.
 	public class OrderProcessingService : IOrderProcessingService
 	{
 		private readonly OrderSettings _orderSettings;
@@ -14,6 +15,17 @@ namespace GlideBuy.Services.Orders
 		{
 			_orderSettings = orderSettings;
 			_orderTotalCalculationService = orderTotalCalculationService;
+		}
+
+		#region Utilities
+
+		#endregion
+
+		#region Methods
+
+		public async Task PlaceOrderAsync()
+		{
+
 		}
 
 		public async Task<bool> IsPaymentRequired(IList<ShoppingCartItem> cart, bool? useRewardPoints = null)
@@ -45,5 +57,7 @@ namespace GlideBuy.Services.Orders
 
 			return true;
 		}
+
+		#endregion
 	}
 }

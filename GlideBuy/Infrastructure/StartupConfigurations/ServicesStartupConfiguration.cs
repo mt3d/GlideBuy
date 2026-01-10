@@ -38,7 +38,6 @@ namespace GlideBuy.Core.Infrastructure.StartupConfigurations
 			services.AddScoped<IOrderTotalCalculationService, OrderTotalCalculationService>();
 
 			services.AddScoped<ProductRepository>();
-			services.AddScoped<OrderRepository>();
 			services.AddScoped<ManufacturerRepository>();
 
 			services.AddScoped<IShoppingCartModelsFactory, ShoppingCartModelsFactory>();
