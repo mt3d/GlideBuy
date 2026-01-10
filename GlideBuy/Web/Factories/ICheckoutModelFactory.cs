@@ -12,5 +12,7 @@ namespace GlideBuy.Web.Factories
 		   IList<ShoppingCartItem> cart,
 		   int? selectedCountryId = null,
 		   bool prePopulateNewAddressWithCustomerFields = false);
+
+		Task<CheckoutShippingMethodModel> PrepareShippingMethodModelAsync(IList<ShoppingCartItem> cart, string postalCode);
 	}
 }

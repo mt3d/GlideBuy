@@ -17,6 +17,12 @@
 
                             <h1 class="h5 mb-md-4">Delivery information</h1>
                             <div class="ms-n5 ms-sm-0">
+
+                                <div class="alert d-flex alert-danger" role="alert">
+                                    <i class="ci-banned fs-lg pe-1 mt-1 me-2"></i>
+                                    <div><span asp-validation-for="PostCode"></span></div>
+                                </div>
+
                                 <p class="fs-sm mb-md-4">Add your Postcode to see the delivery and collection options available in your area.</p>
 
                                 <form id="delivery-info-form" asp-route="CheckoutDeliveryInformation" method="post">

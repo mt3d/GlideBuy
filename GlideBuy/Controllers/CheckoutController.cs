@@ -112,6 +112,52 @@ namespace GlideBuy.Controllers
 
 		public async Task<IActionResult> ShippingMethod()
 		{
+			// TODO: Check if checkout is disabled.
+			// TODO: Check for an empty cart.
+			// TODO: Check if one page checkout is enabled.
+			// TODO: Check if anonymous checkout is enabled.
+			var cart = await _shoppingCartService.GetShoppingCartAsync();
+
+			// TODO: Check if the shopping cart requires shipping (this usually true in electronics stores).
+
+			// TODO: Retrieves the saved postal code of the customer. Or find another way.
+			var model = await _checkoutModelFactory.PrepareShippingMethodModelAsync(cart, "H1 1AG");
+
+			// TODO: If there's only one shipping method, bypass this step (check if the settings
+			// allows this first).
+
+			return View(model);
+		}
+
+		[HttpPost, ActionName("ShippingMethod")]
+		[FormValueRequired("nextstep")]
+		public async Task<IActionResult> SelectShippingMethod(IFormCollection form)
+		{
+			// TODO: Validation.
+
+			//if (string.IsNullOrEmpty(shippingOption))
+			//{
+			//	return await ShippingMethod();
+			//}
+
+			// TODO: Check if "pickup from store" was selected.
+			bool pickupFromStore = true;
+
+			if (pickupFromStore)
+			{
+				return RedirectToRoute("CheckoutPaymentMethod");
+			}
+
+			return RedirectToRoute("CheckoutShippingAddress");
+		}
+
+		public async Task<IActionResult> ShippingAddress()
+		{
+			return View();
+		}
+
+		public async Task<IActionResult> PaymentMethod()
+		{
 			return View();
 		}
 

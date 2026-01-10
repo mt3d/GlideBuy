@@ -45,6 +45,14 @@
 				pattern: $"checkout/shippingmethod",
 				defaults: new { controller = "Checkout", action = "ShippingMethod" });
 
+			builder.MapControllerRoute(name: "CheckoutShippingAddress",
+				pattern: $"checkout/shippingaddress",
+				defaults: new { controller = "Checkout", action = "ShippingAddress" });
+
+			builder.MapControllerRoute(name: "CheckoutPaymentMethod",
+				pattern: $"checkout/paymentmethod",
+				defaults: new { controller = "Checkout", action = "PaymentMethod" });
+
 			//builder.MapDefaultControllerRoute();
 		}
 	}

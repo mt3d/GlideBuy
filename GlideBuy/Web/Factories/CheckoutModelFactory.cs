@@ -25,6 +25,7 @@ namespace GlideBuy.Web.Factories
 			_addressModelFactory = addressModelFactory;
 		}
 
+		// TODO: WIP. Redesign.
 		public async Task<OnePageCheckoutModel> PrepareOnePageCheckoutModelAsync(IList<ShoppingCartItem> cart)
 		{
 			var model = new OnePageCheckoutModel()
@@ -38,6 +39,7 @@ namespace GlideBuy.Web.Factories
 			return model;
 		}
 
+		// TODO: WIP. Redesign.
 		public async Task PrepareBillingAddressModelAsync(
 			CheckoutBillingAddressModel model,
 			IList<ShoppingCartItem> cart,
@@ -63,6 +65,15 @@ namespace GlideBuy.Web.Factories
 				address: null,
 				loadCountries: null,
 				prePopulateWithCustomerFields: prePopulateNewAddressWithCustomerFields);
+		}
+
+		public async Task<CheckoutShippingMethodModel> PrepareShippingMethodModelAsync(IList<ShoppingCartItem> cart, string postalCode)
+		{
+			var model = new CheckoutShippingMethodModel();
+
+			// TODO: Prepare the shipping model using the shipping service.
+
+			return model;
 		}
 	}
 }
