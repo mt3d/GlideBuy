@@ -63,10 +63,52 @@ namespace GlideBuy.Controllers
 				return RedirectToRoute("CheckoutOnePage");
 			}
 
-			return RedirectToRoute("CheckoutShippingMethod");
+			return RedirectToRoute("CheckoutDeliveryInformation");
 		}
 
 		#region Multi-Step Checkout
+
+		// Step #1
+		public async Task<IActionResult> DeliveryInformation()
+		{
+			// TODO: Check if checkout is disabled in the settings.
+
+			var cart = await _shoppingCartService.GetShoppingCartAsync();
+
+			if (!cart.Any())
+			{
+				return RedirectToRoute("ShoppingCart");
+			}
+
+			// TODO: Check if one step checkout is enabled.
+
+			// TODO: Check if the user is signed in and if anonymous checkout is enabled.
+
+			// TODO: Prepare the model.
+			var model = new CheckoutDeliveryInformationModel();
+			model.PostCode = string.Empty;
+
+			return View(model);
+		}
+
+		[HttpPost, ActionName("DeliveryInformation")]
+		[FormValueRequired("nextstep")]
+		public async Task<IActionResult> NewDeliveryInformation(CheckoutDeliveryInformationModel model, IFormCollection form)
+		{
+			// TODO: Check if checkout is disabled.
+			// TODO: Check for an empty cart.
+			// TODO: Check if one page checkout is enabled.
+
+			if (ModelState.IsValid)
+			{
+				// TODO: Store the postal code and associate it with the customer.
+
+				return RedirectToRoute("CheckoutShippingMethod");
+			}
+
+			// TODO: If we got this far, then something is wrong. Re-prepare the model?
+			return View(model);
+		}
 
 		public async Task<IActionResult> ShippingMethod()
 		{

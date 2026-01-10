@@ -36,8 +36,13 @@
 				pattern: $"login/checkoutasguest",
 				new { controller = "Customer", action = "Login", checkoutAsGuest = true });
 
+
+			builder.MapControllerRoute(name: "CheckoutDeliveryInformation",
+				pattern: $"checkout/deliveryinfo",
+				defaults: new { controller = "Checkout", action = "DeliveryInformation" });
+
 			builder.MapControllerRoute(name: "CheckoutShippingMethod",
-				pattern: $"/checkout/shippingmethod",
+				pattern: $"checkout/shippingmethod",
 				defaults: new { controller = "Checkout", action = "ShippingMethod" });
 
 			//builder.MapDefaultControllerRoute();
