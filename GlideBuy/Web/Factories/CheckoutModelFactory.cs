@@ -2,6 +2,7 @@
 using GlideBuy.Core.Domain.Shipping;
 using GlideBuy.Models;
 using GlideBuy.Services.Orders;
+using GlideBuy.Services.Payments;
 using GlideBuy.Web.Models.Checkout;
 
 namespace GlideBuy.Web.Factories
@@ -75,5 +76,19 @@ namespace GlideBuy.Web.Factories
 
 			return model;
 		}
+
+		public async Task<CheckoutPaymentMethodModel> PreparePaymentMethodModelAsync(IList<ShoppingCartItem> cart)
+		{
+			var model = new CheckoutPaymentMethodModel();
+
+
+
+			return model;
+		}
+
+		//public Task<> PreparePaymentInfoModelAsync(IPaymentMethod paymentMethod)
+		//{
+
+		//}
 	}
 }

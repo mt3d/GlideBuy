@@ -158,8 +158,20 @@ namespace GlideBuy.Controllers
 
 		public async Task<IActionResult> PaymentMethod()
 		{
-			return View();
+			// TODO: Check if checkout is disabled.
+			// TODO: Check for an empty cart.
+			// TODO: Check if one page checkout is enabled.
+			// TODO: Check if anonymous checkout is enabled.
+			var cart = await _shoppingCartService.GetShoppingCartAsync();
+
+
+			var paymentMethodModel = await _checkoutModelFactory.PreparePaymentMethodModelAsync(cart);
+
+			// TODO: This section cannot be bypassed, since the information is entered in this step.
+
+			return View(paymentMethodModel);
 		}
+
 
 		#endregion
 

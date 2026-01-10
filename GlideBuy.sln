@@ -14,6 +14,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AmazonPay", "AmazonPay\Amaz
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GlideBuy.Core", "GlideBuy.Core\GlideBuy.Core.csproj", "{615D4F57-6839-4DAE-9B4C-6DF2985889C9}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Plugins", "Plugins", "{5EEE2B84-48B5-4E87-BBEE-E3BE5C7A57BE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GlideBuy.Plugin.Payments.CreditCard", "Plugins\GlideBuy.Plugin.Payments.CreditCard\GlideBuy.Plugin.Payments.CreditCard.csproj", "{0C33E0B9-01EC-4C8E-9A7F-1C006866C9C9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,9 +36,16 @@ Global
 		{615D4F57-6839-4DAE-9B4C-6DF2985889C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{615D4F57-6839-4DAE-9B4C-6DF2985889C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{615D4F57-6839-4DAE-9B4C-6DF2985889C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0C33E0B9-01EC-4C8E-9A7F-1C006866C9C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C33E0B9-01EC-4C8E-9A7F-1C006866C9C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C33E0B9-01EC-4C8E-9A7F-1C006866C9C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C33E0B9-01EC-4C8E-9A7F-1C006866C9C9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{0C33E0B9-01EC-4C8E-9A7F-1C006866C9C9} = {5EEE2B84-48B5-4E87-BBEE-E3BE5C7A57BE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1EE03495-D149-474B-A581-A59868BCC484}

@@ -14,5 +14,7 @@ namespace GlideBuy.Web.Factories
 		   bool prePopulateNewAddressWithCustomerFields = false);
 
 		Task<CheckoutShippingMethodModel> PrepareShippingMethodModelAsync(IList<ShoppingCartItem> cart, string postalCode);
+
+		Task<CheckoutPaymentMethodModel> PreparePaymentMethodModelAsync(IList<ShoppingCartItem> cart);
 	}
 }
