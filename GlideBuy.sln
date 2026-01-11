@@ -22,6 +22,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GlideBuy.Plugin.Payments.Am
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GlideBuy.Plugin.Payments.CheckMoneyOrder", "Plugins\GlideBuy.Plugin.Payments.CheckMoneyOrder\GlideBuy.Plugin.Payments.CheckMoneyOrder.csproj", "{311C12DC-4E20-4AEF-8C02-3F43E7911E02}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GlideBuy.Services", "GlideBuy.Services\GlideBuy.Services.csproj", "{F8405BAC-4286-468E-A166-383F4E496A4F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GlideBuy.Data", "GlideBuy.Data\GlideBuy.Data.csproj", "{472432A8-7601-411D-BAAF-828F3E194C98}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -52,6 +56,14 @@ Global
 		{311C12DC-4E20-4AEF-8C02-3F43E7911E02}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{311C12DC-4E20-4AEF-8C02-3F43E7911E02}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{311C12DC-4E20-4AEF-8C02-3F43E7911E02}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F8405BAC-4286-468E-A166-383F4E496A4F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8405BAC-4286-468E-A166-383F4E496A4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8405BAC-4286-468E-A166-383F4E496A4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8405BAC-4286-468E-A166-383F4E496A4F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{472432A8-7601-411D-BAAF-828F3E194C98}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{472432A8-7601-411D-BAAF-828F3E194C98}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{472432A8-7601-411D-BAAF-828F3E194C98}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{472432A8-7601-411D-BAAF-828F3E194C98}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

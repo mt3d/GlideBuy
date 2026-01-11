@@ -1,5 +1,4 @@
-﻿using GlideBuy.Data.Repositories;
-using GlideBuy.Models;
+﻿using GlideBuy.Models;
 using GlideBuy.Core.Domain.Catalog;
 using GlideBuy.Data;
 using GlideBuy.Core;
@@ -10,16 +9,13 @@ namespace GlideBuy.Services.Catalog
 {
 	public class ProductService : IProductService
 	{
-		protected readonly ProductRepository productRepository;
 		protected readonly IDataRepository<Product> _productRepository;
 		protected readonly StoreDbContext _context;
 
 		public ProductService(
-			ProductRepository productRepository,
 			IDataRepository<Product> repo,
 			StoreDbContext context)
 		{
-			this.productRepository = productRepository;
 			_productRepository = repo;
 			_context = context;
 		}
@@ -35,14 +31,14 @@ namespace GlideBuy.Services.Catalog
 			return products;
 		}
 
-		public Product? GetProductById(long productId)
+		public Product? GetProductById(int productId)
 		{
-			return productRepository.GetById(productId);
+			throw new NotImplementedException();
 		}
 
-		public async Task<Product?> GetProductByIdAsync(long productId)
+		public async Task<Product?> GetProductByIdAsync(int productId)
 		{
-			return await productRepository.GetByIdAsync(productId);
+			return await _productRepository.GetByIdAsync(productId);
 		}
 
 		public bool CheckProductAvailability(Product product, DateTime? dateTime = null)
@@ -56,7 +52,7 @@ namespace GlideBuy.Services.Catalog
 			// TODO: Check if the prodcut is visible individually or just in group
 			// TODO: One could specify a time period (start date => end date), that specify
 			//		 when products are marked as new.
-			var query = from p in productRepository.Products
+			var query = from p in _productRepository.Table
 						where p.MarkedAsNew && !p.Deleted
 						select p;
 
@@ -71,11 +67,6 @@ namespace GlideBuy.Services.Catalog
 			// TODO: Consider using paged Lists
 
 			return query.Skip(pageIndex * pageSize).Take(pageSize).ToList();
-		}
-
-		public async Task<Product?> GetProductByIdAsync(int productId)
-		{
-			return await productRepository.GetByIdAsync(productId);
 		}
 
 		public Task<IList<Product>> GetProducts(long[] ids)

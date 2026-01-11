@@ -1,6 +1,7 @@
-﻿using System.Text.Json;
+﻿using Microsoft.AspNetCore.Http;
+using System.Text.Json;
 
-namespace GlideBuy.Core.Infrastructure
+namespace GlideBuy.Services
 {
 	public static class SessionExtensions
 	{

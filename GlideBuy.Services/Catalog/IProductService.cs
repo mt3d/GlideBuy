@@ -7,9 +7,9 @@ namespace GlideBuy.Services.Catalog
 	{
 		#region Products
 
-		Product? GetProductById(long productId);
+		Product? GetProductById(int productId);
 
-		Task<Product?> GetProductByIdAsync(long productId);
+		Task<Product?> GetProductByIdAsync(int productId);
 
 		// TODO: Use PagedList
 		IList<Product> GetNewProducts(int pageIndex = 0, int pageSize = 0);

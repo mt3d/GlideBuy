@@ -1,8 +1,6 @@
 ﻿using GlideBuy.Core;
 using GlideBuy.Core.Domain.Common;
 using GlideBuy.Core.Domain.Orders;
-using GlideBuy.Data.Repositories;
-using GlideBuy.Models;
 using GlideBuy.Services.Common;
 using GlideBuy.Services.Customers;
 using GlideBuy.Services.Orders;

@@ -1,7 +1,7 @@
 ﻿using GlideBuy.Models.Common;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace GlideBuy.Models
+namespace GlideBuy.Domain.Catalog
 {
 	public class Manufacturer : ISoftDeletable
 	{

@@ -4,6 +4,7 @@ using GlideBuy.Core.Domain.Customers;
 using GlideBuy.Core.Domain.Directory;
 using GlideBuy.Core.Domain.Orders;
 using GlideBuy.Core.Domain.Seo;
+using GlideBuy.Domain.Catalog;
 using GlideBuy.Models;
 using GlideBuy.Models.Localization;
 using Microsoft.EntityFrameworkCore;

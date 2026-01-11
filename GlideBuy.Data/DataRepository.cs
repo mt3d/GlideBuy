@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using GlideBuy.Core.Caching;
-using GlideBuy.Data;
 using GlideBuy.Models.Common;
 using GlideBuy.Models;
 

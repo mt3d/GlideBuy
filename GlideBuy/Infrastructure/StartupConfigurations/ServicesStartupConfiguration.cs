@@ -1,6 +1,5 @@
 ﻿using GlideBuy.Core.Caching;
 using GlideBuy.Core.Configuration;
-using GlideBuy.Data.Repositories;
 using GlideBuy.Services.Catalog;
 using GlideBuy.Services.Common;
 using GlideBuy.Services.Configuration;
@@ -36,9 +35,6 @@ namespace GlideBuy.Core.Infrastructure.StartupConfigurations
 			services.AddScoped<IAddressService, AddressService>();
 			services.AddScoped<ICustomerService, CustomerService>();
 			services.AddScoped<IOrderTotalCalculationService, OrderTotalCalculationService>();
-
-			services.AddScoped<ProductRepository>();
-			services.AddScoped<ManufacturerRepository>();
 
 			services.AddScoped<IShoppingCartModelsFactory, ShoppingCartModelsFactory>();
 			services.AddScoped<ICheckoutModelFactory, CheckoutModelFactory>();

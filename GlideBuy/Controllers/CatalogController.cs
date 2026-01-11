@@ -1,7 +1,5 @@
-﻿using GlideBuy.Data.Repositories;
-using GlideBuy.Services.Catalog;
+﻿using GlideBuy.Services.Catalog;
 using GlideBuy.Web.Factories;
-using GlideBuy.Web.Models.Catalog;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GlideBuy.Controllers
@@ -11,16 +9,12 @@ namespace GlideBuy.Controllers
 		private readonly ICategoryService _categoryService;
 		private readonly ICatalogModelFactory _catalogModelFactory;
 
-		private readonly ProductRepository productRepository;
-
 		public int PageSize = 4;
 
 		public CatalogController(
-			ProductRepository productRepository,
 			ICategoryService categoryService,
 			ICatalogModelFactory categoryModelFactory)
 		{
-			this.productRepository = productRepository;
 			_categoryService = categoryService;
 			_catalogModelFactory = categoryModelFactory;
 		}
