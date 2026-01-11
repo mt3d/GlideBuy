@@ -4,7 +4,7 @@ namespace GlideBuy.Plugin.Payments.AmazonPay
 {
 	public class AmazonPayPlugin : IPaymentMethod
 	{
-		public Task<ProcessPaymentResult> ProcessPaymentAsync(ProcessPaymentRequest processPaymentRequest)
+		public Task<ProcessPaymentResult> ProcessPaymentAsync(OrderPaymentContext processPaymentRequest)
 		{
 			/**
 			 * When you use a payment method that redirects to a third-party

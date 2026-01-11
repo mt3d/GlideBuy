@@ -2,7 +2,7 @@
 {
 	public interface IPaymentMethod
 	{
-		Task<ProcessPaymentResult> ProcessPaymentAsync(ProcessPaymentRequest processPaymentRequest);
+		Task<ProcessPaymentResult> ProcessPaymentAsync(OrderPaymentContext processPaymentRequest);
 
 		PaymentMethodType PaymentMethodType { get; }
 	}
