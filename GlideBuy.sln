@@ -16,6 +16,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Plugins", "Plugins", "{5EEE
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GlideBuy.Plugin.Payments.CreditCard", "Plugins\GlideBuy.Plugin.Payments.CreditCard\GlideBuy.Plugin.Payments.CreditCard.csproj", "{0C33E0B9-01EC-4C8E-9A7F-1C006866C9C9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GlideBuy.Plugin.Payments.PayPalCommerce", "Plugins\GlideBuy.Plugin.Payments.PayPalCommerce\GlideBuy.Plugin.Payments.PayPalCommerce.csproj", "{C95EE658-9D38-4C41-9AD6-DD20A631DC9B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GlideBuy.Plugin.Payments.AmazonPay", "Plugins\GlideBuy.Plugin.Payments.AmazonPay\GlideBuy.Plugin.Payments.AmazonPay.csproj", "{1CD22FEF-CFA2-43BC-8CC7-EAB4B5ADDACA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GlideBuy.Plugin.Payments.CheckMoneyOrder", "Plugins\GlideBuy.Plugin.Payments.CheckMoneyOrder\GlideBuy.Plugin.Payments.CheckMoneyOrder.csproj", "{311C12DC-4E20-4AEF-8C02-3F43E7911E02}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -34,12 +40,27 @@ Global
 		{0C33E0B9-01EC-4C8E-9A7F-1C006866C9C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0C33E0B9-01EC-4C8E-9A7F-1C006866C9C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0C33E0B9-01EC-4C8E-9A7F-1C006866C9C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C95EE658-9D38-4C41-9AD6-DD20A631DC9B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C95EE658-9D38-4C41-9AD6-DD20A631DC9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C95EE658-9D38-4C41-9AD6-DD20A631DC9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C95EE658-9D38-4C41-9AD6-DD20A631DC9B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1CD22FEF-CFA2-43BC-8CC7-EAB4B5ADDACA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1CD22FEF-CFA2-43BC-8CC7-EAB4B5ADDACA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1CD22FEF-CFA2-43BC-8CC7-EAB4B5ADDACA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1CD22FEF-CFA2-43BC-8CC7-EAB4B5ADDACA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{311C12DC-4E20-4AEF-8C02-3F43E7911E02}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{311C12DC-4E20-4AEF-8C02-3F43E7911E02}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{311C12DC-4E20-4AEF-8C02-3F43E7911E02}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{311C12DC-4E20-4AEF-8C02-3F43E7911E02}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{0C33E0B9-01EC-4C8E-9A7F-1C006866C9C9} = {5EEE2B84-48B5-4E87-BBEE-E3BE5C7A57BE}
+		{C95EE658-9D38-4C41-9AD6-DD20A631DC9B} = {5EEE2B84-48B5-4E87-BBEE-E3BE5C7A57BE}
+		{1CD22FEF-CFA2-43BC-8CC7-EAB4B5ADDACA} = {5EEE2B84-48B5-4E87-BBEE-E3BE5C7A57BE}
+		{311C12DC-4E20-4AEF-8C02-3F43E7911E02} = {5EEE2B84-48B5-4E87-BBEE-E3BE5C7A57BE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1EE03495-D149-474B-A581-A59868BCC484}
