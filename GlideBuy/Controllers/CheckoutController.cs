@@ -6,6 +6,7 @@ using GlideBuy.Models;
 using GlideBuy.Services.Common;
 using GlideBuy.Services.Customers;
 using GlideBuy.Services.Orders;
+using GlideBuy.Services.Payments;
 using GlideBuy.Support.Controllers;
 using GlideBuy.Web.Factories;
 using GlideBuy.Web.Models.Checkout;
@@ -181,6 +182,7 @@ namespace GlideBuy.Controllers
 			return View(paymentMethodModel);
 		}
 
+		// Compared to Nop, this method is a merge of SelectPaymentMethod, EnterPaymentInfo, and ConfirmOrder.
 		// TODO: Validate captcha.
 		// TODO: Should be PaymentMethod, because in case of errors, we will get redirected to PaymentMethod.
 		[HttpPost, ActionName("PaymentMethod")]
@@ -191,10 +193,29 @@ namespace GlideBuy.Controllers
 			// Check if cart is empty.
 			// Check if anonymous checkout is enabled.
 
+			var customer = await _workContext.GetCurrentCustomerAsync();
 			var cart = await _shoppingCartService.GetShoppingCartAsync();
 			var model = await _checkoutModelFactory.PreparePaymentMethodModelAsync(cart);
 
-			// TODO: Check if captcha is valid. If not add create PaymentMethod
+			// TODO: payment method name should be a parameter, and it should not be null.
+			// First, check that the payment plugin is active. If not, reload.
+			// Save the payment method as an attribute (SelectedPaymentMethodAttribute)
+			// for next steps. In our case, there are none.
+			// Load SelectedPaymentMethodAttribute.
+			var paymentMethodName = "";
+			var paymentMethodSystemName = paymentMethodName;
+			IPaymentMethod paymentMethod = null; // TODO: Load from PluginManager.
+			// IForm should be an argument.
+			// TODO: Validate the payment form using paymentMethod.ValidatePaymentFormAsync()
+			// If there was a next step, we would do:
+			// _orderProcessingService.SetProcessPaymentRequestAsync(await paymentMethod.GetPaymentInfoAsync(form)
+			// and then retrieve it in the next step. However, in our case we could create it immediately.
+			// Or should we?
+			// What IPaymentMethod.GetPaymentInfo() does is simply to fill a ProcessPaymentRequest
+			// using the form value, so that these information is available for next steps.
+
+
+			// TODO: Check if captcha is valid. If not realod.
 
 			try
 			{
@@ -203,14 +224,14 @@ namespace GlideBuy.Controllers
 				 * The core logic begins inside the try block, and this is where payment processing becomes relevant. The first check inside this block enforces the minimum order placement interval. This is an anti-double-submit mechanism that protects against rapid repeated clicks, browser retries, or malicious automation. If this interval is violated, the method throws an exception, which is then handled uniformly by the catch block and surfaced to the user as a warning.
 				 */
 
-				// TODO: GetProcessPaymentRequestAsync. A ProcessPaymentRequest should be created
-				// since in our store, EnterPaymentInfo and ConfirmOrder are a single step.
-				// If the payment method requires redirect to an external page, this request will
-				// be retrieved once we get back to here.
-
 				/**
 				 * The next step is retrieving the ProcessPaymentRequest via _orderProcessingService.GetProcessPaymentRequestAsync(). This object is central to understanding NopCommerce’s payment architecture. It acts as a state container that survives across checkout steps, especially in scenarios where the payment method requires a redirect or additional information. If this request is null, the system checks whether a payment workflow is required at all. This covers cases such as zero-total orders, cash on delivery, or payment methods that do not require an intermediate payment info step. If a workflow is required, the user is redirected back to CheckoutPaymentInfo, because confirming the order without required payment data would be invalid. Otherwise, a new ProcessPaymentRequest is created.
 				 */
+				// TODO: Use
+				// var processPaymentRequest = await _orderProcessingService.GetProcessPaymentRequestAsync();
+				var orderPaymentContext = new OrderPaymentContext();
+				orderPaymentContext.CustomerId = customer.Id;
+
 
 				// TODO: SetProcessPaymentRequestAsync
 				/**

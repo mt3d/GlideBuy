@@ -32,7 +32,8 @@ namespace GlideBuy.Services.Orders
 
 		protected async Task PrepareAndValidateCustomerAsync(PlaceOrderContainer details, OrderPaymentContext orderPaymentContext, Currency currency)
 		{
-			details.Customer = _customerService
+			// OrderPaymentContext.CustomerId is set in the final checkout step.
+			details.Customer = await _customerService.GetCustomerByIdAsync(orderPaymentContext.CustomerId);
 		}
 
 		protected async Task<PlaceOrderContainer> PreparePlaceOrderDetailsAsync(OrderPaymentContext orderPaymentContext)
