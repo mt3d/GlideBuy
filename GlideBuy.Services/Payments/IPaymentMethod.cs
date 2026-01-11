@@ -1,6 +1,8 @@
-﻿namespace GlideBuy.Services.Payments
+﻿using GlideBuy.Services.Plugins;
+
+namespace GlideBuy.Services.Payments
 {
-	public interface IPaymentMethod
+	public interface IPaymentMethod : IPlugin
 	{
 		Task<ProcessPaymentResult> ProcessPaymentAsync(OrderPaymentContext processPaymentRequest);
 
