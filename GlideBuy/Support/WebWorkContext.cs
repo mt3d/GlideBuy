@@ -1,5 +1,6 @@
 ﻿using GlideBuy.Core;
 using GlideBuy.Core.Domain.Customers;
+using GlideBuy.Core.Domain.Directory;
 using GlideBuy.Core.Http;
 using GlideBuy.Core.Security;
 using GlideBuy.Services.Customers;
@@ -113,6 +114,22 @@ namespace GlideBuy.Support
 
 				_cachedCustomer = customer;
 			}
+		}
+
+		// TODO: Implement in the future when multicurrencies are fully-supported.
+		public async Task<Currency> GetWorkingCurrencyAsync()
+		{
+			return new Currency
+			{
+				Name = "US Dollar",
+				CurrencyCode = "USD",
+				Rate = 1,
+				DisplayLocale = "en-US",
+				Published = true,
+				DisplayOrder = 1,
+				CreatedOnUtc = DateTime.UtcNow,
+				UpdatedOnUtc = DateTime.UtcNow,
+			};
 		}
 	}
 }
