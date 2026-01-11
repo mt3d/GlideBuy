@@ -1,5 +1,9 @@
-﻿using GlideBuy.Core.Domain.Orders;
+﻿using GlideBuy.Core;
+using GlideBuy.Core.Domain.Customers;
+using GlideBuy.Core.Domain.Directory;
+using GlideBuy.Core.Domain.Orders;
 using GlideBuy.Models;
+using GlideBuy.Services.Customers;
 using GlideBuy.Services.Payments;
 
 namespace GlideBuy.Services.Orders
@@ -9,22 +13,35 @@ namespace GlideBuy.Services.Orders
 	{
 		private readonly OrderSettings _orderSettings;
 		private readonly IOrderTotalCalculationService _orderTotalCalculationService;
+		private readonly IWorkContext _workContext;
+		private readonly ICustomerService _customerService;
 
 		public OrderProcessingService(
 			OrderSettings orderSettings,
-			IOrderTotalCalculationService orderTotalCalculationService)
+			IOrderTotalCalculationService orderTotalCalculationService,
+			IWorkContext workContext,
+			ICustomerService customerService)
 		{
 			_orderSettings = orderSettings;
 			_orderTotalCalculationService = orderTotalCalculationService;
+			_workContext = workContext;
+			_customerService = customerService;
 		}
 
 		#region Utilities
+
+		protected async Task PrepareAndValidateCustomerAsync(PlaceOrderContainer details, OrderPaymentContext orderPaymentContext, Currency currency)
+		{
+			details.Customer = _customerService
+		}
 
 		protected async Task<PlaceOrderContainer> PreparePlaceOrderDetailsAsync(OrderPaymentContext orderPaymentContext)
 		{
 			var details = new PlaceOrderContainer();
 
-			var currentCurrency = 
+			var currentCurrency = await _workContext.GetWorkingCurrencyAsync();
+			await PrepareAndValidateCustomerAsync(details, orderPaymentContext, currentCurrency);
+
 			// TODO: Add support for recurring payments and validate them.
 
 			return details;
@@ -108,7 +125,7 @@ namespace GlideBuy.Services.Orders
 		/// </summary>
 		protected class PlaceOrderContainer
 		{
-
+			public Customer Customer { get; set; }
 		}
 
 		#endregion

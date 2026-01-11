@@ -9,6 +9,8 @@ namespace GlideBuy.Services.Customers
 
 		Task<Customer> InsertGuestCustomerAsync();
 
+		Task<Customer?> GetCustomerByIdAsync(int id);
+
 		Task<Customer?> GetCustomerByGuidAsync(Guid customerGuid);
 
 		Task UpdateCustomerAsync(Customer customer);

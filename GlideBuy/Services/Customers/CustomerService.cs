@@ -67,6 +67,11 @@ namespace GlideBuy.Services.Customers
 			return customerRole;
 		}
 
+		public async Task<Customer?> GetCustomerByIdAsync(int id)
+		{
+			return await _customerRepository.GetByIdAsync(id, cache => default); // TODO: Use short term cache.
+		}
+
 		public async Task<Customer?> GetCustomerByGuidAsync(Guid customerGuid)
 		{
 			if (customerGuid == Guid.Empty)
