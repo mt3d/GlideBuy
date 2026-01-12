@@ -1,15 +1,15 @@
-﻿@page "/admin"
+﻿@page "/admin_blazor"
 @{ Layout = null; }
 @using GlideBuy.Core.Infrastructure
 @using GlideBuy.Models
 @using Microsoft.AspNetCore.Authorization
-@attribute [Authorize]
+@* @attribute [Authorize] *@
 
 <!DOCTYPE html>
 <html>
 	<head>
 		<title>Store Admin</title>
-		<link href="/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+		<link href="~/assets/css/theme.min.css" rel="stylesheet" asp-append-version="true"/>
 		<base href="/" />
 	</head>
 	<body>

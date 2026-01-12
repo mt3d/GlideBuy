@@ -13,6 +13,9 @@ namespace GlideBuy.Core.Infrastructure
 		 */
 		public void AddRoutes(IEndpointRouteBuilder builder)
 		{
+			builder.MapControllerRoute(name: "areaRoute",
+				pattern: $"{{area:exists}}/{{controller=Home}}/{{action=Index}}/{{id?}}");
+
 			// Add product to cart from a product list page or component. Called using AJAX.
 			// TODO: Add min(0) constraint.
 			builder.MapControllerRoute(name: "AddProductToCart-Catalog",
