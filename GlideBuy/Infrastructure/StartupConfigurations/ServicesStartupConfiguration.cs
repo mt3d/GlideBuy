@@ -1,4 +1,5 @@
-﻿using GlideBuy.Core.Caching;
+﻿using GlideBuy.Areas.Admin.Factories;
+using GlideBuy.Core.Caching;
 using GlideBuy.Core.Configuration;
 using GlideBuy.Services.Catalog;
 using GlideBuy.Services.Common;
@@ -23,29 +24,32 @@ namespace GlideBuy.Core.Infrastructure.StartupConfigurations
 
 		public void ConfigureServices(IServiceCollection services, IConfiguration configuration)
 		{
+			// Admin dashboard factories
+
+			services.AddScoped<IPluginModelFactory, PluginModelFactory>();
+
 			services.AddSingleton<ICacheKeyManager, CacheKeyManager>();
 			services.AddSingleton<IStaticCacheManager, MemoryCacheManager>();
 			services.AddSingleton<ICacheKeyBuilder, MemoryCacheManager>();
 
 			services.AddScoped<IWorkContext, WebWorkContext>();
 
-			services.AddScoped<IOrderProcessingService, OrderProcessingService>();
+			services.AddScoped<IShoppingCartModelsFactory, ShoppingCartModelsFactory>();
+			services.AddScoped<ICheckoutModelFactory, CheckoutModelFactory>();
+			services.AddScoped<IAddressModelFactory, AddressModelFactory>();
+			services.AddScoped<ICatalogModelFactory, CatalogModelFactory>();
+			services.AddScoped<ICommonModelFactory, CommonModelFactory>();
+			services.AddScoped<IProductModelFactory, ProductModelFactory>();
 
+			services.AddScoped<IProductService, ProductService>();
+			services.AddScoped<IShippingService, ShippingService>();
+			services.AddScoped<IUrlRecordService, UrlRecordService>();
+			services.AddScoped<ICategoryService,  CategoryService>();
+			services.AddScoped<IOrderProcessingService, OrderProcessingService>();
 			services.AddScoped<ISettingService, SettingService>();
 			services.AddScoped<IAddressService, AddressService>();
 			services.AddScoped<ICustomerService, CustomerService>();
 			services.AddScoped<IOrderTotalCalculationService, OrderTotalCalculationService>();
-
-			services.AddScoped<IShoppingCartModelsFactory, ShoppingCartModelsFactory>();
-			services.AddScoped<ICheckoutModelFactory, CheckoutModelFactory>();
-			services.AddScoped<IAddressModelFactory, AddressModelFactory>();
-			services.AddScoped<IProductService, ProductService>();
-			services.AddScoped<IShippingService, ShippingService>();
-			services.AddScoped<ICatalogModelFactory, CatalogModelFactory>();
-			services.AddScoped<IUrlRecordService, UrlRecordService>();
-			services.AddScoped<ICategoryService,  CategoryService>();
-			services.AddScoped<ICommonModelFactory, CommonModelFactory>();
-			services.AddScoped<IProductModelFactory, ProductModelFactory>();
 
 			// TODO: Check if the database is installed. Why?
 			services.AddScoped<SlugRouteTransformer>();

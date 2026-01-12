@@ -15,5 +15,7 @@
 		void LoadPluginInfo();
 
 		IList<PluginDescriptorBaseInfo> InstalledPlugins { get; set; }
+
+		IList<(PluginDescriptor pluginDescriptor, bool needToDeploy)> PluginDescriptors { get; set; }
 	}
 }

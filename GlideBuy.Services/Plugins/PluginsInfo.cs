@@ -25,5 +25,7 @@ namespace GlideBuy.Services.Plugins
 		{
 			throw new NotImplementedException();
 		}
+
+		public IList<(PluginDescriptor pluginDescriptor, bool needToDeploy)> PluginDescriptors { get; set; }
 	}
 }
