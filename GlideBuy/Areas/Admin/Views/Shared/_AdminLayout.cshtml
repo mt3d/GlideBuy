@@ -10,12 +10,6 @@
     <!-- App favicon -->
     <link rel="shortcut icon" href="~/admin/assets/images/favicon.ico">
 
-    <!-- Daterangepicker css -->
-    <link href="~/admin/assets/vendor/daterangepicker/daterangepicker.css" rel="stylesheet" type="text/css">
-
-    <!-- Vector Map css -->
-    <link href="~/admin/assets/vendor/jsvectormap/jsvectormap.min.css" rel="stylesheet" type="text/css">
-
     <!-- Theme Config Js -->
     <script src="~/admin/assets/js/hyper-config.js"></script>
 
@@ -29,6 +23,8 @@
     <link href="~/admin/assets/css/unicons/css/unicons.css" rel="stylesheet" type="text/css" />
     <link href="~/admin/assets/css/remixicon/remixicon.css" rel="stylesheet" type="text/css" />
     <link href="~/admin/assets/css/mdi/css/materialdesignicons.min.css" rel="stylesheet" type="text/css" />
+
+    @RenderSection("Styles", false)
 </head>
 
 <body>
@@ -1152,20 +1148,7 @@
     <!-- App js -->
     <script src="~/admin/assets/js/app.js"></script>
 
-    <!-- Daterangepicker js -->
-    <script src="~/admin/assets/vendor/moment/moment.min.js"></script>
-    <script src="~/admin/assets/vendor/daterangepicker/daterangepicker.js"></script>
-
-    <!-- Apex Charts js -->
-    <script src="~/admin/assets/vendor/apexcharts/apexcharts.min.js"></script>
-
-    <!-- Vector Map Js -->
-    <script src="~/admin/assets/vendor/jsvectormap/jsvectormap.min.js"></script>
-    <script src="~/admin/assets/vendor/jsvectormap/world-merc.js"></script>
-    <script src="~/admin/assets/vendor/jsvectormap/world.js"></script>
-
-    <!-- Dashboard App js -->
-    <script src="~/admin/assets/js/pages/demo.dashboard.js"></script>
+    @RenderSection("Scripts", false)
 
 </body>
 </html>

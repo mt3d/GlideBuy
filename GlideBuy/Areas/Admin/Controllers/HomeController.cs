@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace GlideBuy.Areas.Admin.Controllers.Home
+namespace GlideBuy.Areas.Admin.Controllers
 {
 	// TODO: Use a base controller for all admin controllers
 	// should be authorized.
