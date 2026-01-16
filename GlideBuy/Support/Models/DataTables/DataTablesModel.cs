@@ -15,5 +15,7 @@
 		public IList<ColumnProperty> ColumnCollection { get; set; }
 
 		public DataUrl UrlRead { get; set; }
+
+		public int Length { get; set; }
 	}
 }

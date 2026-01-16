@@ -10,6 +10,6 @@
 		public int Start { get; set; }
 
 		// Sets the page length.
-		public int Length { get; set; }
+		public int Length { get; set; } = 10;
 	}
 }

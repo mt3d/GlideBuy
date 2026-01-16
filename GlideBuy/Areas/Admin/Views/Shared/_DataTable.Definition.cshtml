@@ -1,5 +1,6 @@
 ﻿@using GlideBuy.Support.Models.DataTables
 @using System.Text.Encodings.Web
+@using System.Text.Json
 @model DataTablesModel
 
 @functions
@@ -29,12 +30,18 @@ else
 			url: '@Html.Raw(GetUrl(Model.UrlRead))',
 			type: 'POST',
 			dataType: 'json',
-			dataSrc: 'Data'
+			dataSrc: 'Data',
+			data: function(data)
+			{
+				return data;
+			}
 		},
 	</text>
 }
 
+scrollX: true,
 paging: '@Model.Paging.ToString().ToLowerInvariant()',
+pageLength: @Model.Length,
 
 @* https://datatables.net/reference/option/columns *@
 columns: [
@@ -46,10 +53,9 @@ columns: [
 			{
 				@if (!string.IsNullOrEmpty(column.Title))
 				{
-					<text>
-						title: '@JavaScriptEncoder.Default.Encode(column.Title)'
-					</text>
-				}
+					<text>title: '@JavaScriptEncoder.Default.Encode(column.Title)'</text>
+				},
+				data: '@JsonNamingPolicy.CamelCase.ConvertName(column.Data)'
 			}
 		</text>
 		@if (i != Model.ColumnCollection.Count - 1)

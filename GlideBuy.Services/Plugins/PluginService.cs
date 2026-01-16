@@ -9,7 +9,10 @@ namespace GlideBuy.Services.Plugins
 
 		public PluginService()
 		{
+			// TODO: Init at application startup.
+			Singleton<PluginsInfo>.Instance = new PluginsInfo();
 			_pluginsInfo = Singleton<PluginsInfo>.Instance;
+			_pluginsInfo.PluginDescriptors = new List<(PluginDescriptor pluginDescriptor, bool needToDeploy)>();
 		}
 
 		// TODO: Support filtering.

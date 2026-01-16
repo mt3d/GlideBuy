@@ -11,6 +11,7 @@ using GlideBuy.Services.Seo;
 using GlideBuy.Services.Shipping;
 using GlideBuy.Support;
 using GlideBuy.Support.Mvc.Routing;
+using GlideBuy.Support.UI;
 using GlideBuy.Web.Factories;
 
 namespace GlideBuy.Core.Infrastructure.StartupConfigurations
@@ -52,6 +53,8 @@ namespace GlideBuy.Core.Infrastructure.StartupConfigurations
 			services.AddScoped<ICustomerService, CustomerService>();
 			services.AddScoped<IOrderTotalCalculationService, OrderTotalCalculationService>();
 			services.AddScoped<IPluginService, PluginService>();
+
+			services.AddScoped<ISupportHtmlHelper, SupportHtmlHelper>();
 
 			// TODO: Check if the database is installed. Why?
 			services.AddScoped<SlugRouteTransformer>();

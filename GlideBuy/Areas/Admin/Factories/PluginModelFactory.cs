@@ -24,7 +24,20 @@ namespace GlideBuy.Areas.Admin.Factories
 
 			var plugins = (await _pluginService.GetPluginDescriptorsAsync<IPlugin>()).ToPagedList(searchModel);
 
+			// TODO: Move to a dedicated method.
 			var model = new PluginListModel();
+			model.Data = (plugins.Select(pluginDescriptor =>
+			{
+				// TODO: Use automapper.
+				var pluginModel = new PluginModel();
+				pluginModel.Group = pluginDescriptor.Group;
+				pluginModel.FriendlyName = pluginDescriptor.FriendlyName;
+
+				return pluginModel;
+			})).ToList();
+			model.Draw = "1";
+			model.RecordsFiltered = plugins.Count;
+			model.RecordsTotal = plugins.Count;
 
 			return model;
 		}

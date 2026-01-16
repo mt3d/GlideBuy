@@ -1,6 +1,8 @@
-﻿namespace GlideBuy.Areas.Admin.Models.Plugins
+﻿using GlideBuy.Support.Models;
+
+namespace GlideBuy.Areas.Admin.Models.Plugins
 {
-	public class PluginModel
+	public record PluginModel : BaseModel
 	{
 		public string Group { get; set; }
 

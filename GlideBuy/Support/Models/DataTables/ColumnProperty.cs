@@ -2,6 +2,7 @@
 {
 	public class ColumnProperty
 	{
+		// data is the name of the property that should be read to populate this column.
 		public ColumnProperty(string data)
 		{
 			Data = data;

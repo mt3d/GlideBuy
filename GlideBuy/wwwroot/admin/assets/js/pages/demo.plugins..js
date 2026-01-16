@@ -1,5 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
-    var e = document.getElementById("products-datatable");
+    return;
+
+    var e = document.getElementById("plugins-local-table");
     e && new DataTable(e, {
         columnDefs: [{
             orderable: !1,
