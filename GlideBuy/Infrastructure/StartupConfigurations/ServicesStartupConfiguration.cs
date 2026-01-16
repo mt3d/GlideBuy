@@ -6,6 +6,7 @@ using GlideBuy.Services.Common;
 using GlideBuy.Services.Configuration;
 using GlideBuy.Services.Customers;
 using GlideBuy.Services.Orders;
+using GlideBuy.Services.Plugins;
 using GlideBuy.Services.Seo;
 using GlideBuy.Services.Shipping;
 using GlideBuy.Support;
@@ -50,6 +51,7 @@ namespace GlideBuy.Core.Infrastructure.StartupConfigurations
 			services.AddScoped<IAddressService, AddressService>();
 			services.AddScoped<ICustomerService, CustomerService>();
 			services.AddScoped<IOrderTotalCalculationService, OrderTotalCalculationService>();
+			services.AddScoped<IPluginService, PluginService>();
 
 			// TODO: Check if the database is installed. Why?
 			services.AddScoped<SlugRouteTransformer>();

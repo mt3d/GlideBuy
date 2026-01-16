@@ -1,6 +1,8 @@
-﻿namespace GlideBuy.Areas.Admin.Models.Plugins
+﻿using GlideBuy.Support.Models;
+
+namespace GlideBuy.Areas.Admin.Models.Plugins
 {
-	public record PluginSearchModel
+	public record PluginSearchModel : BaseSearchModel
 	{
 		public bool NeedRestart { get; set; }
 	}

@@ -1,0 +1,60 @@
+﻿@using GlideBuy.Support.Models.DataTables
+@using System.Text.Encodings.Web
+@model DataTablesModel
+
+@functions
+{
+	string? GetUrl(DataUrl dataUrl)
+	{
+		if (!string.IsNullOrEmpty(dataUrl?.ActionName) && !string.IsNullOrEmpty(dataUrl?.ControllerName))
+		{
+			return Url.Action(dataUrl.ActionName, dataUrl.ControllerName, null);
+		}
+
+		var url = dataUrl.Url;
+
+		return $"{url}/";
+	}
+}
+
+@if (Model.Data != null)
+{
+	
+}
+else
+{
+	<text>
+		ajax:
+		{
+			url: '@Html.Raw(GetUrl(Model.UrlRead))',
+			type: 'POST',
+			dataType: 'json',
+			dataSrc: 'Data'
+		},
+	</text>
+}
+
+paging: '@Model.Paging.ToString().ToLowerInvariant()',
+
+@* https://datatables.net/reference/option/columns *@
+columns: [
+	@for (int i = 0; i < Model.ColumnCollection.Count; i++)
+	{
+		var column = Model.ColumnCollection[i];
+
+		<text>
+			{
+				@if (!string.IsNullOrEmpty(column.Title))
+				{
+					<text>
+						title: '@JavaScriptEncoder.Default.Encode(column.Title)'
+					</text>
+				}
+			}
+		</text>
+		@if (i != Model.ColumnCollection.Count - 1)
+		{
+			<text>,</text>
+		}
+	}
+]

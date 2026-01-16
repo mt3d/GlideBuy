@@ -1,13 +1,15 @@
 ﻿
+using GlideBuy.Core.Infrastructure;
+
 namespace GlideBuy.Services.Plugins
 {
 	public class PluginService : IPluginService
 	{
 		private readonly IPluginsInfo _pluginsInfo;
 
-		public PluginService(IPluginsInfo pluginsInfo)
+		public PluginService()
 		{
-			_pluginsInfo = pluginsInfo;
+			_pluginsInfo = Singleton<PluginsInfo>.Instance;
 		}
 
 		// TODO: Support filtering.
