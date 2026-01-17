@@ -172,10 +172,16 @@ namespace GlideBuy.Controllers
 			// TODO: Check if anonymous checkout is enabled.
 			var cart = await _shoppingCartService.GetShoppingCartAsync();
 
+			// TODO: Check if payment workflow is required using OrderProcessingService.
+			// TODO: Get the customer country for filtering.
 
 			var paymentMethodModel = await _checkoutModelFactory.PreparePaymentMethodModelAsync(cart);
 
-			// TODO: This section cannot be bypassed, since the information is entered in this step.
+			// TODO: This section cannot be bypassed, since we need the final confirmation
+			// of the user anyway. Howeve, it could be skipped in the future, if there are
+			// further steps.
+
+			// TODO: Handle payment method information.
 
 			return View(paymentMethodModel);
 		}

@@ -10,6 +10,12 @@
 			public string PaymentMethodSystemName { get; set; }
 
 			public string Name { get; set; }
+
+			public bool Selected { get; set; }
+
+			public string Description { get; set; }
+
+			public Type PaymentViewComponent { get; set; }
 		}
 	}
 }

@@ -70,7 +70,7 @@ namespace GlideBuy.Controllers
 			int cartTypeId,
 			int quantity)
 		{
-			Product? product = productService.GetProductById(productId);
+			Product? product = await productService.GetProductByIdAsync(productId);
 			if (product is null)
 			{
 				return Json(new

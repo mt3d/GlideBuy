@@ -13,17 +13,20 @@ namespace GlideBuy.Web.Factories
 		private readonly OrderSettings _orderSettings;
 		private readonly ShippingSettings _shippingSettings;
 		private readonly IAddressModelFactory _addressModelFactory;
+		private readonly IPaymentPluginManager _paymentPluginManager;
 
 		public CheckoutModelFactory(
 			IShoppingCartService shoppingCartService,
 			OrderSettings orderSettings,
 			ShippingSettings shippingSettings,
-			IAddressModelFactory addressModelFactory)
+			IAddressModelFactory addressModelFactory,
+			IPaymentPluginManager paymentPluginManager)
 		{
 			_shoppingCartService = shoppingCartService;
 			_orderSettings = orderSettings;
 			_shippingSettings = shippingSettings;
 			_addressModelFactory = addressModelFactory;
+			_paymentPluginManager = paymentPluginManager;
 		}
 
 		// TODO: WIP. Redesign.
@@ -81,7 +84,47 @@ namespace GlideBuy.Web.Factories
 		{
 			var model = new CheckoutPaymentMethodModel();
 
+			// TODO: filter by country and customer.
+			// TODO: filter by payment method. Only Standard or Redirection
+			// TODO: Check if some methods should be hidden => HidePaymentMethodAsync().
+			var paymentMethods = await _paymentPluginManager.LoadActivePluginsAsync();
 
+			foreach (var pm in paymentMethods)
+			{
+				// TODO: Check if the shopping cart is 'recurring' and this method does not
+				// support recurring payments. Return in this case.
+
+				var pmModel = new CheckoutPaymentMethodModel.PaymentMethodModel
+				{
+					// TODO: Localized. Support localizing plugins friendly names.
+					// TODO: Get the name from the plugin descriptor.
+					Name = pm.PluginDescriptor.SystemName,
+
+					// TODO: Should be removed?
+					Description = await pm.GetPaymentMethodDescriptionAsync(),
+
+					// TODO: Handle logo.
+
+					PaymentViewComponent = pm.GetPublicViewComponent()
+				};
+
+				// TODO: Handle additional fees.
+
+				model.PaymentMethods.Add(pmModel);
+			}
+
+
+			// TODO: Check if the customer has selected one of these methods before and
+			// select it.
+
+			if (model.PaymentMethods.FirstOrDefault(p => p.Selected) == null)
+			{
+				var paymentMethodToSelect = model.PaymentMethods.FirstOrDefault();
+				if (paymentMethodToSelect != null)
+				{
+					paymentMethodToSelect.Selected = true;
+				}
+			}
 
 			return model;
 		}

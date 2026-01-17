@@ -1,4 +1,5 @@
 ﻿using GlideBuy.Services.Plugins;
+using Microsoft.AspNetCore.Http;
 
 namespace GlideBuy.Services.Payments
 {
@@ -7,5 +8,11 @@ namespace GlideBuy.Services.Payments
 		Task<ProcessPaymentResult> ProcessPaymentAsync(OrderPaymentContext processPaymentRequest);
 
 		PaymentMethodType PaymentMethodType { get; }
+
+		Task<string> GetPaymentMethodDescriptionAsync();
+
+		Type GetPublicViewComponent();
+
+		Task<IList<string>> ValidatePaymentFormAsync(IFormCollection form);
 	}
 }

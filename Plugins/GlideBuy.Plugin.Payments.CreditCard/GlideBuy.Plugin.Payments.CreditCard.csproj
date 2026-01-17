@@ -9,5 +9,9 @@
 	<ItemGroup>
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />
 	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\..\GlideBuy.Services\GlideBuy.Services.csproj" />
+	</ItemGroup>
 	
 </Project>
