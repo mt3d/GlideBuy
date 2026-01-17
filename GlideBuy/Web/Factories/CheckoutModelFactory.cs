@@ -99,6 +99,7 @@ namespace GlideBuy.Web.Factories
 					// TODO: Localized. Support localizing plugins friendly names.
 					// TODO: Get the name from the plugin descriptor.
 					Name = pm.PluginDescriptor.SystemName,
+					PaymentMethodSystemName = pm.PluginDescriptor.SystemName,
 
 					// TODO: Should be removed?
 					Description = await pm.GetPaymentMethodDescriptionAsync(),

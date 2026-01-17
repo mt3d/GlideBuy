@@ -1,5 +1,10 @@
-﻿<div class="position-relative mb-3 mb-sm-4" data-input-format='{"creditCard": true}'>
-    <input type="text" class="form-control form-control-lg form-icon-end" placeholder="Card number" required>
+﻿@using GlideBuy.Plugins.CreditCard.Models
+@model PaymentInfoModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<div class="position-relative mb-3 mb-sm-4" data-input-format='{"creditCard": true}'>
+    @* TODO: Handle validation *@
+    <input type="text" asp-for="CardNumber" maxlength="22" class="form-control form-control-lg form-icon-end" placeholder="Card number" required>
     <span class="position-absolute d-flex top-50 end-0 translate-middle-y fs-5 text-body-tertiary me-3" data-card-icon></span>
 </div>
 <div class="row row-cols-1 row-cols-sm-2 g-3 g-sm-4">
@@ -7,6 +12,6 @@
         <input type="text" class="form-control form-control-lg" data-input-format='{"date": true, "datePattern": ["m", "y"]}' placeholder="MM/YY">
     </div>
     <div class="col">
-        <input type="text" class="form-control form-control-lg" maxlength="4" data-input-format='{"numeral": true, "numeralPositiveOnly": true, "numeralThousandsGroupStyle": "none"}' placeholder="CVC">
+        <input type="text" asp-for="CVC" maxlength="4" class="form-control form-control-lg" maxlength="4" data-input-format='{"numeral": true, "numeralPositiveOnly": true, "numeralThousandsGroupStyle": "none"}' placeholder="CVC">
     </div>
 </div>

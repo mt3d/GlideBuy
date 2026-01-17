@@ -71,7 +71,9 @@ namespace GlideBuy.Controllers
 			// TODO: If the order is null, redirect to the homepage.
 
 			// TODO: Create the model based on the order retrieved.
-			return View();
+			var model = new CheckoutCompleteModel();
+
+			return View(model);
 		}
 
 		#region Multi-Step Checkout
@@ -190,7 +192,7 @@ namespace GlideBuy.Controllers
 		// TODO: Validate captcha.
 		// TODO: Should be PaymentMethod, because in case of errors, we will get redirected to PaymentMethod.
 		[HttpPost, ActionName("PaymentMethod")]
-		public async Task<IActionResult> ConfirmPaymentMethodAndOrder()
+		public async Task<IActionResult> ConfirmPaymentMethodAndOrder(IFormCollection form)
 		{
 			// TODO: Validate
 			// Check if checkout is disabled.
@@ -206,8 +208,13 @@ namespace GlideBuy.Controllers
 			// Save the payment method as an attribute (SelectedPaymentMethodAttribute)
 			// for next steps. In our case, there are none.
 			// Load SelectedPaymentMethodAttribute.
-			var paymentMethodName = "";
-			var paymentMethodSystemName = paymentMethodName;
+
+			var paymentMethodSystemName = form["paymentmethod"];
+			if (string.IsNullOrEmpty(paymentMethodSystemName))
+			{
+				return await PaymentMethod();
+			}
+
 			IPaymentMethod paymentMethod = null; // TODO: Load from PluginManager.
 			// IForm should be an argument.
 			// TODO: Validate the payment form using paymentMethod.ValidatePaymentFormAsync()

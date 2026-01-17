@@ -2,7 +2,7 @@
 {
 	public interface IPlugin
 	{
-		PluginDescriptor PluginDescriptor { get; }
+		PluginDescriptor PluginDescriptor { get; set; }
 
 		Task InstallAsync();
 

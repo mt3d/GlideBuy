@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using GlideBuy.Plugins.CreditCard.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace GlideBuy.Plugins.CreditCard.Components.PaymentCreditCard
 {
@@ -6,7 +7,9 @@ namespace GlideBuy.Plugins.CreditCard.Components.PaymentCreditCard
 	{
 		public async Task<IViewComponentResult> InvokeAsync()
 		{
-			return View("/Plugins/CreditCard/Components/PaymentCreditCard/Default.cshtml");
+			var model = new PaymentInfoModel();
+
+			return View("/Plugins/CreditCard/Components/PaymentCreditCard/Default.cshtml", model);
 		}
 	}
 }

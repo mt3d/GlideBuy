@@ -1,4 +1,5 @@
 ﻿using GlideBuy.Plugins.CreditCard.Components.PaymentCreditCard;
+using GlideBuy.Plugins.CreditCard.Models;
 using GlideBuy.Services.Payments;
 using GlideBuy.Services.Plugins;
 
@@ -14,6 +15,7 @@ namespace GlideBuy.Plugin.Payments.CreditCard
 			PluginDescriptor = new PluginDescriptor
 			{
 				FriendlyName = "Credit Card",
+				SystemName = "CreditCard"
 			};
 		}
 
@@ -34,7 +36,14 @@ namespace GlideBuy.Plugin.Payments.CreditCard
 
 		public Task<IList<string>> ValidatePaymentFormAsync(IFormCollection form)
 		{
-			throw new NotImplementedException();
+			var warnings = new List<string>();
+
+			var model = new PaymentInfoModel
+			{
+
+			};
+
+			return Task.FromResult<IList<string>>(warnings);
 		}
 	}
 }
