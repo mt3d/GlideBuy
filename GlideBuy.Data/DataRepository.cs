@@ -12,7 +12,9 @@ namespace GlideBuy.Data
 
 		public IQueryable<T> Table { get; }
 
-		public DataRepository(StoreDbContext context, IStaticCacheManager staticCacheManager)
+		public DataRepository(
+			StoreDbContext context,
+			IStaticCacheManager staticCacheManager)
 		{
 			this.context = context;
 			this._staticCacheManager = staticCacheManager;
@@ -31,7 +33,9 @@ namespace GlideBuy.Data
 		/// <param name="query"></param>
 		/// <param name="includeDeleted"></param>
 		/// <returns></returns>
-		private IQueryable<T> AddDeletedFilter(IQueryable<T> query, in bool includeDeleted)
+		private IQueryable<T> AddDeletedFilter(
+			IQueryable<T> query,
+			in bool includeDeleted)
 		{
 			// By default, EF Core queries will return "soft deleted" entities.
 			// If the class do not implement ISoftDeletable, then do nothing.
@@ -121,7 +125,10 @@ namespace GlideBuy.Data
 		/// If getCacheKey is null, then caching will not be used. However, if a function
 		/// that returns a default is passed, then the default cache key will be used.
 		/// </remarks>
-		public async Task<T?> GetByIdAsync(int? id, Func<ICacheKeyBuilder, CacheKey> getCacheKey = null, bool includeDeleted = true)
+		public async Task<T?> GetByIdAsync(
+			int? id,
+			Func<ICacheKeyBuilder, CacheKey>? getCacheKey = null,
+			bool includeDeleted = true)
 		{
 			if (!id.HasValue || id == 0)
 			{
@@ -145,6 +152,28 @@ namespace GlideBuy.Data
 							?? cacheKeyBuilder.BuildKeyWithDefaultCacheTime(EntityCachingDefaults<T>.ByIdCacheKey, id);
 
 			return await _staticCacheManager.TryGetOrLoad(cacheKey, getEntityAsync);
+		}
+
+		public async Task DeleteAsync(
+			T entity,
+			bool publishEvent = true)
+		{
+			ArgumentNullException.ThrowIfNull(entity);
+
+			switch (entity)
+			{
+				case ISoftDeletable softDeletableEntity:
+					softDeletableEntity.Deleted = true;
+					context.Update(entity);
+					break;
+				default:
+					context.Remove(entity);
+					break;
+			}
+
+			await context.SaveChangesAsync();
+
+			// TODO: Publish an event.
 		}
 	}
 }

@@ -33,6 +33,8 @@ namespace GlideBuy.Data
 
 		public DbSet<UrlRecord> UrlRecords => Set<UrlRecord>();
 
+		public DbSet<GenericAttribute> GenericAttributes => Set<GenericAttribute>();
+
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
 			modelBuilder

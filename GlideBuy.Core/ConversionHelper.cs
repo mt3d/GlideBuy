@@ -19,8 +19,9 @@ namespace GlideBuy.Core
 		/// A universal type conversion helper, and more flexible than Convert.ChangeType()
 		/// because it supports custom type converters, enum conversions, and culture-aware conversions.
 		/// 
-		/// The main use case: Convert strings (Settings stored in the database) back to their
+		/// Use case: Convert strings (Settings stored in the database) back to their
 		/// original types, while taking culture info into account.
+		/// 
 		/// Convert back strings to bool, int, and/or enums.
 		/// </summary>
 		/// <param name="value"></param>

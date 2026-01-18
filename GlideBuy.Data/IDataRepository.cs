@@ -11,13 +11,9 @@ namespace GlideBuy.Data
 
 		//	// Aka Update
 		//	void Save(T entity);
-		//	Task SaveAsync(T entity);
 
 		//	void Save(IList<T> entities);
 		//	Task SaveAsync(IList<T> entities);
-
-		//	void Delete(T entity);
-		//	Task DeleteAsync(T entity);
 
 		//	void Delete(IList<T> entities);
 		//	Task DeleteAsync(IList<T> entities);
@@ -33,10 +29,20 @@ namespace GlideBuy.Data
 			Func<ICacheKeyBuilder, CacheKey>? cachKeyFactory = null,
 			bool includeDeleted = true);
 
-		Task InsertAsync(T entity);
+		Task InsertAsync(
+			T entity);
 
-		Task UpdateAsync(T entity, bool publishEvent = true);
+		Task UpdateAsync(
+			T entity,
+			bool publishEvent = true);
 
-		Task<T?> GetByIdAsync(int? id, Func<ICacheKeyBuilder, CacheKey> getCacheKey = null, bool includeDeleted = true);
+		Task<T?> GetByIdAsync(
+			int? id,
+			Func<ICacheKeyBuilder, CacheKey>? getCacheKey = null,
+			bool includeDeleted = true);
+
+		Task DeleteAsync(
+			T entity,
+			bool publishEvent = true);
 	}
 }
