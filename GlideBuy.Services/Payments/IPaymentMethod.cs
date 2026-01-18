@@ -15,5 +15,7 @@ namespace GlideBuy.Services.Payments
 		
 		// Returns a list of warnings.
 		Task<IList<string>> ValidatePaymentFormAsync(IFormCollection form);
+
+		Task<OrderPaymentContext> GetPaymentInfoAsync(IFormCollection form);
 	}
 }

@@ -216,14 +216,19 @@ namespace GlideBuy.Controllers
 			}
 
 			IPaymentMethod paymentMethod = null; // TODO: Load from PluginManager.
-			// IForm should be an argument.
-			// TODO: Validate the payment form using paymentMethod.ValidatePaymentFormAsync()
-			// If there was a next step, we would do:
-			// _orderProcessingService.SetProcessPaymentRequestAsync(await paymentMethod.GetPaymentInfoAsync(form)
-			// and then retrieve it in the next step. However, in our case we could create it immediately.
-			// Or should we?
-			// What IPaymentMethod.GetPaymentInfo() does is simply to fill a ProcessPaymentRequest
-			// using the form value, so that these information is available for next steps.
+												 // IForm should be an argument.
+												 // TODO: Validate the payment form using paymentMethod.ValidatePaymentFormAsync()
+			var warnings = await paymentMethod.ValidatePaymentFormAsync(form);
+			foreach (var warning in warnings)
+			{
+				ModelState.AddModelError("", warning);
+			}
+
+			if (!ModelState.IsValid)
+			{
+				return View(model);
+			}
+			await _orderProcessingService.SetOrderPaymentContext(await paymentMethod.GetPaymentInfoAsync(form));
 
 
 			// TODO: Check if captcha is valid. If not realod.

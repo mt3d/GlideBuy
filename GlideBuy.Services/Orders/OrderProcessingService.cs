@@ -5,6 +5,8 @@ using GlideBuy.Core.Domain.Orders;
 using GlideBuy.Models;
 using GlideBuy.Services.Customers;
 using GlideBuy.Services.Payments;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace GlideBuy.Services.Orders
 {
@@ -51,6 +53,19 @@ namespace GlideBuy.Services.Orders
 		#endregion
 
 		#region Methods
+
+		public async Task SetOrderPaymentContext(OrderPaymentContext orderPaymentContext, bool useNewOrderGuid = false)
+		{
+			var customer = await _workContext.GetCurrentCustomerAsync();
+
+			if (orderPaymentContext is null)
+			{
+
+			}
+
+			var json = JsonSerializer.Serialize(orderPaymentContext);
+			// TODO: Save the attribute.
+		}
 
 		/**
 		 * This is one of the most critical pieces of checkout infrastructure. It is

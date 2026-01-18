@@ -45,5 +45,10 @@ namespace GlideBuy.Plugin.Payments.CreditCard
 
 			return Task.FromResult<IList<string>>(warnings);
 		}
+
+		public Task<OrderPaymentContext> GetPaymentInfoAsync(IFormCollection form)
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

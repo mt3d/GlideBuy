@@ -1,4 +1,5 @@
 ﻿using GlideBuy.Core.Domain.Orders;
+using GlideBuy.Services.Payments;
 
 namespace GlideBuy.Services.Orders
 {
@@ -13,5 +14,7 @@ namespace GlideBuy.Services.Orders
 		/// <param name="useRewardPoints"></param>
 		/// <returns></returns>
 		Task<bool> IsPaymentRequired(IList<ShoppingCartItem> cart, bool? useRewardPoints = null);
+
+		Task SetOrderPaymentContext(OrderPaymentContext orderPaymentContext, bool useNewOrderGuid = false);
 	}
 }
