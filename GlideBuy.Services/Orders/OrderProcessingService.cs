@@ -2,11 +2,12 @@
 using GlideBuy.Core.Domain.Customers;
 using GlideBuy.Core.Domain.Directory;
 using GlideBuy.Core.Domain.Orders;
+using GlideBuy.Core.Domain.Payment;
 using GlideBuy.Models;
+using GlideBuy.Services.Common;
 using GlideBuy.Services.Customers;
 using GlideBuy.Services.Payments;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 
 namespace GlideBuy.Services.Orders
 {
@@ -17,17 +18,23 @@ namespace GlideBuy.Services.Orders
 		private readonly IOrderTotalCalculationService _orderTotalCalculationService;
 		private readonly IWorkContext _workContext;
 		private readonly ICustomerService _customerService;
+		private readonly IGenericAttributeService _genericAttributeService;
+		private readonly PaymentSettings _paymentSettings;
 
 		public OrderProcessingService(
 			OrderSettings orderSettings,
 			IOrderTotalCalculationService orderTotalCalculationService,
 			IWorkContext workContext,
-			ICustomerService customerService)
+			ICustomerService customerService,
+			IGenericAttributeService genericAttributeService,
+			PaymentSettings paymentSettings)
 		{
 			_orderSettings = orderSettings;
 			_orderTotalCalculationService = orderTotalCalculationService;
 			_workContext = workContext;
 			_customerService = customerService;
+			_genericAttributeService = genericAttributeService;
+			_paymentSettings = paymentSettings;
 		}
 
 		#region Utilities
@@ -54,17 +61,66 @@ namespace GlideBuy.Services.Orders
 
 		#region Methods
 
+		public async Task<OrderPaymentContext?> GetOrderPaymentContextAsync()
+		{
+			var customer = await _workContext.GetCurrentCustomerAsync();
+			var json = await _genericAttributeService.GetAttributeAsync<string>(customer, "OrderPaymentContext");
+
+			return string.IsNullOrEmpty(json) ? null : JsonSerializer.Deserialize<OrderPaymentContext>(json);
+		}
+
 		public async Task SetOrderPaymentContext(OrderPaymentContext orderPaymentContext, bool useNewOrderGuid = false)
 		{
 			var customer = await _workContext.GetCurrentCustomerAsync();
 
 			if (orderPaymentContext is null)
 			{
+				// TODO: Move the string to a static class.
+				await _genericAttributeService.SaveAttributeAsync<string>(customer, "OrderPaymentContext", null);
 
+				return;
+			}
+
+			/**
+			 * This if statement is entered when the two conditions are true.
+			 * 
+			 * The first is that _paymentSettings.RegenerateOrderGuidInterval is greater than zero, which means that the system is configured to allow reuse of an existing order GUID for a certain period of time. If this value were zero or negative, the whole reuse mechanism would be disabled and every payment attempt would implicitly use a new GUID.
+			 * 
+			 * The second condition is !useNewOrderGuid, which is an explicit override flag passed to the method. If the caller sets useNewOrderGuid to true, then the reuse logic is bypassed even if the interval setting would normally allow reuse.
+			 */
+			if (_paymentSettings.RegenerateOrderGuidInterval > 0 && !useNewOrderGuid)
+			{
+				var previousPaymentContext = await GetOrderPaymentContextAsync();
+
+				/**
+				 * This expressions uses pattern matching, specifically property patterns,
+				 * together with the constant pattern not null. These features were introduced
+				 * and expanded across C# 8.0 and C# 9.0.
+				 * 
+				 * 'is' here introduces a pattern. The pattern specify a shape.
+				 * The pattern says: “match any object that has a property named
+				 * OrderGuidGeneratedOnUtc whose value is not null.”
+				 * 
+				 * Implicitly, this also performs a null check on previousPaymentRequest itself.
+				 * If previousPaymentRequest were null, the pattern could not be matched, and
+				 * the condition would evaluate to false. So this single expression replaces
+				 * two explicit checks: checking that the object is not null, and checking
+				 * that a particular property on it is not null.
+				 */
+				if (previousPaymentContext is { OrderGuidGeneratedOnUtc: not null })
+				{
+					var interval = DateTime.UtcNow - previousPaymentContext.OrderGuidGeneratedOnUtc;
+
+					if (interval.Value.TotalSeconds< _paymentSettings.RegenerateOrderGuidInterval)
+					{
+						orderPaymentContext.OrderGuid = previousPaymentContext.OrderGuid;
+						orderPaymentContext.OrderGuidGeneratedOnUtc = previousPaymentContext.OrderGuidGeneratedOnUtc;
+					}
+				}
 			}
 
 			var json = JsonSerializer.Serialize(orderPaymentContext);
-			// TODO: Save the attribute.
+			await _genericAttributeService.SaveAttributeAsync(customer, "OrderPaymentContext", json);
 		}
 
 		/**
