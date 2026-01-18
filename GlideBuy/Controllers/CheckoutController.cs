@@ -230,7 +230,6 @@ namespace GlideBuy.Controllers
 			}
 			await _orderProcessingService.SetOrderPaymentContext(await paymentMethod.GetPaymentInfoAsync(form));
 
-
 			// TODO: Check if captcha is valid. If not realod.
 
 			try
@@ -243,41 +242,61 @@ namespace GlideBuy.Controllers
 				/**
 				 * The next step is retrieving the ProcessPaymentRequest via _orderProcessingService.GetProcessPaymentRequestAsync(). This object is central to understanding NopCommerce’s payment architecture. It acts as a state container that survives across checkout steps, especially in scenarios where the payment method requires a redirect or additional information. If this request is null, the system checks whether a payment workflow is required at all. This covers cases such as zero-total orders, cash on delivery, or payment methods that do not require an intermediate payment info step. If a workflow is required, the user is redirected back to CheckoutPaymentInfo, because confirming the order without required payment data would be invalid. Otherwise, a new ProcessPaymentRequest is created.
 				 */
-				// TODO: Use
-				// var processPaymentRequest = await _orderProcessingService.GetProcessPaymentRequestAsync();
-				var orderPaymentContext = new OrderPaymentContext();
+				// TODO: Is there any need to use SetOrderPaymentContext() above?
+				var orderPaymentContext = await _orderProcessingService.GetOrderPaymentContextAsync();
 				orderPaymentContext.CustomerId = customer.Id;
+				orderPaymentContext.PaymentMethodSystemName = paymentMethodSystemName;
 
-
-				// TODO: SetProcessPaymentRequestAsync
 				/**
 				 * The populated request is then persisted using SetProcessPaymentRequestAsync, ensuring that downstream services and payment plugins can access it consistently.
 				 */
+				await _orderProcessingService.SetOrderPaymentContext(orderPaymentContext);
 
-				// TODO: PlaceOrderAsync
 				/**
-				 * The actual order creation occurs with PlaceOrderAsync(processPaymentRequest). This is the most critical call in the entire checkout process. Internally, this method performs a large number of operations in a controlled transaction-like sequence: validating the cart again, calculating totals, creating the order record, creating order items, adjusting inventory, applying discounts, and invoking the payment method’s ProcessPayment logic. The result of this operation is a PlaceOrderResult, which explicitly indicates success or failure rather than throwing exceptions for expected business errors.
+				 * This is the most critical call in the entire checkout process. Internally, this
+				 * method performs a large number of operations in a controlled transaction-like sequence:
+				 * validating the cart again, calculating totals, creating the order record,
+				 * creating order items, adjusting inventory, applying discounts, and invoking
+				 * the payment method’s ProcessPayment logic. The result of this operation is a
+				 * PlaceOrderResult, which explicitly indicates success or failure rather than
+				 * throwing exceptions for expected business errors.
 				 */
+				var placeOrderResult = await _orderProcessingService.PlaceOrderAsync(orderPaymentContext);
 
-				if (true) // if success
+				if (placeOrderResult.Success)
 				{
-					// TODO: SetProcessPaymentRequestAsync(null)
 					// TODO: PostProcessPaymentAsync
 					/**
-					 * If the order placement succeeds, the stored ProcessPaymentRequest is immediately cleared. This is essential to prevent stale payment data from being reused if the customer later places another order. After that, the method initiates post-payment processing by creating a PostProcessPaymentRequest containing the placed order and passing it to _paymentService.PostProcessPaymentAsync. This is where payment methods that require redirection, external authorization, or form POSTs take control. Examples include redirecting the user to PayPal, Stripe-hosted pages, or bank gateways.
+					 * If the order placement succeeds, the stored ProcessPaymentRequest is immediately cleared. This is essential to prevent stale payment data from being reused if the customer later places another order.
 					 */
+					await _orderProcessingService.SetOrderPaymentContext(null);
+
+					/**
+					 * After that, the method initiates post-payment processing by creating a PostProcessPaymentRequest containing the placed order and passing it to _paymentService.PostProcessPaymentAsync. This is where payment methods that require redirection, external authorization, or form POSTs take control. Examples include redirecting the user to PayPal, Stripe-hosted pages, or bank gateways.
+					*/
+					// TODO: Post process payment.
 
 					/**
 					 * The subsequent check of _webHelper.IsRequestBeingRedirected and _webHelper.IsPostBeingDone is subtle but extremely important. It allows payment plugins to fully control the HTTP response. If the payment plugin already issued a redirect or POST response, the controller must stop execution immediately and return an empty result, otherwise ASP.NET MVC would attempt to write another response and cause runtime errors. If no redirection occurred, the flow continues normally and the customer is redirected to the checkout completion page.
 					 */
+					// TODO: Check redirection.
 
 					return RedirectToRoute("CheckoutCompleted"); // TODO: Pass the order Id.
+				}
+				else
+				{
+					// TODO: Use ModelState.AddModelError instead? Inconsistency.
+					foreach (var error in placeOrderResult.Errors)
+					{
+						model.Warnings.Add(error);
+					}
 				}
 			}
 			catch (Exception ex)
 			{
 				// TODO: Log the warning.
-				// TODO: Add new warning to the model.
+
+				model.Warnings.Add(ex.Message);
 			}
 
 			return View(model);

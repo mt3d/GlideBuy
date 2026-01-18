@@ -69,7 +69,7 @@ namespace GlideBuy.Services.Orders
 			return string.IsNullOrEmpty(json) ? null : JsonSerializer.Deserialize<OrderPaymentContext>(json);
 		}
 
-		public async Task SetOrderPaymentContext(OrderPaymentContext orderPaymentContext, bool useNewOrderGuid = false)
+		public async Task SetOrderPaymentContext(OrderPaymentContext? orderPaymentContext, bool useNewOrderGuid = false)
 		{
 			var customer = await _workContext.GetCurrentCustomerAsync();
 
@@ -136,7 +136,7 @@ namespace GlideBuy.Services.Orders
 		 * submissions. This is one of the first signals that the method is designed with
 		 * concurrency and replay scenarios in mind.
 		 */
-		public async Task PlaceOrderAsync(OrderPaymentContext? orderPaymentContext)
+		public async Task<PlaceOrderResult> PlaceOrderAsync(OrderPaymentContext? orderPaymentContext)
 		{
 			ArgumentNullException.ThrowIfNull(orderPaymentContext);
 
@@ -156,6 +156,7 @@ namespace GlideBuy.Services.Orders
 			 * subsequent operations rely on it rather than re-querying mutable state.
 			 */
 
+			return new PlaceOrderResult();
 		}
 
 		public async Task<bool> IsPaymentRequired(IList<ShoppingCartItem> cart, bool? useRewardPoints = null)

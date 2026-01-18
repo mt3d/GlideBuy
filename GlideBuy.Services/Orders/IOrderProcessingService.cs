@@ -15,7 +15,9 @@ namespace GlideBuy.Services.Orders
 		/// <returns></returns>
 		Task<bool> IsPaymentRequired(IList<ShoppingCartItem> cart, bool? useRewardPoints = null);
 
-		Task SetOrderPaymentContext(OrderPaymentContext orderPaymentContext, bool useNewOrderGuid = false);
+		Task<PlaceOrderResult> PlaceOrderAsync(OrderPaymentContext? orderPaymentContext);
+
+		Task SetOrderPaymentContext(OrderPaymentContext? orderPaymentContext, bool useNewOrderGuid = false);
 
 		Task<OrderPaymentContext?> GetOrderPaymentContextAsync();
 	}

@@ -4,6 +4,8 @@
 	{
 		public IList<PaymentMethodModel> PaymentMethods { get; set; } = new List<PaymentMethodModel>();
 
+		public IList<string> Warnings { get; set; }
+
 		public record PaymentMethodModel
 		{
 			// TODO: Explain
