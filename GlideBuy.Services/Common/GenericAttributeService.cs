@@ -49,7 +49,7 @@ namespace GlideBuy.Services.Common
 			await _genericAttributeRepository.UpdateAsync(genericAttribute);
 		}
 
-		public async Task SaveAttributeAsync<TPropType>(BaseEntity entity, string key, TPropType value)
+		public async Task SaveAttributeAsync<TPropType>(BaseEntity entity, string key, TPropType? value)
 		{
 			ArgumentNullException.ThrowIfNull(entity);
 			ArgumentNullException.ThrowIfNull(key);
@@ -91,6 +91,29 @@ namespace GlideBuy.Services.Common
 
 				await InsertAttributeAsync(attr);
 			}
+		}
+
+		public async Task<TPropType?> GetAttributeAsync<TPropType>(BaseEntity entity, string key, TPropType? defaultValue = default)
+		{
+			ArgumentNullException.ThrowIfNull(entity);
+
+			var keyGroup = entity.GetType().Name;
+
+			var props = await GetAttributesForEntityAsync(entity.Id, keyGroup);
+
+			if (!props.Any())
+			{
+				return defaultValue;
+			}
+
+			var attr = props.FirstOrDefault(ga => ga.Key.Equals(key, StringComparison.InvariantCultureIgnoreCase));
+
+			if (attr is null || string.IsNullOrWhiteSpace(attr.Value))
+			{
+				return defaultValue;
+			}
+
+			return ConversionHelper.ConvertTo<TPropType>(attr.Value);
 		}
 	}
 }

@@ -13,6 +13,8 @@ namespace GlideBuy.Services.Common
 
 		Task UpdateAttributeAsync(GenericAttribute genericAttribute);
 
-		Task SaveAttributeAsync<TPropType>(BaseEntity entity, string key, TPropType value);
+		Task SaveAttributeAsync<TPropType>(BaseEntity entity, string key, TPropType? value);
+
+		Task<TPropType?> GetAttributeAsync<TPropType>(BaseEntity entity, string key, TPropType? defaultValue = default);
 	}
 }
