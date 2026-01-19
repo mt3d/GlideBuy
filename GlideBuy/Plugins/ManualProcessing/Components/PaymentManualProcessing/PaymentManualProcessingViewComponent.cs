@@ -1,9 +1,9 @@
 ﻿using GlideBuy.Plugins.CreditCard.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace GlideBuy.Plugins.CreditCard.Components.PaymentCreditCard
+namespace GlideBuy.Plugins.CreditCard.Components.PaymentManualProcessing
 {
-	public class PaymentCreditCardViewComponent : ViewComponent
+	public class PaymentManualProcessingViewComponent : ViewComponent
 	{
 		public async Task<IViewComponentResult> InvokeAsync()
 		{

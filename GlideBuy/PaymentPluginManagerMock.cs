@@ -41,7 +41,7 @@ namespace GlideBuy
 			IList<IPaymentMethod> paymentMethods = new List<IPaymentMethod>();
 
 			// TODO: Remove project references in the future.
-			var type = typeof(CreditCardPaymentMethod);
+			var type = typeof(ManualProcessingPaymentMethod);
 			Exception innerException;
 			foreach (var constructor in type.GetConstructors())
 			{

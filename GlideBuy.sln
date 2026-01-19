@@ -14,7 +14,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GlideBuy.Core", "GlideBuy.C
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Plugins", "Plugins", "{5EEE2B84-48B5-4E87-BBEE-E3BE5C7A57BE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GlideBuy.Plugin.Payments.CreditCard", "Plugins\GlideBuy.Plugin.Payments.CreditCard\GlideBuy.Plugin.Payments.CreditCard.csproj", "{0C33E0B9-01EC-4C8E-9A7F-1C006866C9C9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GlideBuy.Plugin.Payments.ManualProcessing", "Plugins\GlideBuy.Plugin.Payments.ManualProcessing\GlideBuy.Plugin.Payments.ManualProcessing.csproj", "{0C33E0B9-01EC-4C8E-9A7F-1C006866C9C9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GlideBuy.Plugin.Payments.PayPalCommerce", "Plugins\GlideBuy.Plugin.Payments.PayPalCommerce\GlideBuy.Plugin.Payments.PayPalCommerce.csproj", "{C95EE658-9D38-4C41-9AD6-DD20A631DC9B}"
 EndProject
