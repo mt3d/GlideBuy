@@ -31,6 +31,8 @@ namespace GlideBuy.Services.Catalog
 
 		Task<IList<Product>> GetNewlyArrivedProducts(int count);
 
+		Task<IList<Product>> GetHomepageTrendingProductsAsync(int count);
+
 		#endregion
 	}
 }

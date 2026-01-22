@@ -160,7 +160,7 @@ namespace GlideBuy.Services.Catalog
 			return await GetRandomProductsForTestingAsync(count);
 		}
 
-		public async Task<List<Product>> GetRandomProductsForTestingAsync(int count)
+		private async Task<List<Product>> GetRandomProductsForTestingAsync(int count)
 		{
 			var products = await _context.Products
 				.Take(200)
@@ -170,6 +170,11 @@ namespace GlideBuy.Services.Catalog
 				.OrderBy(_ => Guid.NewGuid())
 				.Take(count)
 				.ToList();
+		}
+
+		public async Task<IList<Product>> GetHomepageTrendingProductsAsync(int count)
+		{
+			return await GetRandomProductsForTestingAsync(count);
 		}
 	}
 }
