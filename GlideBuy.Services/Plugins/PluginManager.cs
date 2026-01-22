@@ -25,7 +25,7 @@ namespace GlideBuy.Services.Plugins
 			throw new NotImplementedException();
 		}
 
-		public Task<TPlugin> LoadPluginBySystemName(string systemName)
+		public Task<TPlugin> LoadPluginBySystemNameAsync(string systemName)
 		{
 			throw new NotImplementedException();
 		}

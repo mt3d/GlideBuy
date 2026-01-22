@@ -8,6 +8,7 @@ using GlideBuy.Models;
 using GlideBuy.Services.Common;
 using GlideBuy.Services.Customers;
 using GlideBuy.Services.Payments;
+using System.Diagnostics;
 using System.Text.Json;
 
 namespace GlideBuy.Services.Orders
@@ -22,6 +23,8 @@ namespace GlideBuy.Services.Orders
 		private readonly IGenericAttributeService _genericAttributeService;
 		private readonly PaymentSettings _paymentSettings;
 		private readonly IStaticCacheManager _staticCacheManger;
+		private readonly IPaymentPluginManager _paymentPluginManager;
+		private readonly IPaymentService _paymentService;
 
 		public OrderProcessingService(
 			OrderSettings orderSettings,
@@ -30,7 +33,8 @@ namespace GlideBuy.Services.Orders
 			ICustomerService customerService,
 			IGenericAttributeService genericAttributeService,
 			PaymentSettings paymentSettings,
-			IStaticCacheManager staticCacheManager)
+			IStaticCacheManager staticCacheManager,
+			IPaymentPluginManager paymentPluginManager)
 		{
 			_orderSettings = orderSettings;
 			_orderTotalCalculationService = orderTotalCalculationService;
@@ -39,6 +43,7 @@ namespace GlideBuy.Services.Orders
 			_genericAttributeService = genericAttributeService;
 			_paymentSettings = paymentSettings;
 			_staticCacheManger = staticCacheManager;
+			_paymentPluginManager = paymentPluginManager;
 		}
 
 		#region Utilities
@@ -59,6 +64,26 @@ namespace GlideBuy.Services.Orders
 			// TODO: Add support for recurring payments and validate them.
 
 			return details;
+		}
+
+		protected async Task<ProcessPaymentResult> GetProcessPaymentResult(OrderPaymentContext orderPaymentContext, PlaceOrderContainer container)
+		{
+			ProcessPaymentResult processPaymentResult;
+
+			// TODO: Check if payment is required based on the content of the cart.
+
+			// All the work is being done in the PaymentService. This is just for checking that
+			// the payment method plugin exists and is active.
+			var customer = await _customerService.GetCustomerByIdAsync(orderPaymentContext.CustomerId);
+			var paymentMethod = _paymentPluginManager.LoadPluginBySystemNameAsync(orderPaymentContext.PaymentMethodSystemName) ?? throw new Exception("Payment method is not active");
+
+			// TODO: Check that the payment plugin is active.
+
+			// TODO: Check if the shopping cart is recurring.
+
+			processPaymentResult = await _paymentService.ProcessPaymentAsync(orderPaymentContext);
+
+			return processPaymentResult;
 		}
 
 		#endregion
@@ -171,7 +196,12 @@ namespace GlideBuy.Services.Orders
 
 				try
 				{
+					var processPaymentResult = await GetProcessPaymentResult(orderPaymentContext, placeOrderContainer) ?? throw new Exception("The result of process payment is not available.");
 
+					if (processPaymentResult.Success)
+					{
+						// TODO: Save the order and assign it to the result.
+					}
 				}
 				catch (Exception ex)
 				{

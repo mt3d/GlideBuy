@@ -9,7 +9,7 @@ namespace GlideBuy.Plugins.CreditCard.Components.PaymentManualProcessing
 		{
 			var model = new PaymentInfoModel();
 
-			return View("/Plugins/CreditCard/Components/PaymentCreditCard/Default.cshtml", model);
+			return View("/Plugins/ManualProcessing/Components/PaymentManualProcessing/Default.cshtml", model);
 		}
 	}
 }

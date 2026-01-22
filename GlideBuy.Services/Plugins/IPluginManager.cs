@@ -6,7 +6,7 @@
 
 		Task<IList<TPlugin>> LoadActivePluginsAsync(List<string> systemNames);
 
-		Task<TPlugin> LoadPluginBySystemName(string systemName);
+		Task<TPlugin?> LoadPluginBySystemNameAsync(string systemName);
 
 		bool IsPluginActive(TPlugin plugin, List<string> systemNames);
 	}

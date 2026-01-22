@@ -23,8 +23,8 @@ namespace GlideBuy.Plugin.Payments.CreditCard
 			// TODO: Temporary. Remove once the plugin system is in place.
 			PluginDescriptor = new PluginDescriptor
 			{
-				FriendlyName = "Credit Card",
-				SystemName = "CreditCard"
+				FriendlyName = "Manual Processing",
+				SystemName = "ManualProcessing"
 			};
 		}
 
@@ -35,7 +35,7 @@ namespace GlideBuy.Plugin.Payments.CreditCard
 
 		public async Task<string> GetPaymentMethodDescriptionAsync()
 		{
-			return "Pay using credit card";
+			return "Manually process payments";
 		}
 
 		public Type GetPublicViewComponent()

@@ -22,6 +22,7 @@ namespace GlideBuy.Controllers
 		private ICustomerService _customerService;
 		private IWorkContext _workContext;
 		private IOrderProcessingService _orderProcessingService;
+		private IPaymentPluginManager _paymentPluginManager;
 
 		public CheckoutController(
 			IShoppingCartService shoppingCartService,
@@ -31,7 +32,8 @@ namespace GlideBuy.Controllers
 			ICustomerService customerService,
 			IWorkContext workContext,
 			IOrderProcessingService orderProcessingService,
-			IRazorViewEngine viewEngine) : base(viewEngine)
+			IRazorViewEngine viewEngine,
+			IPaymentPluginManager paymentPluginManager) : base(viewEngine)
 		{
 			_shoppingCartService = shoppingCartService;
 			_orderSettings = orderSettings;
@@ -40,6 +42,7 @@ namespace GlideBuy.Controllers
 			_customerService = customerService;
 			_workContext = workContext;
 			_orderProcessingService = orderProcessingService;
+			_paymentPluginManager = paymentPluginManager;
 		}
 
 		public async Task<IActionResult> Index()
@@ -215,9 +218,14 @@ namespace GlideBuy.Controllers
 				return await PaymentMethod();
 			}
 
-			IPaymentMethod paymentMethod = null; // TODO: Load from PluginManager.
-												 // IForm should be an argument.
-												 // TODO: Validate the payment form using paymentMethod.ValidatePaymentFormAsync()
+			IPaymentMethod? paymentMethod = await _paymentPluginManager.LoadPluginBySystemNameAsync(paymentMethodSystemName!);
+
+			if (paymentMethod is null)
+			{
+				// TODO: Add a warning about this payment method.
+				return View(model);
+			}
+
 			var warnings = await paymentMethod.ValidatePaymentFormAsync(form);
 			foreach (var warning in warnings)
 			{

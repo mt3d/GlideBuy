@@ -47,7 +47,7 @@ namespace GlideBuy.Services.Payments
 			throw new NotImplementedException();
 		}
 
-		public Task<IPaymentMethod> LoadPluginBySystemName(string systemName)
+		public Task<IPaymentMethod> LoadPluginBySystemNameAsync(string systemName)
 		{
 			throw new NotImplementedException();
 		}

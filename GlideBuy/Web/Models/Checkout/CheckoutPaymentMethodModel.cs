@@ -4,7 +4,7 @@
 	{
 		public IList<PaymentMethodModel> PaymentMethods { get; set; } = new List<PaymentMethodModel>();
 
-		public IList<string> Warnings { get; set; }
+		public IList<string> Warnings { get; set; } = new List<string>();
 
 		public record PaymentMethodModel
 		{
