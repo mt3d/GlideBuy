@@ -1,8 +1,6 @@
 ﻿
 using Microsoft.Extensions.Caching.Memory;
-using Microsoft.Extensions.FileSystemGlobbing;
-using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
+using Microsoft.Extensions.Primitives;
 
 namespace GlideBuy.Core.Caching
 {
@@ -10,6 +8,8 @@ namespace GlideBuy.Core.Caching
 	{
 		protected readonly IMemoryCache memoryCache;
 		protected readonly ICacheKeyManager cacheKeyManager;
+
+		protected CancellationTokenSource _clearToken = new();
 
 		public MemoryCacheManager(IMemoryCache memoryCache, ICacheKeyManager cacheKeyManager)
 		{
@@ -34,6 +34,11 @@ namespace GlideBuy.Core.Caching
 
 				// TODO: Use in the future to dispose a CancellationTokenSource
 			}
+		}
+
+		public async Task<T> TryGetOrLoadAsync<T>(CacheKey? key, Func<T> acquire)
+		{
+			return await TryGetOrLoad(key, () => Task.FromResult(acquire()));
 		}
 
 		/// <summary>
@@ -162,6 +167,97 @@ namespace GlideBuy.Core.Caching
 			cacheKeyManager.RemoveKey(key);
 
 			return Task.CompletedTask;
+		}
+
+		public Task SetAsync<T>(CacheKey? cacheKey, T data)
+		{
+			/**
+			 * The conditional guard at the beginning ensures that null values and zero or negative cache durations are not cached. This avoids polluting the cache with meaningless entries and prevents subtle bugs where a null value becomes indistinguishable from a cache miss. If caching is disabled for a given key by setting CacheTime to zero, the method becomes a no-op.
+			 */
+			if (data != null && (cacheKey?.CacheTimeMinute ?? 0) > 0)
+			{
+				/**
+				 * Lazy is like a factory of the value, not the value itself.
+				 * 
+				 * The boolean true passed to the Lazy constructor enforces thread safety, guaranteeing that the value factory cannot be executed concurrently.
+				 * 
+				 * In short, Lazy is not protecting the act of storing the value in the cache; it is protecting the execution of the value-producing function associated with that cache entry. Even when that function is trivial, the pattern remains the same to keep the caching infrastructure consistent and safe under concurrent access.
+				 */
+				memoryCache.Set(
+					cacheKey.Key,
+					new Lazy<Task<T>>(() => Task.FromResult(data), true),
+					PrepareEntryOptions(cacheKey)
+					);
+			}
+
+			/**
+			 * The SetAsync method then uses these prepared options to actually insert data into the cache. Although the method is asynchronous by signature, it does not perform any truly asynchronous work. This is intentional and reflects an API design choice rather than an implementation constraint.
+			 * 
+			 * The system exposes an async caching API to allow it to be consumed uniformly from async code paths without forcing callers to branch between sync and async variants. Returning Task.CompletedTask is simply a way to satisfy the async contract without introducing unnecessary overhead.
+			 */
+			return Task.CompletedTask;
+		}
+
+		/**
+		 * The method PrepareEntryOptions is responsible for translating a logical
+		 * CacheKey into concrete cache eviction rules understood by Microsoft.Extensions.Caching.Memory.
+		 */
+		private MemoryCacheEntryOptions PrepareEntryOptions(CacheKey key)
+		{
+			var options = new MemoryCacheEntryOptions
+			{
+				/**
+				 * The method ensures that the cached value is guaranteed to expire
+				 * after a fixed duration regardless of access frequency. This choice
+				 * deliberately avoids sliding expiration because many cache entries 
+				 * represent data that must be refreshed periodically even if it is
+				 * frequently read, such as settings, permissions, or configuration-derived data.
+				 */
+				AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(key.CacheTimeMinute)
+			};
+
+			/**
+			 * Adding a CancellationChangeToken based on _clearToken.Token, is the
+			 * mechanism that allows the system to invalidate large portions of the
+			 * cache proactively rather than waiting for time-based expiration.
+			 * 
+			 * _clearToken is typically backed by a CancellationTokenSource that is reset whenever the system decides that cached data is no longer trustworthy, for example after an entity update, plugin installation, or configuration change. When the token is canceled, every cache entry that registered this token becomes expired immediately.
+			 * 
+			 * This is a crucial point: instead of tracking and removing individual cache keys one by one, the system can invalidate an entire logical cache region in a single operation by canceling the token.
+			 */
+			options.AddExpirationToken(new CancellationChangeToken(_clearToken.Token));
+			options.RegisterPostEvictionCallback(OnEviction);
+
+			return options;
+		}
+
+		/**
+		 * The cache itself can evict entries for several different reasons, and not all of those reasons imply that Nop should forget about the key entirely. This method exists to decide when it is safe and appropriate to remove a cache key from the internal key manager.
+		 */
+		private void OnEviction(object key, object? value, EvictionReason reason, object? state)
+		{
+			switch (reason)
+			{
+				/**
+				 * When the reason is Removed, it means that the application itself deliberately removed the cache entry, typically as part of a targeted cache invalidation routine. In this case, Nop already knows that the key is no longer valid and will handle cleanup elsewhere, so removing it again here would be redundant or even harmful. When the reason is Replaced, it means the cache entry was overwritten with a new value under the same key. In that scenario, the key is still valid and actively in use, so removing it from the key manager would desynchronize internal state. TokenExpired indicates that a cancellation token triggered expiration, which in Nop usually corresponds to a deliberate, bulk invalidation event. Again, the system already has higher-level logic that accounts for this, so the eviction callback does nothing.
+				 */
+				case EvictionReason.Removed:
+				case EvictionReason.Replaced:
+				case EvictionReason.TokenExpired:
+					break;
+				/**
+				 * The default case covers all other eviction reasons, most notably eviction due to memory pressure. This is the critical path for this method. When the memory cache evicts an entry because it needs to free space, that eviction is initiated internally by the cache, not by Nop’s cache management logic. In that situation, the key manager would still believe the key exists unless explicitly told otherwise. This would leave behind stale metadata about a cache entry that no longer exists, which could cause incorrect behavior in diagnostics, cache clearing operations, or administrative tooling. Therefore, in these cases, the key must be removed from the key manager to keep internal state consistent with the actual contents of the cache.
+				 */
+				default:
+					/**
+					 * The conditional check using _memoryCache.TryGetValue(key, out _) addresses a subtle race condition. Eviction callbacks are not guaranteed to run in isolation from other cache operations. It is possible for an entry to be evicted and then immediately re-added under the same key before the eviction callback executes. If the callback blindly removed the key from the key manager, it would accidentally remove a key that now corresponds to a valid, newly added cache entry. By checking whether the key currently exists in the cache at the time of the callback, the code ensures that it only removes the key if it truly no longer exists. This prevents accidental corruption of the key registry.
+					 */
+					if (!memoryCache.TryGetValue(key, out _))
+					{
+						cacheKeyManager.RemoveKey(key as string);
+					}
+					break;
+			}
 		}
 	}
 }
