@@ -20,7 +20,7 @@ namespace GlideBuy.Plugins.PayPal
 
 		public Task<OrderPaymentContext> GetPaymentInfoAsync(IFormCollection form)
 		{
-			throw new NotImplementedException();
+			return Task.FromResult(new OrderPaymentContext());
 		}
 
 		public async Task<string> GetPaymentMethodDescriptionAsync()
@@ -40,7 +40,7 @@ namespace GlideBuy.Plugins.PayPal
 
 		public Task<IList<string>> ValidatePaymentFormAsync(IFormCollection form)
 		{
-			throw new NotImplementedException();
+			return Task.FromResult<IList<string>>(new List<string>());
 		}
 	}
 }

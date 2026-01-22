@@ -6,17 +6,13 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace GlideBuy.Migrations
 {
     /// <inheritdoc />
-    public partial class RedesignOrders : Migration
+    public partial class UpdateMigrations : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
                 name: "ShoppingCartItem");
-
-            migrationBuilder.DropPrimaryKey(
-                name: "PK_Orders",
-                table: "Orders");
 
             migrationBuilder.DropColumn(
                 name: "Line2",
@@ -68,24 +64,7 @@ namespace GlideBuy.Migrations
             migrationBuilder.RenameColumn(
                 name: "OrderId",
                 table: "Orders",
-                newName: "CustomerId");
-
-            migrationBuilder.AlterColumn<int>(
-                name: "CustomerId",
-                table: "Orders",
-                type: "int",
-                nullable: false,
-                oldClrType: typeof(int),
-                oldType: "int")
-                .OldAnnotation("SqlServer:Identity", "1, 1");
-
-            migrationBuilder.AddColumn<int>(
-                name: "Id",
-                table: "Orders",
-                type: "int",
-                nullable: false,
-                defaultValue: 0)
-                .Annotation("SqlServer:Identity", "1, 1");
+                newName: "Id");
 
             migrationBuilder.AddColumn<bool>(
                 name: "AllowStoringCreditCardInfo",
@@ -128,6 +107,13 @@ namespace GlideBuy.Migrations
                 type: "datetime2",
                 nullable: false,
                 defaultValue: new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
+
+            migrationBuilder.AddColumn<int>(
+                name: "CustomerId",
+                table: "Orders",
+                type: "int",
+                nullable: false,
+                defaultValue: 0);
 
             migrationBuilder.AddColumn<Guid>(
                 name: "OrderGuid",
@@ -231,22 +217,29 @@ namespace GlideBuy.Migrations
                 nullable: false,
                 defaultValue: 0m);
 
-            migrationBuilder.AddPrimaryKey(
-                name: "PK_Orders",
-                table: "Orders",
-                column: "Id");
+            migrationBuilder.CreateTable(
+                name: "GenericAttributes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    EntityId = table.Column<int>(type: "int", nullable: false),
+                    KeyGroup = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Key = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Value = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatedOrUpdatedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GenericAttributes", x => x.Id);
+                });
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropPrimaryKey(
-                name: "PK_Orders",
-                table: "Orders");
-
-            migrationBuilder.DropColumn(
-                name: "Id",
-                table: "Orders");
+            migrationBuilder.DropTable(
+                name: "GenericAttributes");
 
             migrationBuilder.DropColumn(
                 name: "AllowStoringCreditCardInfo",
@@ -270,6 +263,10 @@ namespace GlideBuy.Migrations
 
             migrationBuilder.DropColumn(
                 name: "CreatedOnUtc",
+                table: "Orders");
+
+            migrationBuilder.DropColumn(
+                name: "CustomerId",
                 table: "Orders");
 
             migrationBuilder.DropColumn(
@@ -358,11 +355,6 @@ namespace GlideBuy.Migrations
                 newName: "Line1");
 
             migrationBuilder.RenameColumn(
-                name: "CustomerId",
-                table: "Orders",
-                newName: "OrderId");
-
-            migrationBuilder.RenameColumn(
                 name: "CustomerCurrencyCode",
                 table: "Orders",
                 newName: "Country");
@@ -372,14 +364,10 @@ namespace GlideBuy.Migrations
                 table: "Orders",
                 newName: "City");
 
-            migrationBuilder.AlterColumn<int>(
-                name: "OrderId",
+            migrationBuilder.RenameColumn(
+                name: "Id",
                 table: "Orders",
-                type: "int",
-                nullable: false,
-                oldClrType: typeof(int),
-                oldType: "int")
-                .Annotation("SqlServer:Identity", "1, 1");
+                newName: "OrderId");
 
             migrationBuilder.AddColumn<string>(
                 name: "Line2",
@@ -398,11 +386,6 @@ namespace GlideBuy.Migrations
                 table: "Orders",
                 type: "nvarchar(max)",
                 nullable: true);
-
-            migrationBuilder.AddPrimaryKey(
-                name: "PK_Orders",
-                table: "Orders",
-                column: "OrderId");
 
             migrationBuilder.CreateTable(
                 name: "ShoppingCartItem",

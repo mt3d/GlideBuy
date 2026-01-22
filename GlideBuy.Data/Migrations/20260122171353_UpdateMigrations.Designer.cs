@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GlideBuy.Migrations
 {
     [DbContext(typeof(StoreDbContext))]
-    [Migration("20260118122808_AddGenericAttributes")]
-    partial class AddGenericAttributes
+    [Migration("20260122171353_UpdateMigrations")]
+    partial class UpdateMigrations
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
