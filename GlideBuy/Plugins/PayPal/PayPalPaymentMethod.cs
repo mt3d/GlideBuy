@@ -5,6 +5,17 @@ namespace GlideBuy.Plugins.PayPal
 {
 	public class PayPalPaymentMethod : BasePlugin, IPaymentMethod
 	{
+		public PayPalPaymentMethod()
+		{
+			// TODO: Temporary. Remove once the plugin system is in place.
+			PluginDescriptor = new PluginDescriptor
+			{
+				FriendlyName = "PayPal",
+				SystemName = "PayPal"
+			};
+		}
+
+
 		public PaymentMethodType PaymentMethodType => throw new NotImplementedException();
 
 		public Task<OrderPaymentContext> GetPaymentInfoAsync(IFormCollection form)
@@ -12,14 +23,14 @@ namespace GlideBuy.Plugins.PayPal
 			throw new NotImplementedException();
 		}
 
-		public Task<string> GetPaymentMethodDescriptionAsync()
+		public async Task<string> GetPaymentMethodDescriptionAsync()
 		{
-			throw new NotImplementedException();
+			return "Pay using PayPal";
 		}
 
-		public Type GetPublicViewComponent()
+		public Type? GetPublicViewComponent()
 		{
-			throw new NotImplementedException();
+			return null;
 		}
 
 		public Task<ProcessPaymentResult> ProcessPaymentAsync(OrderPaymentContext processPaymentRequest)

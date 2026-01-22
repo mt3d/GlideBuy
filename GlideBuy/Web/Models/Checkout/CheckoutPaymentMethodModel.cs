@@ -17,7 +17,7 @@
 
 			public string Description { get; set; }
 
-			public Type PaymentViewComponent { get; set; }
+			public Type? PaymentViewComponent { get; set; }
 		}
 	}
 }

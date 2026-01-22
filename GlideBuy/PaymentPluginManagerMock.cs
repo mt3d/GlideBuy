@@ -1,5 +1,6 @@
 ﻿using GlideBuy.Core.Domain.Customers;
 using GlideBuy.Plugin.Payments.CreditCard;
+using GlideBuy.Plugins.PayPal;
 using GlideBuy.Services.Payments;
 using GlideBuy.Services.Plugins;
 
@@ -17,28 +18,36 @@ namespace GlideBuy
 		{
 			_contextAccessor = contextAccessor;
 
-			var type = typeof(ManualProcessingPaymentMethod);
-			Exception innerException;
-			foreach (var constructor in type.GetConstructors())
+			Dictionary<string, Type> methods = new()
 			{
-				try
+				{ "ManualProcessing", typeof(ManualProcessingPaymentMethod)},
+				{ "PayPal", typeof(PayPalPaymentMethod) }
+			};
+
+			foreach (var method in methods)
+			{
+				Exception innerException;
+				foreach (var constructor in method.Value.GetConstructors())
 				{
-					//try to resolve constructor parameters
-					var parameters = constructor.GetParameters().Select(parameter =>
+					try
 					{
-						var context = _contextAccessor?.HttpContext;
-						var serviceProvider = context?.RequestServices;
+						//try to resolve constructor parameters
+						var parameters = constructor.GetParameters().Select(parameter =>
+						{
+							var context = _contextAccessor?.HttpContext;
+							var serviceProvider = context?.RequestServices;
 
-						var service = serviceProvider?.GetService(parameter.ParameterType) ?? throw new Exception("Unknown dependency");
-						return service;
-					});
+							var service = serviceProvider?.GetService(parameter.ParameterType) ?? throw new Exception("Unknown dependency");
+							return service;
+						});
 
-					//all is ok, so create instance
-					paymentMethods.Add("ManualProcessing", (IPaymentMethod)Activator.CreateInstance(type, parameters.ToArray()));
-				}
-				catch (Exception ex)
-				{
-					innerException = ex;
+						//all is ok, so create instance
+						paymentMethods.Add(method.Key, (IPaymentMethod)Activator.CreateInstance(method.Value, parameters.ToArray()));
+					}
+					catch (Exception ex)
+					{
+						innerException = ex;
+					}
 				}
 			}
 		}

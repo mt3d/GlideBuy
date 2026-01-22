@@ -11,7 +11,7 @@ namespace GlideBuy.Services.Payments
 
 		Task<string> GetPaymentMethodDescriptionAsync();
 
-		Type GetPublicViewComponent();
+		Type? GetPublicViewComponent();
 		
 		// Returns a list of warnings.
 		Task<IList<string>> ValidatePaymentFormAsync(IFormCollection form);
