@@ -1,4 +1,5 @@
 ﻿using GlideBuy.Core;
+using GlideBuy.Core.Caching;
 using GlideBuy.Core.Domain.Customers;
 using GlideBuy.Core.Domain.Directory;
 using GlideBuy.Core.Domain.Orders;
@@ -20,6 +21,7 @@ namespace GlideBuy.Services.Orders
 		private readonly ICustomerService _customerService;
 		private readonly IGenericAttributeService _genericAttributeService;
 		private readonly PaymentSettings _paymentSettings;
+		private readonly IStaticCacheManager _staticCacheManger;
 
 		public OrderProcessingService(
 			OrderSettings orderSettings,
@@ -27,7 +29,8 @@ namespace GlideBuy.Services.Orders
 			IWorkContext workContext,
 			ICustomerService customerService,
 			IGenericAttributeService genericAttributeService,
-			PaymentSettings paymentSettings)
+			PaymentSettings paymentSettings,
+			IStaticCacheManager staticCacheManager)
 		{
 			_orderSettings = orderSettings;
 			_orderTotalCalculationService = orderTotalCalculationService;
@@ -35,6 +38,7 @@ namespace GlideBuy.Services.Orders
 			_customerService = customerService;
 			_genericAttributeService = genericAttributeService;
 			_paymentSettings = paymentSettings;
+			_staticCacheManger = staticCacheManager;
 		}
 
 		#region Utilities
@@ -128,25 +132,29 @@ namespace GlideBuy.Services.Orders
 		 * intentionally dense because it sits at the intersection of payment processing,
 		 * order persistence, inventory mutation, and system consistency guarantees.
 		 * 
-		 * The method begins with strict defensive validation. The ProcessPaymentRequest
-		 * is mandatory, and the presence of a non-empty OrderGuid is enforced immediately.
-		 * This GUID is generated earlier in the checkout flow and acts as an idempotency
-		 * anchor. By refusing to proceed without it, the system ensures that order
-		 * creation can be correlated, retried safely, and distinguished from duplicate
-		 * submissions. This is one of the first signals that the method is designed with
-		 * concurrency and replay scenarios in mind.
+		 * This method is about guaranteeing that exactly one order is created for a given
+		 * checkout attempt, even under retries, double clicks, network latency, or parallel requests.
 		 */
 		public async Task<PlaceOrderResult> PlaceOrderAsync(OrderPaymentContext? orderPaymentContext)
 		{
 			ArgumentNullException.ThrowIfNull(orderPaymentContext);
 
+			/**
+			 * The method begins with strict defensive validation. The ProcessPaymentRequest
+			 * is mandatory, and the presence of a non-empty OrderGuid is enforced immediately.
+			 * This GUID is generated earlier in the checkout flow and acts as an idempotency
+			 * anchor. By refusing to proceed without it, the system ensures that order
+			 * creation can be correlated, retried safely, and distinguished from duplicate
+			 * submissions. This is one of the first signals that the method is designed with
+			 * concurrency and replay scenarios in mind.
+			 */
 			if (orderPaymentContext.OrderGuid == Guid.Empty)
 			{
 				throw new Exception("Order GUID not generated");
 			}
 
 			/**
-			 * Next, PreparePlaceOrderDetailsAsync is invoked. This method constructs
+			 * This method constructs
 			 * a PlaceOrderContainer, which is effectively a snapshot of all relevant
 			 * checkout state at the exact moment of order placement. It aggregates the
 			 * customer, store, cart items, totals, discounts, taxes, shipping data,
@@ -155,8 +163,96 @@ namespace GlideBuy.Services.Orders
 			 * sources such as the shopping cart service. Once this container exists, all
 			 * subsequent operations rely on it rather than re-querying mutable state.
 			 */
+			var details = await PreparePlaceOrderDetailsAsync(orderPaymentContext);
 
-			return new PlaceOrderResult();
+			async Task<PlaceOrderResult> placeOrder(PlaceOrderContainer placeOrderContainer)
+			{
+				var result = new PlaceOrderResult();
+
+				try
+				{
+
+				}
+				catch (Exception ex)
+				{
+
+				}
+
+				if (result.Success)
+				{
+					return result;
+				}
+
+				// TODO: Add all errors to result and log them.
+
+				return result;
+			}
+
+			if (!_orderSettings.PlaceOrderWithLock)
+			{
+				return await placeOrder(details);
+			}
+
+			PlaceOrderResult? result;
+			var resource = details.Customer.Id.ToString();
+
+			/**
+			 * The mutex exists to prevent concurrent order placement for the same customer and shopping cart. In web applications, it is surprisingly easy for the same user to trigger multiple PlaceOrderAsync calls nearly simultaneously, for example by double clicking the confirm button, refreshing the page during a slow response, or when a reverse proxy retries a request. Without synchronization, two threads could pass all validation, process payment, and persist two separate orders for the same cart.
+			 * 
+			 * The mutex is named using the customer identifier, which means that it serializes order placement only per customer, not globally, and therefore does not degrade overall system throughput.
+			 * 
+			 * The mutex is intentionally named and system wide, so it works across threads and potentially across processes on the same machine, something that a simple in-memory lock would not guarantee.
+			 * 
+			 * SemaphoreSlim cannot be relied upon on all UNIX based environments in this context, and a regular C# lock would not protect against cross-thread or cross-request concurrency in the same way. A named mutex, although heavy, provides a simple and reliable cross-thread synchronization primitive that works at the operating system level.
+			 * 
+			 * mutexes cannot be used in with the await operation, which explains the otherwise awkward synchronous calls using .Result and .Wait(). Await would yield the thread while the mutex is held, potentially leading to deadlocks or starvation, so the code deliberately forces synchronous execution inside that critical section.
+			 * 
+			 * When you use await inside a method, you are explicitly allowing the current thread to be returned to the thread pool while the asynchronous operation is in progress. When the awaited operation completes, the continuation may run on a different thread. From the perspective of the runtime, this is normal and desirable behavior, but from the perspective of a Mutex, it is dangerous. If a thread acquires a mutex and then awaits, the continuation might resume on a different thread, and that different thread will attempt to release a mutex it does not own. This violates the mutex ownership rules and can result in runtime exceptions or undefined behavior.
+			 * 
+			 * Even if you imagine a scenario where the continuation resumes on the same thread by coincidence, there is a second, more serious problem. While the original thread is awaiting, it is effectively idle from the mutex’s point of view but still holds the lock. Any other thread attempting to acquire the mutex will block, even though the protected code is not actively executing. This creates a situation where progress is artificially stalled, and under load this can lead to starvation, where requests queue up behind a mutex that is held by a suspended async flow.
+			 * 
+			 * Once the mutex is acquired, the code must remain strictly synchronous until the mutex is released, ensuring that the same thread owns the mutex for the entire critical section and that the mutex is held for the shortest predictable duration.
+			 */
+			using var mutex = new Mutex(false, resource);
+			mutex.WaitOne();
+
+			try
+			{
+				/**
+				 * The mutex is combined with a cache-based time window to enforce the minimum order placement interval.
+				 * 
+				 * After acquiring the mutex, the code checks a cache key tied to the same customer identifier. If an order was placed recently, the method immediately returns an error instead of placing another order. If no recent order exists, it proceeds and then records the placement in the cache. The mutex ensures that this check and set sequence is atomic for a given customer. Without the mutex, two concurrent requests could both see the cache value as false and both proceed to place orders before either writes the true value.
+				 */
+				var cacheKey = _staticCacheManger.BuildKey(new ("GlideBuy.Order.With.Lock.{0}"), resource);
+				cacheKey.CacheTimeMinute = _orderSettings.MinimumOrderPlacementIntervalMinute;
+
+				/**
+				 * Calling GetAwaiter().GetResult() also blocks the current thread until the task completes, but it behaves more like the await keyword in terms of exception propagation. If the task faults, the original exception is thrown directly, not wrapped in an AggregateException. This makes error handling, logging, and debugging more predictable and closer to what you would see in a fully async flow. For this reason, GetAwaiter().GetResult() is generally considered the “cleaner” synchronous wait when you must block.
+				 */
+				var exist = _staticCacheManger.TryGetOrLoadAsync(cacheKey, () => false).GetAwaiter().GetResult();
+
+				if (exist)
+				{
+					result = new PlaceOrderResult();
+					result.Errors.Add("Minimum order placement interval violeted.");
+				}
+				else
+				{
+					result = placeOrder(details).GetAwaiter().GetResult();
+
+					if (result.Success)
+					{
+						_staticCacheManger.SetAsync(cacheKey, true).Wait();
+					}
+				}
+
+			}
+			finally
+			{
+				mutex.ReleaseMutex();
+			}
+
+			return result;
 		}
 
 		public async Task<bool> IsPaymentRequired(IList<ShoppingCartItem> cart, bool? useRewardPoints = null)

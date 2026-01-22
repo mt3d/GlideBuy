@@ -58,5 +58,10 @@ namespace GlideBuy.Core.Domain.Orders
 		public bool AnonymousCheckoutDisabled { get; set; }
 
 		public bool DisableBillingAddressCheckoutStep { get; set; }
+
+		public bool PlaceOrderWithLock { get; set; }
+
+		// TODO: Remove the default value.
+		public int MinimumOrderPlacementIntervalMinute { get; set; } = 1;
 	}
 }
