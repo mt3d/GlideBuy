@@ -29,6 +29,8 @@ namespace GlideBuy.Services.Catalog
 			int pageSize = int.MaxValue,
 			IList<int>? categoryIds = null);
 
+		Task<IList<Product>> GetNewlyArrivedProducts(int count);
+
 		#endregion
 	}
 }

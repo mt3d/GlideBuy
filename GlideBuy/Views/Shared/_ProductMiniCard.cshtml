@@ -1,0 +1,33 @@
+﻿@using GlideBuy.Models.Catalog
+@model ProductOverviewModel
+
+<div class="position-relative animate-underline d-flex align-items-center ps-xl-3">
+    <div class="ratio ratio-1x1 flex-shrink-0" style="width: 110px">
+        @* TODO: Handle image and alt text. Alt text should be something general, like VR Glass, or Macbook. *@
+        <img src="assets/img/shop/electronics/thumbs/01.png" alt="Smart Watch">
+    </div>
+    <div class="w-100 min-w-0 ps-2 ps-sm-3">
+        @* TODO: Handle reviews *@
+        <div class="d-flex align-items-center gap-2 mb-2">
+            <div class="d-flex gap-1 fs-xs">
+                <i class="ci-star-filled text-warning"></i>
+                <i class="ci-star-filled text-warning"></i>
+                <i class="ci-star-filled text-warning"></i>
+                <i class="ci-star-filled text-warning"></i>
+                <i class="ci-star-filled text-warning"></i>
+            </div>
+            <span class="text-body-tertiary fs-xs">45</span>
+        </div>
+
+        @* TODO: Handle link *@
+        <h4 class="mb-2">
+            <a class="stretched-link d-block fs-sm fw-medium text-truncate" href="">
+                <span class="animate-target">@Model.Name</span>
+            </a>
+        </h4>
+        
+        @* TODO: Handle price and discounts *@
+        <div class="h5 mb-0">$449.00</div>
+        @* <div class="h5 mb-0">$899.00 <del class="text-body-tertiary fs-sm fw-normal">$958.00</del></div>*@
+    </div>
+</div>

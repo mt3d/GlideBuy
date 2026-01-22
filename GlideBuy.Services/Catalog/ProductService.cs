@@ -154,5 +154,22 @@ namespace GlideBuy.Services.Catalog
 
 			return await query.ToPagedListAsync(pageIndex, pageSize);
 		}
+
+		public async Task<IList<Product>> GetNewlyArrivedProducts(int count)
+		{
+			return await GetRandomProductsForTestingAsync(count);
+		}
+
+		public async Task<List<Product>> GetRandomProductsForTestingAsync(int count)
+		{
+			var products = await _context.Products
+				.Take(200)
+				.ToListAsync();
+
+			return products
+				.OrderBy(_ => Guid.NewGuid())
+				.Take(count)
+				.ToList();
+		}
 	}
 }
