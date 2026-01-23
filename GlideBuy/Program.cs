@@ -1,3 +1,4 @@
+using GlideBuy.Core.Domain.Customers;
 using GlideBuy.Core.Infrastructure;
 using GlideBuy.Data;
 using GlideBuy.Services.Orders;
@@ -5,6 +6,7 @@ using GlideBuy.Support.Mvc.Routing;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,12 +23,6 @@ builder.Services.AddScoped<IShoppingCartService, ShoppingCartService>();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
 builder.Services.AddServerSideBlazor();
-
-builder.Services.AddDbContext<AppIdentityDbContext>(opts => {
-	opts.UseSqlServer(builder.Configuration["ConnectionStrings:IdentityConnection"]);
-});
-builder.Services.AddIdentity<IdentityUser, IdentityRole>()
-	.AddEntityFrameworkStores<AppIdentityDbContext>();
 
 builder.Services.AddSingleton<RouteProvider>();
 builder.Services.AddSingleton<GenericUrlRouteProvider>();
@@ -57,6 +53,5 @@ app.MapBlazorHub();
 app.MapFallbackToPage("/admin/{*catchall}", "/Admin/Index");
 
 SeedData.EnsurePopulated(app);
-IdentitySeedData.EnsurePopulated(app);
 
 app.Run();

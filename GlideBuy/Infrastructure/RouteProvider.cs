@@ -26,6 +26,11 @@ namespace GlideBuy.Core.Infrastructure
 				pattern: "cart",
 				new { controller = "ShoppingCart", action = "Cart" });
 
+
+			builder.MapControllerRoute(name: "Register",
+				pattern: $"register/",
+				defaults: new { controller = "Customer", action = "Register" });
+
 			// Checkout pages
 
 			builder.MapControllerRoute(name: "Checkout",
