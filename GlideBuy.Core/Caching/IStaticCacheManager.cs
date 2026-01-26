@@ -16,7 +16,7 @@
 		/// <param name="key"></param>
 		/// <param name="acquire">A function to asynchronously load the item if it's not in the cache.</param>
 		/// <returns></returns>
-		Task<T> TryGetOrLoad<T>(CacheKey key, Func<Task<T>> acquire);
+		Task<T> TryGetOrLoadAsync<T>(CacheKey key, Func<Task<T>> acquire);
 
 		Task<T> TryGetOrLoadAsync<T>(CacheKey key, Func<T> acquire);
 

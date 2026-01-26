@@ -40,7 +40,7 @@ namespace GlideBuy.Data
 				.CreateScope().ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
 
 			IdentityUser? user = await userManager.FindByNameAsync(adminUser);
-			if (user == null)
+			if (user is null)
 			{
 				user = new IdentityUser("Admin");
 				user.Email = "admin@example.com";
@@ -51,6 +51,11 @@ namespace GlideBuy.Data
 
 		private static async Task InstallCustomersAndRolesAsync(StoreDbContext context)
 		{
+			if (context.CustomerRoles.Any())
+			{
+				return;
+			}
+
 			var crRegistered = new CustomerRole
 			{
 				Name = "Registered",

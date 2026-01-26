@@ -5,6 +5,7 @@ using GlideBuy.Services.Catalog;
 using GlideBuy.Services.Common;
 using GlideBuy.Services.Configuration;
 using GlideBuy.Services.Customers;
+using GlideBuy.Services.Media;
 using GlideBuy.Services.Orders;
 using GlideBuy.Services.Payments;
 using GlideBuy.Services.Plugins;
@@ -55,6 +56,7 @@ namespace GlideBuy.Core.Infrastructure.StartupConfigurations
 			services.AddScoped<IOrderTotalCalculationService, OrderTotalCalculationService>();
 			services.AddScoped<IPluginService, PluginService>();
 			services.AddScoped<IGenericAttributeService, GenericAttributeService>();
+			services.AddScoped<IPictureService, PictureService>();
 
 			services.AddScoped<ISupportHtmlHelper, SupportHtmlHelper>();
 

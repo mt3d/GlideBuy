@@ -62,7 +62,7 @@ namespace GlideBuy.Services.Customers
 
 			var query = _context.CustomerRoles.OrderBy(r => r.Id).Where(r => r.SystemName == systemName);
 
-			var customerRole = await _staticCacheManager.TryGetOrLoad(key, async () => await query.FirstOrDefaultAsync());
+			var customerRole = await _staticCacheManager.TryGetOrLoadAsync(key, async () => await query.FirstOrDefaultAsync());
 
 			return customerRole;
 		}

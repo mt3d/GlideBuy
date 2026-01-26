@@ -2,6 +2,7 @@
 using GlideBuy.Core.Domain.Configuration;
 using GlideBuy.Core.Domain.Customers;
 using GlideBuy.Core.Domain.Directory;
+using GlideBuy.Core.Domain.Media;
 using GlideBuy.Core.Domain.Orders;
 using GlideBuy.Core.Domain.Seo;
 using GlideBuy.Domain.Catalog;
@@ -34,6 +35,9 @@ namespace GlideBuy.Data
 		public DbSet<UrlRecord> UrlRecords => Set<UrlRecord>();
 
 		public DbSet<GenericAttribute> GenericAttributes => Set<GenericAttribute>();
+
+		public DbSet<Picture> Pictures => Set<Picture>();
+		public DbSet<ProductPicture> ProductPictures => Set<ProductPicture>();
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{

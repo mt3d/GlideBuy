@@ -3,6 +3,7 @@ using GlideBuy.Core.Domain.Media;
 using GlideBuy.Models;
 using GlideBuy.Models.Catalog;
 using GlideBuy.Models.Media;
+using GlideBuy.Services.Media;
 using GlideBuy.Web.Infrastructure.Cache;
 
 namespace GlideBuy.Web.Factories
@@ -11,13 +12,16 @@ namespace GlideBuy.Web.Factories
 	{
 		private readonly MediaSettings _mediaSettings;
 		private readonly IStaticCacheManager _staticCacheManager;
+		private readonly IPictureService _pictureService;
 
 		public ProductModelFactory(
 			MediaSettings mediaSettings,
-			IStaticCacheManager staticCacheManager)
+			IStaticCacheManager staticCacheManager,
+			IPictureService pictureService)
 		{
 			_mediaSettings = mediaSettings;
 			_staticCacheManager = staticCacheManager;
+			_pictureService = pictureService;
 		}
 
 		private async Task<IList<PictureModel>> PrepareProductOverviewPictureModelsAsync(Product product, int? productThumbPictureSize = null)
@@ -28,8 +32,19 @@ namespace GlideBuy.Web.Factories
 
 			var cacheKey = _staticCacheManager.BuildKeyWithDefaultCacheTime(ModelCacheDefaults.ProductOverviewPicturesModelKey, product, pictureSize);
 
-			var cachedPictures = await _staticCacheManager.TryGetOrLoadAsync(cacheKey, () =>
+			var cachedPictures = await _staticCacheManager.TryGetOrLoadAsync(cacheKey, async () =>
 			{
+				async Task<PictureModel> preparePictureModelAsync(Picture picture)
+				{
+					return new PictureModel
+					{
+
+					};
+				}
+
+				// TODO: Make the number of pictures to display configurable.
+				var pictures = (await _pictureService.GetPicturesByProductAsync(product.Id, 0)).DefaultIfEmpty<Picture?>(null);
+
 				var pictureModels = new List<PictureModel>();
 				return pictureModels;
 			});
@@ -58,12 +73,11 @@ namespace GlideBuy.Web.Factories
 				};
 
 				// TODO: Handle price
+
 				if (preparePictureModel)
 				{
 					model.PictureModels = await PrepareProductOverviewPictureModelsAsync(product, productThumbPictrueSize);
 				}
-				
-				// TODO: Handle picture
 
 				// TODO: Handle reviews
 

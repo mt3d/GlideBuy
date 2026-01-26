@@ -32,7 +32,7 @@ namespace GlideBuy.Services.Seo
 			// Gradual loading.
 			CacheKey key = _staticCacheManager.BuildKeyWithDefaultCacheTime(SeoDefaults.UrlRecordBySlugCacheKey, slug);
 
-			return await _staticCacheManager.TryGetOrLoad(key, async () =>
+			return await _staticCacheManager.TryGetOrLoadAsync(key, async () =>
 			{
 				var query = _urlRecordRepository.Table
 					.Where(ur => ur.Slug == slug)
@@ -78,7 +78,7 @@ namespace GlideBuy.Services.Seo
 			// Gradual loading.
 			CacheKey key = _staticCacheManager.BuildKeyWithDefaultCacheTime(SeoDefaults.UrlRecordCacheKey, entityId, entityTypeName, languageId);
 
-			return await _staticCacheManager.TryGetOrLoad(key, async () =>
+			return await _staticCacheManager.TryGetOrLoadAsync(key, async () =>
 			{
 				var query = _urlRecordRepository.Table
 					.Where(ur => ur.EntityId == entityId && ur.EntityName == entityTypeName && ur.LanguageId == languageId && ur.IsActive)

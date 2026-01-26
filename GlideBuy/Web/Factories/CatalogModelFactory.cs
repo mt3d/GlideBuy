@@ -40,7 +40,7 @@ namespace GlideBuy.Web.Factories
 			var categoriesCacheKey = _staticCacheManager.BuildKeyWithDefaultCacheTime(
 				ModelCacheDefaults.CategoryHomepageKey);
 
-			var model = await _staticCacheManager.TryGetOrLoad(categoriesCacheKey, async () =>
+			var model = await _staticCacheManager.TryGetOrLoadAsync(categoriesCacheKey, async () =>
 			{
 				// TODO: Use categories service
 				var categories = await _context.Categories.ToListAsync();
@@ -81,7 +81,7 @@ namespace GlideBuy.Web.Factories
 			// Load and cache the categories.
 			var cacheKey = _staticCacheManager.BuildKeyWithDefaultCacheTime(new ("GlideBuy.presentation.category.all"));
 
-			return await _staticCacheManager.TryGetOrLoad(cacheKey, async () => await PrepareCategorySimpleModelsAsync(null));
+			return await _staticCacheManager.TryGetOrLoadAsync(cacheKey, async () => await PrepareCategorySimpleModelsAsync(null));
 		}
 
 		public async Task<List<CategorySimpleModel>> PrepareCategorySimpleModelsAsync(int? rootCategoryId, bool loadSubcategories = true)

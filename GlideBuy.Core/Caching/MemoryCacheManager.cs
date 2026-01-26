@@ -38,7 +38,7 @@ namespace GlideBuy.Core.Caching
 
 		public async Task<T> TryGetOrLoadAsync<T>(CacheKey? key, Func<T> acquire)
 		{
-			return await TryGetOrLoad(key, () => Task.FromResult(acquire()));
+			return await TryGetOrLoadAsync(key, () => Task.FromResult(acquire()));
 		}
 
 		/// <summary>
@@ -54,7 +54,7 @@ namespace GlideBuy.Core.Caching
 		/// <param name="key"></param>
 		/// <param name="acquire"></param>
 		/// <returns></returns>
-		public async Task<T> TryGetOrLoad<T>(CacheKey? key, Func<Task<T>> acquire)
+		public async Task<T> TryGetOrLoadAsync<T>(CacheKey? key, Func<Task<T>> acquire)
 		{
 			/**
 			 * This is a cache-aside + Lazy<Task> hybrid — it solves common concurrency

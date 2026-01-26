@@ -59,7 +59,7 @@ namespace GlideBuy.Data
 			var cacheKey = getCacheKey(_staticCacheManager)
 				?? _staticCacheManager.BuildKeyWithDefaultCacheTime(EntityCachingDefaults<T>.AllCacheKey);
 
-			return await _staticCacheManager.TryGetOrLoad(cacheKey, getData);
+			return await _staticCacheManager.TryGetOrLoadAsync(cacheKey, getData);
 		}
 
 		/// <summary>
@@ -151,7 +151,7 @@ namespace GlideBuy.Data
 			var cacheKey = getCacheKey(cacheKeyBuilder)
 							?? cacheKeyBuilder.BuildKeyWithDefaultCacheTime(EntityCachingDefaults<T>.ByIdCacheKey, id);
 
-			return await _staticCacheManager.TryGetOrLoad(cacheKey, getEntityAsync);
+			return await _staticCacheManager.TryGetOrLoadAsync(cacheKey, getEntityAsync);
 		}
 
 		public async Task DeleteAsync(

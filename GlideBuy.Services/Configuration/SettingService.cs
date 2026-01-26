@@ -42,7 +42,7 @@ namespace GlideBuy.Services.Configuration
 		/// <returns></returns>
 		private async Task<IDictionary<string, IList<Setting>>> GetAllSettingsDictionaryAsync()
 		{
-			return await staticCacheManager.TryGetOrLoad(SettingsCashingDefaults.AllSettingsAsDictionaryCacheKey, async () =>
+			return await staticCacheManager.TryGetOrLoadAsync(SettingsCashingDefaults.AllSettingsAsDictionaryCacheKey, async () =>
 			{
 				var settings = await GetAllSettingsAsync();
 
