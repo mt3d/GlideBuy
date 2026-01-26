@@ -17,5 +17,11 @@ namespace GlideBuy.Web.Infrastructure.Cache
 		/// {4} : is connection SSL secured (included in a category picture URL)
 		/// </remarks>
 		public static CacheKey CategoryHomepageKey => new("GlideBuy.ui.category.homepage");
+
+		/// <summary>
+		/// {0} : product ID
+		/// {1} : picture size
+		/// </summary>
+		public static CacheKey ProductOverviewPicturesModelKey => new("GlideBuy.ui.product.overviewpictures-{0}-{1}");
 	}
 }

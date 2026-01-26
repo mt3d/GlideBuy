@@ -1,16 +1,38 @@
-﻿using GlideBuy.Models;
+﻿using GlideBuy.Core.Caching;
+using GlideBuy.Core.Domain.Media;
+using GlideBuy.Models;
 using GlideBuy.Models.Catalog;
 using GlideBuy.Models.Media;
+using GlideBuy.Web.Infrastructure.Cache;
 
 namespace GlideBuy.Web.Factories
 {
 	public class ProductModelFactory : IProductModelFactory
 	{
+		private readonly MediaSettings _mediaSettings;
+		private readonly IStaticCacheManager _staticCacheManager;
+
+		public ProductModelFactory(
+			MediaSettings mediaSettings,
+			IStaticCacheManager staticCacheManager)
+		{
+			_mediaSettings = mediaSettings;
+			_staticCacheManager = staticCacheManager;
+		}
+
 		private async Task<IList<PictureModel>> PrepareProductOverviewPictureModelsAsync(Product product, int? productThumbPictureSize = null)
 		{
 			ArgumentNullException.ThrowIfNull(product);
 
-			var cachedPictures = new List<PictureModel>();
+			var pictureSize = productThumbPictureSize ?? _mediaSettings.ProductThumbnailPictureSize;
+
+			var cacheKey = _staticCacheManager.BuildKeyWithDefaultCacheTime(ModelCacheDefaults.ProductOverviewPicturesModelKey, product, pictureSize);
+
+			var cachedPictures = await _staticCacheManager.TryGetOrLoadAsync(cacheKey, () =>
+			{
+				var pictureModels = new List<PictureModel>();
+				return pictureModels;
+			});
 
 			return cachedPictures;
 		}
