@@ -1,6 +1,6 @@
 ﻿using GlideBuy.Core.Domain.Common;
 using GlideBuy.Core.Domain.Directory;
-using GlideBuy.Web.Models.Common;
+using GlideBuy.Models.Common;
 
 namespace GlideBuy.Web.Factories
 {

@@ -1,5 +1,5 @@
 ﻿using GlideBuy.Models.Catalog;
-using GlideBuy.Web.UI.Paging;
+using GlideBuy.Support.UI.Paging;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace GlideBuy.Web.Models.Catalog

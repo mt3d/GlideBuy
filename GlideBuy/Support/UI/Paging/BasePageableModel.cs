@@ -1,6 +1,6 @@
 ﻿using GlideBuy.Core;
 
-namespace GlideBuy.Web.UI.Paging
+namespace GlideBuy.Support.UI.Paging
 {
 	public abstract record BasePageableModel : IPageableModel
 	{

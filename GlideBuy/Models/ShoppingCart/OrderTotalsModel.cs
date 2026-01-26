@@ -1,4 +1,4 @@
-﻿namespace GlideBuy.Web.Models.ShoppingCart
+﻿namespace GlideBuy.Models.ShoppingCart
 {
 	public class OrderTotalsModel
 	{

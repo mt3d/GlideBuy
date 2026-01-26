@@ -1,4 +1,4 @@
-﻿namespace GlideBuy.Web.Models.Common
+﻿namespace GlideBuy.Models.Common
 {
 	public class ShoppingCartButtonModel
 	{

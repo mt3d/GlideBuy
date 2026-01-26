@@ -1,9 +1,9 @@
 ﻿using GlideBuy.Core.Domain.Orders;
 using GlideBuy.Core.Domain.Shipping;
 using GlideBuy.Models;
+using GlideBuy.Models.Checkout;
 using GlideBuy.Services.Orders;
 using GlideBuy.Services.Payments;
-using GlideBuy.Web.Models.Checkout;
 
 namespace GlideBuy.Web.Factories
 {

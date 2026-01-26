@@ -1,4 +1,4 @@
-﻿namespace GlideBuy.Web.UI.Paging
+﻿namespace GlideBuy.Support.UI.Paging
 {
 	public interface IPageableModel
 	{

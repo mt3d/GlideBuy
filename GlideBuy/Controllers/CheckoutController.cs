@@ -1,13 +1,13 @@
 ﻿using GlideBuy.Core;
 using GlideBuy.Core.Domain.Common;
 using GlideBuy.Core.Domain.Orders;
+using GlideBuy.Models.Checkout;
 using GlideBuy.Services.Common;
 using GlideBuy.Services.Customers;
 using GlideBuy.Services.Orders;
 using GlideBuy.Services.Payments;
 using GlideBuy.Support.Controllers;
 using GlideBuy.Web.Factories;
-using GlideBuy.Web.Models.Checkout;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Razor;
 

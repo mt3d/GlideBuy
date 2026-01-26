@@ -1,4 +1,4 @@
-﻿namespace GlideBuy.Web.Models.Checkout
+﻿namespace GlideBuy.Models.Checkout
 {
 	public record CheckoutShippingMethodModel
 	{

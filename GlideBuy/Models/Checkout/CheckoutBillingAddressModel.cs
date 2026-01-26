@@ -1,6 +1,6 @@
-﻿using GlideBuy.Web.Models.Common;
+﻿using GlideBuy.Models.Common;
 
-namespace GlideBuy.Web.Models.Checkout
+namespace GlideBuy.Models.Checkout
 {
 	public class CheckoutBillingAddressModel
 	{

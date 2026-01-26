@@ -1,6 +1,6 @@
 ﻿using GlideBuy.Models;
 using GlideBuy.Models.Catalog;
-using GlideBuy.Web.Models.Media;
+using GlideBuy.Models.Media;
 
 namespace GlideBuy.Web.Factories
 {

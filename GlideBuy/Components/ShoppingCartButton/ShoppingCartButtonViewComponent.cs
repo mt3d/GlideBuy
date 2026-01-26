@@ -1,5 +1,4 @@
 ﻿using GlideBuy.Web.Factories;
-using GlideBuy.Web.Models.Common;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GlideBuy.Components.ShoppingCartButton

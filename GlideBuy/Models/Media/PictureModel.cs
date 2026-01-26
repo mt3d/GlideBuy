@@ -1,4 +1,4 @@
-﻿namespace GlideBuy.Web.Models.Media
+﻿namespace GlideBuy.Models.Media
 {
 	public class PictureModel
 	{

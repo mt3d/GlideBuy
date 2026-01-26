@@ -1,5 +1,5 @@
-﻿using GlideBuy.Web.Models.ShoppingCart;
-using GlideBuy.Core.Domain.Orders;
+﻿using GlideBuy.Core.Domain.Orders;
+using GlideBuy.Models.ShoppingCart;
 
 namespace GlideBuy.Web.Factories
 {

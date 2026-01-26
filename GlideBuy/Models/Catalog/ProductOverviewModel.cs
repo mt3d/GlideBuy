@@ -1,4 +1,4 @@
-﻿using GlideBuy.Web.Models.Media;
+﻿using GlideBuy.Models.Media;
 
 namespace GlideBuy.Models.Catalog
 {

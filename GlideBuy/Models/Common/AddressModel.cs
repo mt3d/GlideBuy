@@ -1,8 +1,7 @@
 ﻿using GlideBuy.Core.Domain.Common;
-using GlideBuy.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace GlideBuy.Web.Models.Common
+namespace GlideBuy.Models.Common
 {
 	public class AddressModel : BaseEntity
 	{

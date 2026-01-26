@@ -1,5 +1,5 @@
 ﻿using GlideBuy.Core.Domain.Orders;
-using GlideBuy.Web.Models.Checkout;
+using GlideBuy.Models.Checkout;
 
 namespace GlideBuy.Web.Factories
 {
