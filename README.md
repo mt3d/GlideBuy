@@ -1,40 +1,7 @@
-This is a full-stack e-commerce application built with ASP.NET Core MVC, Razor Pages, and Blazor. It provides a  user interface for browsing products, managing carts, and placing orders.
+GlideBuy is an experimental ecommerce project developed for educational and learning purposes. The primary goal of the project is to explore and better understand the architecture, design patterns, and practical challenges involved in building modern ecommerce platforms using ASP.NET Core and related technologies.
 
-# Features
-- Product Catalog: Add, edit, and manage products with categories and details.
-- Shopping Cart & Checkout: Fully functional cart with order placement.
-- Storefront UI: User-friendly interface built with MVC + Razor + Blazor.
-- Data Persistence: Powered by Entity Framework Core with SQL Server.
+The project serves as a sandbox for experimenting with concepts such as backend APIs, frontend integration, data modeling, extensibility, performance considerations, and common ecommerce features. It is intentionally designed as a learning environment rather than a production-ready system, and many components may be incomplete or simplified.
 
-# Planned Features
-- User Accounts: Register, log in, and manage profiles.
-- Authentication & Authorization: Secured endpoints and role-based access.
-- REST API: Access store functionality programmatically.
-- Docker Deployment
+GlideBuy is not intended for commercial use, production deployment, or real-world business operations. It should not be used, modified, or distributed for any commercial purposes.
 
-# Tech Stack
-- Backend: ASP.NET Core 9 (MVC, Razor Pages, Blazor)
-- Database: Microsoft SQL Server with Entity Framework Core
-- Authentication: ASP.NET Core Identity
-- Frontend: Blazor components + Razor views for hybrid UI
-
-# Local Build
-- Clone the repository:
-
-`git clone https://github.com/mt3d/Store.git
-cd Store/OnlineStore
-`
-
-- Update connection string in appsettings.json to point to your SQL Server.
-
-- Apply EF Core migrations:
-
-`dotnet ef database update`
-
-- Run:
-
-`dotnet run`
-
-- Navigate to:
-  - Storefront UI: `http://localhost:5000`
-  - Adminstration UI: `http://localhost:5000/admin`
+By using or exploring this project, you acknowledge that it exists solely as an educational exercise aimed at improving practical knowledge of ASP.NET Core and ecommerce system design.
