@@ -244,6 +244,35 @@ namespace GlideBuy.Core.Infrastructure
         #endregion
 
         #region Getters
+
+        /**
+         * Path translation methods are where this provider really earns its keep in the wider system. GetAbsolutePath ensures that all paths eventually resolve under the web root unless explicitly told otherwise. This prevents accidental reads or writes outside the intended filesystem sandbox. MapPath and GetVirtualPath provide bidirectional mapping between virtual paths like "~/images/thumbs" and physical disk paths. This is essential for features that bridge runtime IO and HTTP exposure, such as thumbnail generation, plugin loading, and theme discovery.
+         */
+
+        /**
+         * GetFileInfo is not a virtual method. To hide, the 'new' keyword should be used.
+         * The new keyword is needed to allow you to 'override' non-virtual and static methods.
+         * When you hide an inherited member, the derived version of the member replaces the base class version. 
+         * 
+         * Without this adjustment, certain file resolution scenarios would silently
+         * fail or return incorrect results when used through ASP.NET Core’s file provider abstractions.
+
+         * GetFileInfo answers the question:
+         * "Given a path relative to the provider’s root, does a file exist there,
+         * and if so, how can I access it?"
+         * 
+         * The base implementation lives in PhysicalFileProvider, which expects paths
+         * relative to its root directory.
+         * 
+         * The important detail is that the base provider expects relative paths, but many parts of Nop may accidentally pass absolute paths. If an absolute path were passed directly to PhysicalFileProvider, it would not work correctly because the provider would treat it as a relative path and produce an invalid result.
+         */
+        public new virtual IFileInfo GetFileInfo(string subpath)
+        {
+            subpath = subpath.Replace(Root, string.Empty);
+
+            return base.GetFileInfo(subpath);
+        }
+
         #endregion
 
         #region Read/Write operations
