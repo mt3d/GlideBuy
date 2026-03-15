@@ -179,6 +179,11 @@ namespace GlideBuy.Core.Infrastructure
             Directory.Move(sourceDirName, destDirName);
         }
 
+        public virtual IEnumerable<string> EnumerateFiles(string dirPath, string searchPattern, bool topDirOnly = true)
+        {
+            return Directory.EnumerateFiles(dirPath, searchPattern, topDirOnly ? SearchOption.TopDirectoryOnly : SearchOption.AllDirectories);
+        }
+
         /**
          * When CreateFile is called, the provider first checks whether the file
          * already exists. If it does, the method simply returns. If it does not,
@@ -218,6 +223,19 @@ namespace GlideBuy.Core.Infrastructure
         public virtual void FileMove(string sourceFileName, string destFileName)
         {
             File.Move(sourceFileName, destFileName);
+        }
+
+        public virtual void FileCopy(string sourceFileName, string destFileName, bool overwrite = false)
+        {
+            File.Copy(sourceFileName, destFileName, overwrite);
+        }
+
+        public virtual long FileLength(string path)
+        {
+            if (!FileExists(path))
+                return -1;
+
+            return new FileInfo(path).Length;
         }
 
         #endregion
