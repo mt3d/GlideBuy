@@ -174,6 +174,11 @@ namespace GlideBuy.Core.Infrastructure
             }
         }
 
+        public virtual void DirectoryMove(string sourceDirName, string destDirName)
+        {
+            Directory.Move(sourceDirName, destDirName);
+        }
+
         /**
          * When CreateFile is called, the provider first checks whether the file
          * already exists. If it does, the method simply returns. If it does not,
@@ -200,6 +205,19 @@ namespace GlideBuy.Core.Infrastructure
         public virtual bool FileExists(string path)
         {
             return File.Exists(path);
+        }
+
+        public virtual void DeleteFile(string path)
+        {
+            if (!FileExists(path))
+                return;
+
+            File.Delete(path);
+        }
+
+        public virtual void FileMove(string sourceFileName, string destFileName)
+        {
+            File.Move(sourceFileName, destFileName);
         }
 
         #endregion
