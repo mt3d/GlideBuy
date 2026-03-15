@@ -60,6 +60,26 @@ namespace GlideBuy.Core.Infrastructure
         public string WebRootPath { get; }
 
         /**
+         * This helper performs the actual deletion and then waits briefly while repeatedly checking whether the directory still exists. The reason for this loop is tied to Windows filesystem semantics. The Windows API can mark a directory for deletion while it is still technically present on disk due to open handles, particularly if the directory is visible in Windows Explorer. The short retry loop gives the operating system time to finish removing the directory before the application proceeds. Without this safeguard, applications that frequently manipulate directories can experience intermittent failures that are very difficult to reproduce.
+         */
+        protected virtual void DeleteDirectoryRecursive(string path)
+        {
+            Directory.Delete(path, true);
+            const int maxIterationToWait = 10;
+            var curIteration = 0;
+
+            while (Directory.Exists(path))
+            {
+                curIteration += 1;
+
+                if (curIteration > maxIterationToWait)
+                    return;
+
+                Thread.Sleep(100);
+            }
+        }
+
+        /**
          * Is the string a valid Universal Naming Convention (UNC) path?
          * 
          * UNC stands for Universal (or Uniform or Unified) Naming Convention
@@ -128,6 +148,30 @@ namespace GlideBuy.Core.Infrastructure
         public virtual bool DirectoryExists(string path)
         {
             return Directory.Exists(path);
+        }
+
+        public virtual void DeleteDirectory(string path)
+        {
+            ArgumentNullException.ThrowIfNull(path);
+
+            // See this answer https://stackoverflow.com/a/1703799/6093615
+            // This solution only addresses the peculiarities of interacting with Windows Explorer. 
+
+            foreach (var directory in Directory.GetDirectories(path))
+                DeleteDirectory(directory);
+
+            try
+            {
+                DeleteDirectoryRecursive(path);
+            }
+            catch (IOException)
+            {
+                DeleteDirectoryRecursive(path);
+            }
+            catch (UnauthorizedAccessException)
+            {
+                DeleteDirectoryRecursive(path);
+            }
         }
 
         /**
