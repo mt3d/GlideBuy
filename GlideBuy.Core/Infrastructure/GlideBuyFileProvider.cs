@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.FileProviders;
+using System.Text;
 
 namespace GlideBuy.Core.Infrastructure
 {
@@ -19,6 +20,8 @@ namespace GlideBuy.Core.Infrastructure
      * 
      * The core utility methods exist to smooth over platform differences and edge cases
      * that the raw System.IO APIs do not handle gracefully. The Combine method is a good example.
+     * 
+     * When you step back and look at these methods collectively, a pattern emerges. None of them introduces complicated logic on its own. Their purpose is to establish a single, stable gateway to the filesystem. Every directory creation, file read, write, move, or deletion flows through this provider. That centralization makes the rest of the NopCommerce codebase easier to maintain because filesystem behavior is defined in one place instead of being scattered across dozens of services.
      */
     public class GlideBuyFileProvider : PhysicalFileProvider, IGlideBuyFileProvider
     {
@@ -240,6 +243,55 @@ namespace GlideBuy.Core.Infrastructure
 
         #endregion
 
+        #region Getters
+        #endregion
 
+        #region Read/Write operations
+
+        public virtual async Task<byte[]> ReadAllBytesAsync(string filePath)
+        {
+            return FileExists(filePath) ? await File.ReadAllBytesAsync(filePath) : Array.Empty<byte>();
+        }
+
+        public virtual async Task<string> ReadAllTextAsync(string path, Encoding encoding)
+        {
+            /**
+             * The Nop implementation deliberately opens the file with a custom FileStream configuration so it can control the file sharing mode, something the convenience API does not allow.
+             * 
+             * The important part here is FileShare.ReadWrite. This flag allows the file to be read even if another process or thread currently has the file open for writing. In a web application like NopCommerce this situation happens frequently. For example, configuration files, plugin resources, or generated files might be updated while the application is still running. If the file were opened with the default sharing rules, the read operation could throw an exception when another process holds a write lock.
+             * 
+             * The convenience method File.ReadAllTextAsync() does not give you control over the sharing mode. Internally it opens the file using a FileStream with default parameters, which typically result in FileShare.Read. That means the file can be read by multiple readers but not while it is open for writing. In practice this can cause intermittent IOException errors in long-running web applications where files might be modified concurrently.
+             */
+
+            await using var fileStream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            using var streamReader = new StreamReader(fileStream, encoding);
+
+            return await streamReader.ReadToEndAsync();
+        }
+
+        public virtual string ReadAllText(string path, Encoding encoding)
+        {
+            using var fileStream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            using var streamReader = new StreamReader(fileStream, encoding);
+
+            return streamReader.ReadToEnd();
+        }
+
+        public virtual async Task WriteAllBytesAsync(string filePath, byte[] bytes)
+        {
+            await File.WriteAllBytesAsync(filePath, bytes);
+        }
+
+        public virtual async Task WriteAllTextAsync(string filePath, string contents, Encoding encoding)
+        {
+            await File.WriteAllTextAsync(filePath, contents, encoding);
+        }
+
+        public virtual void WriteAllText(string filePath, string contents, Encoding encoding)
+        {
+            File.WriteAllText(filePath, contents, encoding);
+        }
+
+        #endregion
     }
 }
