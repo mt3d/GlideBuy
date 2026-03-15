@@ -130,6 +130,34 @@ namespace GlideBuy.Core.Infrastructure
             return Directory.Exists(path);
         }
 
+        /**
+         * When CreateFile is called, the provider first checks whether the file
+         * already exists. If it does, the method simply returns. If it does not,
+         * the provider determines the directory that should contain the file and
+         * ensures that directory exists by calling CreateDirectory. Only then does
+         * it create the file using File.Create.
+         * 
+         * This is important because the .NET file creation APIs do not automatically
+         * create parent directories. Without this step, callers would need to manually
+         * ensure directory existence before creating files, which would scatter filesystem
+         * knowledge throughout the codebase.
+         */
+        public virtual void CreateFile(string path)
+        {
+            if (File.Exists(path))
+                return;
+
+            var fileInfo = new FileInfo(path);
+            CreateDirectory(fileInfo.DirectoryName);
+
+            using (File.Create(path)) { }
+        }
+
+        public virtual bool FileExists(string path)
+        {
+            return File.Exists(path);
+        }
+
         #endregion
 
 
