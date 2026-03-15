@@ -249,8 +249,6 @@ namespace GlideBuy.Core.Infrastructure
          * 
          * GetAbsolutePath ensures that all paths eventually resolve under the web root unless explicitly told otherwise. This prevents accidental reads or writes outside the intended filesystem sandbox.
         * 
-        * MapPath and GetVirtualPath provide bidirectional mapping between virtual paths like "~/images/thumbs" and physical disk paths. This is essential for features that bridge runtime IO and HTTP exposure, such as thumbnail generation, plugin loading, and theme discovery.
-        * 
         * Because relative paths are always rooted under WebRootPath, it becomes much harder for the application to accidentally read or write files outside the intended directory tree. In other words, the method acts as a soft guardrail that keeps most filesystem operations inside the public web directory.
         */
         public virtual string GetAbsolutePath(params string[] paths)
@@ -342,6 +340,75 @@ namespace GlideBuy.Core.Infrastructure
                     MatchCasing = MatchCasing.CaseInsensitive,
                     RecurseSubdirectories = !topDirOnly
                 });
+        }
+
+        // TODO: GetLastAccessTime
+        // TODO: GetLastWriteTime
+        // TODO: GetLastWriteTimeUtc
+
+        // Before creating the file, the method ensures the parent directory exists,
+        // which again prevents callers from having to manage directory structures themselves.
+        public FileStream GetOrCreateFile(string path)
+        {
+            if (FileExists(path))
+                return File.Open(path, FileMode.Open, FileAccess.ReadWrite);
+
+            var fileInfo = new FileInfo(path);
+            CreateDirectory(fileInfo.DirectoryName);
+
+            return File.Create(path);
+        }
+
+        // TODO: GetParentDirectory
+
+        public virtual bool IsDirectory(string path)
+        {
+            return DirectoryExists(path);
+        }
+
+        /**
+         * MapPath and GetVirtualPath provide bidirectional mapping between
+         * virtual paths like "~/images/thumbs" and physical disk paths. This
+         * is essential for features that bridge runtime IO and HTTP exposure,
+         * such as thumbnail generation, plugin loading, and theme discovery.
+         * 
+         * The two methods GetVirtualPath and MapPath are essentially inverse operations. One converts a physical filesystem path into a web-style virtual path, and the other converts a virtual path into a physical filesystem path. They exist because web applications constantly move between these two worlds: the filesystem where files live and the URL space where the browser accesses them.
+         * 
+         * A physical path is something like /var/www/nop/wwwroot/images/logo.png or C:\sites\nop\wwwroot\images\logo.png. A virtual path is something like ~/images/logo.png. The tilde (~) is an ASP.NET convention meaning “relative to the web root”.
+         */
+        public virtual string GetVirtualPath(string? path)
+        {
+            if (string.IsNullOrEmpty(path))
+                return path;
+
+            if (!IsDirectory(path) && FileExists(path))
+                path = new FileInfo(path).DirectoryName;
+
+            /**
+             * The next step removes the physical web root from the beginning of the path. For example, if the web root is /var/www/nop/wwwroot and the input path is /var/www/nop/wwwroot/images/thumbs, the method strips the web root and leaves images/thumbs. It then normalizes separators by converting backslashes to forward slashes, trims leading or trailing slashes, and removes any existing ~ characters. Finally it prepends ~/ so the result becomes a proper virtual path such as ~/images/thumbs.
+             */
+            path = path?.Replace(WebRootPath, string.Empty).Replace('\\', '/').Trim('/').TrimStart('~', '/');
+
+            return $"~/{path ?? string.Empty}";
+        }
+
+        /**
+         * Conceptually, MapPath answers the reverse question: “Given a virtual path inside the application, where is that resource located on disk?”
+         */
+        public virtual string MapPath(string path)
+        {
+            path = path.Replace("~/", string.Empty).TrimStart('/');
+
+            /**
+             * The first step removes the ~/ prefix and any leading slash so that the
+             * path becomes relative to the provider root. For example, ~/images/thumbs
+             * becomes images/thumbs.
+             * 
+             * The method also checks whether the original virtual path ended with a slash, because directory paths should preserve that trailing separator after conversion.
+             */
+            var pathEnd = path.EndsWith('/') ? Path.DirectorySeparatorChar.ToString() : string.Empty;
+
+            return Combine(Root ?? string.Empty, path) + pathEnd;
         }
 
         /**
