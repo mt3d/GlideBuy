@@ -28,6 +28,8 @@ namespace GlideBuy.Core.Infrastructure.StartupConfigurations
 
 		public void ConfigureServices(IServiceCollection services, IConfiguration configuration)
 		{
+			services.AddScoped<IGlideBuyFileProvider, GlideBuyFileProvider>();
+
 			// Admin dashboard factories
 
 			services.AddScoped<IPluginModelFactory, PluginModelFactory>();
