@@ -182,11 +182,6 @@ namespace GlideBuy.Core.Infrastructure
             Directory.Move(sourceDirName, destDirName);
         }
 
-        public virtual IEnumerable<string> EnumerateFiles(string dirPath, string searchPattern, bool topDirOnly = true)
-        {
-            return Directory.EnumerateFiles(dirPath, searchPattern, topDirOnly ? SearchOption.TopDirectoryOnly : SearchOption.AllDirectories);
-        }
-
         /**
          * When CreateFile is called, the provider first checks whether the file
          * already exists. If it does, the method simply returns. If it does not,
@@ -246,8 +241,108 @@ namespace GlideBuy.Core.Infrastructure
         #region Getters
 
         /**
-         * Path translation methods are where this provider really earns its keep in the wider system. GetAbsolutePath ensures that all paths eventually resolve under the web root unless explicitly told otherwise. This prevents accidental reads or writes outside the intended filesystem sandbox. MapPath and GetVirtualPath provide bidirectional mapping between virtual paths like "~/images/thumbs" and physical disk paths. This is essential for features that bridge runtime IO and HTTP exposure, such as thumbnail generation, plugin loading, and theme discovery.
+         * Path translation methods are where this provider really earns its keep in the wider system. 
          */
+
+        /**
+         * GetAbsolutePath is one of the most important methods in NopFileProvider because it establishes a consistent rule for converting relative paths into safe physical paths on disk.
+         * 
+         * GetAbsolutePath ensures that all paths eventually resolve under the web root unless explicitly told otherwise. This prevents accidental reads or writes outside the intended filesystem sandbox.
+        * 
+        * MapPath and GetVirtualPath provide bidirectional mapping between virtual paths like "~/images/thumbs" and physical disk paths. This is essential for features that bridge runtime IO and HTTP exposure, such as thumbnail generation, plugin loading, and theme discovery.
+        * 
+        * Because relative paths are always rooted under WebRootPath, it becomes much harder for the application to accidentally read or write files outside the intended directory tree. In other words, the method acts as a soft guardrail that keeps most filesystem operations inside the public web directory.
+        */
+        public virtual string GetAbsolutePath(params string[] paths)
+        {
+            var path = new List<string>();
+
+            /**
+             * The key idea is that this list may or may not start with WebRootPath, depending on the input.
+             * 
+             * If the first element does not contain WebRootPath, the method assumes the caller supplied a relative path, such as "images/thumbs" or "Plugins". In this situation it prepends WebRootPath to the list so the resulting path will be rooted under the public web directory.
+             */
+            if (paths.Any() && !paths[0].Contains(WebRootPath, StringComparison.InvariantCulture))
+                path.Add(WebRootPath);
+
+            path.AddRange(paths);
+
+            return Combine(path.ToArray());
+        }
+
+        // TODO: Implement GetAccessControl
+
+        public virtual DateTime GetCreationTime(string path)
+        {
+            return File.GetCreationTime(path);
+        }
+
+        public virtual string[] GetDirectories(string path, string searchPattern = "", bool topDirectoryOnly = true)
+        {
+            // In case the caller intentionally passed an empty or null string.
+            if (string.IsNullOrEmpty(searchPattern))
+                searchPattern = "*";
+
+            return Directory.GetDirectories(path, searchPattern, topDirectoryOnly ? SearchOption.TopDirectoryOnly : SearchOption.AllDirectories);
+        }
+
+        // Returns the directory name component of the specified path string.
+        // GetDirectoryName("C:\MyDir\MySubDir\myfile.ext") returns C:\MyDir\MySubDir
+        public virtual string? GetDirectoryName(string path)
+        {
+            return Path.GetDirectoryName(path);
+        }
+
+        public virtual string GetDirectoryNameOnly(string path)
+        {
+            return new DirectoryInfo(path).Name;
+        }
+
+        public virtual string GetFileExtensions(string filePath)
+        {
+            return Path.GetExtension(filePath);
+        }
+
+        public virtual string GetFileName(string path)
+        {
+            return Path.GetFileName(path);
+        }
+
+        public virtual string GetFileNameWithoutExtension(string filePath)
+        {
+            return Path.GetFileNameWithoutExtension(filePath);
+        }
+
+        /**
+         * The difference between GetFiles and EnumerateFiles is subtle but important, and it mainly concerns how results are produced and returned. Both methods retrieve files from a directory that match a search pattern, but they behave differently in terms of execution model, memory usage, and timing.
+         * 
+         * EnumerateFiles is based on lazy enumeration. It returns an IEnumerable<string>, which means the filesystem is not fully scanned immediately. Instead, files are produced one by one as the caller iterates over the sequence. Internally, the operating system is queried progressively, and each result is yielded as it becomes available. This approach is very efficient when dealing with large directories because it does not require allocating memory for all results at once, and it allows processing to start before the entire directory has been scanned.
+         * 
+         * In contrast, GetFiles returns a fully materialized array of strings. When the method is called, the filesystem is scanned immediately and the entire list of matching file paths is collected in memory before the method returns. Only after that does the caller receive the results. This behavior is simpler but can be less efficient if the directory contains a very large number of files.
+         * 
+         * If a directory contains a huge number of files, EnumerateFiles is more memory efficient because it does not allocate a large array. It also allows the caller to stop early if it finds what it needs. For example, if you are searching for the first matching file, enumeration can terminate immediately once it is found.
+         * 
+         * Another difference is related to timing and errors. Because EnumerateFiles executes lazily, exceptions such as permission errors may occur during iteration, not when the method is called.
+         */
+
+        public virtual IEnumerable<string> EnumerateFiles(string dirPath, string searchPattern, bool topDirOnly = true)
+        {
+            return Directory.EnumerateFiles(dirPath, searchPattern, topDirOnly ? SearchOption.TopDirectoryOnly : SearchOption.AllDirectories);
+        }
+
+        public virtual string[] GetFiles(string dirPath, string searchPattern = "", bool topDirOnly = true)
+        {
+            if (string.IsNullOrEmpty(searchPattern))
+                searchPattern = "*.*";
+
+            return Directory.GetFileSystemEntries(dirPath, searchPattern,
+                new EnumerationOptions
+                {
+                    IgnoreInaccessible = true,
+                    MatchCasing = MatchCasing.CaseInsensitive,
+                    RecurseSubdirectories = !topDirOnly
+                });
+        }
 
         /**
          * GetFileInfo is not a virtual method. To hide, the 'new' keyword should be used.
@@ -271,6 +366,13 @@ namespace GlideBuy.Core.Infrastructure
             subpath = subpath.Replace(Root, string.Empty);
 
             return base.GetFileInfo(subpath);
+        }
+
+        // A path is considered rooted if it starts with a backslash ("\") or a
+        // valid drive letter and a colon (":")
+        public virtual bool IsPathRooted(string path)
+        {
+            return !string.IsNullOrEmpty(path) && Path.IsPathRooted(path);
         }
 
         #endregion
