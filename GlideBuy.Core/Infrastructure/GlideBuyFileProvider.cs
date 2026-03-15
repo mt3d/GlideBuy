@@ -109,5 +109,29 @@ namespace GlideBuy.Core.Infrastructure
 
             return path;
         }
+
+        #region Directory/file utilities
+
+        /**
+         * When you examine the parts of NopFileProvider that deal with directory creation, file creation, deletion, and movement, it is useful to think of them not as complex algorithms but as controlled wrappers around System.IO. The .NET runtime already provides all of these capabilities, but NopCommerce introduces a provider layer so that the rest of the application never interacts with System.IO directly. This allows the framework to enforce consistent behavior, handle common edge cases once, and isolate platform differences in a single location.
+         */
+
+        /**
+         * The method CreateDirectory checks whether the directory already exists before calling Directory.CreateDirectory. The underlying .NET method already tolerates existing directories, but the explicit check makes the intent clearer and prevents unnecessary system calls. More importantly, it ensures that the provider always uses its own DirectoryExists method rather than letting other parts of the application call Directory.Exists directly. That consistency is the real purpose of the wrapper.
+         */
+        public virtual void CreateDirectory(string path)
+        {
+            if (!DirectoryExists(path))
+                Directory.CreateDirectory(path);
+        }
+
+        public virtual bool DirectoryExists(string path)
+        {
+            return Directory.Exists(path);
+        }
+
+        #endregion
+
+
     }
 }
