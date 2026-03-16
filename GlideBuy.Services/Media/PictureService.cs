@@ -21,6 +21,8 @@ namespace GlideBuy.Services.Media
             _fileProvider = fileProvider;
         }
 
+        #region Utilities
+
         // Called by LoadPictureBinaryAsync()
         private async Task<byte[]> LoadPictureFromFileAsync(int pictureId, string mimeType)
         {
@@ -31,6 +33,19 @@ namespace GlideBuy.Services.Media
             // TODO: Use the file provider to read all bytes from a file.
             throw new NotImplementedException();
         }
+
+        protected virtual async Task<byte[]> LoadPictureBinaryAsync(Picture picture, bool fromDb)
+        {
+            ArgumentNullException.ThrowIfNull(picture);
+
+            var result = fromDb
+                ? throw new NotImplementedException()
+                : await LoadPictureFromFileAsync(picture.Id, picture.MimeType);
+
+            return result;
+        }
+
+        #endregion
 
         public async Task<IList<Picture>> GetPicturesByProductAsync(int productId, int recordsToReturn = 0)
         {
@@ -63,6 +78,8 @@ namespace GlideBuy.Services.Media
          * The second responsibility is physical realization: ensuring that the required thumbnail file actually exists on disk before returning its URL.
          * 
          * This means the method is not a pure query, but a lazy materialization routine. Asking for a picture URL can trigger database updates, image decoding, resizing, filesystem writes, and synchronization across threads.
+         * 
+         * GetPictureUrlAsync is not primarily an image-processing method; it is a thumbnail cache manager.
          */
         public async Task<(string Url, Picture? picture)> GetPictureUrlAsync(Picture picture, int targetSize = 0)
         {
@@ -121,6 +138,16 @@ namespace GlideBuy.Services.Media
             };
 
             return Task.FromResult<string?>(lastPart);
+        }
+
+        public virtual async Task<byte[]> LoadPictureBinaryAsync(Picture picture)
+        {
+            return await LoadPictureBinaryAsync(picture, await IsStoreInDbAsync());
+        }
+
+        public virtual async Task<bool> IsStoreInDbAsync()
+        {
+            throw new NotImplementedException();
         }
     }
 }

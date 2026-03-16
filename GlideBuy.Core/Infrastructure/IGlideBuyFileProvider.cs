@@ -7,8 +7,6 @@ namespace GlideBuy.Core.Infrastructure
     {
         public string WebRootPath { get; }
 
-        void DeleteDirectoryRecursive(string path);
-        bool IsUncPath(string path);
         string Combine(params string[] paths);
 
         void CreateDirectory(string path);
