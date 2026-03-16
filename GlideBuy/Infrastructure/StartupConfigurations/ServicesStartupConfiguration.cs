@@ -59,6 +59,7 @@ namespace GlideBuy.Core.Infrastructure.StartupConfigurations
 			services.AddScoped<IPluginService, PluginService>();
 			services.AddScoped<IGenericAttributeService, GenericAttributeService>();
 			services.AddScoped<IPictureService, PictureService>();
+			services.AddScoped<IThumbService, ThumbService>();
 
 			services.AddScoped<ISupportHtmlHelper, SupportHtmlHelper>();
 

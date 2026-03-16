@@ -2,8 +2,10 @@
 
 namespace GlideBuy.Core.Domain.Media
 {
-	public class MediaSettings : ISettings
-	{
-		public int ProductThumbnailPictureSize { get; set; }
-	}
+    public class MediaSettings : ISettings
+    {
+        public int ProductThumbnailPictureSize { get; set; }
+
+        public string PicturePath { get; set; }
+    }
 }

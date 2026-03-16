@@ -1,6 +1,6 @@
 ﻿namespace GlideBuy.Services.Media
 {
-	public interface IThumbService
-	{
-	}
+    public interface IThumbService
+    {
+    }
 }
