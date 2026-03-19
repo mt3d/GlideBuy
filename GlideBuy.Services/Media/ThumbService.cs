@@ -1,5 +1,7 @@
 ﻿using GlideBuy.Core.Domain.Media;
 using GlideBuy.Core.Infrastructure;
+using GlideBuy.Services.Helpers;
+using Microsoft.AspNetCore.Http;
 
 namespace GlideBuy.Services.Media
 {
@@ -20,13 +22,19 @@ namespace GlideBuy.Services.Media
     {
         protected readonly IGlideBuyFileProvider _fileProvider;
         protected readonly MediaSettings _mediaSettings;
+        protected readonly IHttpContextAccessor _httpContextAccessor;
+        protected readonly IWebHelper _webHelper;
 
         public ThumbService(
             IGlideBuyFileProvider fileProvider,
-            MediaSettings mediaSettings)
+            MediaSettings mediaSettings,
+            IHttpContextAccessor httpContextAccessor,
+            IWebHelper webHelper)
         {
             _fileProvider = fileProvider;
             _mediaSettings = mediaSettings;
+            _httpContextAccessor = httpContextAccessor;
+            _webHelper = webHelper;
         }
 
         // The method does not perform resizing, validation, or any transformation;
@@ -77,6 +85,45 @@ namespace GlideBuy.Services.Media
         public virtual Task<bool> GeneratedThumbExistsAsync(string thumbFilePath, string thumbFileName)
         {
             return Task.FromResult(_fileProvider.FileExists(thumbFilePath));
+        }
+
+        /**
+         * Convert a thumbnail filename into a public URL that can be returned to the client. This usually involves combining the store location with the thumbnail folder path.
+         * 
+         * Unlike other parts of the system, it does not deal with files or binaries at all; its entire responsibility is URL composition, but it does so in a way that respects deployment environments, configuration settings, and directory structure.
+         * 
+         * It is also worth noting that this method does not verify whether the file actually exists. That responsibility lies with GeneratedThumbExistsAsync. This separation keeps concerns clean: one method checks existence, another constructs access paths.
+         */
+        public virtual Task<string> GetThumbUrlAsync(string thumbFileName, string? storeLocation = null)
+        {
+            /**
+             * This value is important in scenarios where the application is not hosted at the root of a domain. For example, if the application is hosted under /shop, then PathBase will be /shop. If the application is hosted at the root, this value will simply be an empty string. This ensures that generated URLs remain correct regardless of hosting configuration.
+             */
+            var pathBase = _httpContextAccessor.HttpContext?.Request.PathBase.Value ?? string.Empty;
+
+            /**
+             * If UseAbsoluteImagePath is enabled, the method will use the explicitly provided storeLocation as the base URL. This is typically something like https://example.com/ and is useful when images need to be served with absolute URLs, for example in emails or external integrations. If this setting is disabled, the method instead builds a relative URL based on the current request’s PathBase.
+             */
+            var imagesPathUrl = _mediaSettings.UseAbsoluteImagePath ? storeLocation : $"{pathBase}/";
+
+            /**
+             * This ensures that if the previous step produced an empty value, the system falls back to _webHelper.GetStoreLocation(), which dynamically resolves the full store URL at runtime. This makes the method resilient even when storeLocation is not explicitly provided.
+             */
+            imagesPathUrl = string.IsNullOrEmpty(imagesPathUrl) ? _webHelper.GetStoreLocation() : imagesPathUrl;
+            imagesPathUrl += "images/thumbs/";
+
+            if (_mediaSettings.MultipleThumbDirectories)
+            {
+                var fileNameWithoutExtensions = _fileProvider.GetFileNameWithoutExtension(thumbFileName);
+                if (!string.IsNullOrEmpty(fileNameWithoutExtensions) && fileNameWithoutExtensions.Length > GlideBuyMediaDefaults.MultipleThumbDirectoriesLength)
+                {
+                    var subdirectoryName = fileNameWithoutExtensions[..GlideBuyMediaDefaults.MultipleThumbDirectoriesLength];
+                    imagesPathUrl += imagesPathUrl + subdirectoryName + "/";
+                }
+            }
+
+            imagesPathUrl += thumbFileName;
+            return Task.FromResult(imagesPathUrl);
         }
     }
 }

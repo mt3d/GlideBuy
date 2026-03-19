@@ -6,6 +6,8 @@
 
         Task<string> GetThumbLocalPathByFileNameAsync(string thumbFileName);
 
-        Task<bool> GeneratedThumbExistsAsync(string thumbFilePath, string thumbFileName)
+        Task<bool> GeneratedThumbExistsAsync(string thumbFilePath, string thumbFileName);
+
+        Task<string> GetThumbUrlAsync(string thumbFileName, string? storeLocation = null);
     }
 }

@@ -5,6 +5,7 @@ using GlideBuy.Services.Catalog;
 using GlideBuy.Services.Common;
 using GlideBuy.Services.Configuration;
 using GlideBuy.Services.Customers;
+using GlideBuy.Services.Helpers;
 using GlideBuy.Services.Media;
 using GlideBuy.Services.Orders;
 using GlideBuy.Services.Payments;
@@ -29,10 +30,11 @@ namespace GlideBuy.Core.Infrastructure.StartupConfigurations
 		public void ConfigureServices(IServiceCollection services, IConfiguration configuration)
 		{
 			services.AddScoped<IGlideBuyFileProvider, GlideBuyFileProvider>();
+			services.AddScoped<IWebHelper, WebHelper>();
 
-			// Admin dashboard factories
+            // Admin dashboard factories
 
-			services.AddScoped<IPluginModelFactory, PluginModelFactory>();
+            services.AddScoped<IPluginModelFactory, PluginModelFactory>();
 
 			services.AddSingleton<ICacheKeyManager, CacheKeyManager>();
 			services.AddSingleton<IStaticCacheManager, MemoryCacheManager>();
