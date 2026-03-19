@@ -39,5 +39,39 @@ namespace GlideBuy.Services.Media
 
             await _fileProvider.WriteAllBytesAsync(thumbFilePath, binary);
         }
+
+        /**
+         * This method converts a logical thumbnail filename such as 0001234_product_300.jpg
+         * into a concrete storage path inside the media folder
+         */
+        public virtual Task<string> GetThumbLocalPathByFileNameAsync(string thumbFileName)
+        {
+            var thumbsDirectoryPath = _fileProvider.Combine(_fileProvider.GetLocalImagesPath(_mediaSettings), GlideBuyMediaDefaults.ImageThumbsPath);
+
+            /**
+             * When the setting MultipleThumbDirectories is enabled, it also introduces
+             * a subdirectory derived from the first characters of the filename. This
+             * mechanism prevents thousands of files from accumulating in a single directory,
+             * which would degrade file system performance.
+             */
+            if (_mediaSettings.MultipleThumbDirectories)
+            {
+                var fileNameWithoutExtension = _fileProvider.GetFileNameWithoutExtension(thumbFileName);
+                if (fileNameWithoutExtension != null && fileNameWithoutExtension.Length > GlideBuyMediaDefaults.MultipleThumbDirectoriesLength)
+                {
+                    /**
+                     * C# 8.0: A range specifies the start and end of a range. The start of the range is inclusive, but the end of the range is exclusive, meaning the start is included in the range but the end isn't included in the range. The range [0..^0] represents the entire range, just as [0..sequence.Length] represents the entire range.
+                     * 
+                     * string[] firstPhrase = words[..4]; // contains "first" through "fourth"
+                     */
+                    var subdirectoryName = fileNameWithoutExtension[..GlideBuyMediaDefaults.MultipleThumbDirectoriesLength];
+                    thumbsDirectoryPath += _fileProvider.Combine(_fileProvider.GetLocalImagesPath(_mediaSettings), GlideBuyMediaDefaults.ImageThumbsPath, subdirectoryName);
+                    _fileProvider.CreateDirectory(thumbsDirectoryPath);
+                }
+            }
+
+            var thumbFilePath = _fileProvider.Combine(thumbsDirectoryPath, thumbFileName);
+            return Task.FromResult(thumbFilePath);
+        }
     }
 }

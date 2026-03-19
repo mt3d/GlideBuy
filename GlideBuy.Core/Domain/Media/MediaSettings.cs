@@ -7,5 +7,13 @@ namespace GlideBuy.Core.Domain.Media
         public int ProductThumbnailPictureSize { get; set; }
 
         public string PicturePath { get; set; }
+
+        /**
+         * Single: thumbs/
+         * Multiple: thumbs/001, thumbs/002
+         */
+        public bool MultipleThumbDirectories { get; set; }
+
+
     }
 }
