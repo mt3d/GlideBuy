@@ -47,7 +47,13 @@ namespace GlideBuy.Services.Helpers
 
         public virtual bool IsCurrentConnectionSecured()
         {
-            throw new NotImplementedException();
+            /**
+             * This is a design choice: in the absence of a request, the system assumes a non-secure context.
+             */
+            if (!IsRequestAvailable())
+                return false;
+
+            return _httpContextAccessor.HttpContext!.Request.IsHttps;
         }
 
         /**
