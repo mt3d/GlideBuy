@@ -84,7 +84,27 @@ namespace GlideBuy.Services.Helpers
         {
             var storeLocation = string.Empty;
 
+            var storeHost = GetStoreHost(useSsl ?? IsCurrentConnectionSecured());
+            if (!string.IsNullOrEmpty(storeHost))
+            {
+                /**
+                 * This ensures correctness when the application is deployed under a sub-path.
+                 */
+                storeLocation = IsRequestAvailable()
+                    ? $"{storeHost.TrimEnd('/')}{_httpContextAccessor.HttpContext!.Request.PathBase}"
+                    : storeHost;
+            }
 
+            /**
+             * This can happen when HttpContext is not available at all, for example in background tasks, scheduled jobs, or certain initialization phases./
+             */
+            if (string.IsNullOrEmpty(storeHost))
+            {
+                // TODO: Try to determine the configured store URL from the database.
+                throw new NotImplementedException();
+            }
+
+            storeLocation = $"{storeLocation.TrimEnd('/')}/";
 
             return storeLocation;
         }
