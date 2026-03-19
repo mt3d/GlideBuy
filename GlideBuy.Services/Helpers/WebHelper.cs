@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Primitives;
+using Microsoft.Net.Http.Headers;
 
 namespace GlideBuy.Services.Helpers
 {
@@ -42,7 +44,26 @@ namespace GlideBuy.Services.Helpers
 
         public virtual string GetStoreHost(bool useSsl)
         {
-            throw new NotImplementedException();
+            if (!IsRequestAvailable())
+                return string.Empty;
+
+            /**
+             * This header typically contains values such as example.com or example.com:5000. If the header is missing or empty, the method again returns an empty string, signaling that it cannot determine the host dynamically.
+             * 
+             * One subtle but important design decision here is the reliance on the Host header rather than hardcoded configuration. This makes the system adaptable to environments like reverse proxies, load balancers, and containerized deployments, where the externally visible host may differ from internal configuration.
+             */
+            var hostHeader = _httpContextAccessor.HttpContext!.Request.Headers[HeaderNames.Host];
+            if (StringValues.IsNullOrEmpty(hostHeader))
+                return string.Empty;
+
+            var storeHost = $"{(useSsl ? Uri.UriSchemeHttps : Uri.UriSchemeHttp)}{Uri.SchemeDelimiter}{hostHeader.FirstOrDefault()}";
+
+            /**
+             * The method then normalizes the result by ensuring it ends with a trailing slash. This mirrors the behavior you saw earlier and ensures consistent concatenation when building full URLs.
+             */
+            storeHost = $"{storeHost.TrimEnd('/')}/";
+
+            return storeHost;
         }
 
         public virtual bool IsCurrentConnectionSecured()
