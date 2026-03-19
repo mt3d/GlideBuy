@@ -73,5 +73,10 @@ namespace GlideBuy.Services.Media
             var thumbFilePath = _fileProvider.Combine(thumbsDirectoryPath, thumbFileName);
             return Task.FromResult(thumbFilePath);
         }
+
+        public virtual Task<bool> GeneratedThumbExistsAsync(string thumbFilePath, string thumbFileName)
+        {
+            return Task.FromResult(_fileProvider.FileExists(thumbFilePath));
+        }
     }
 }
