@@ -125,5 +125,25 @@ namespace GlideBuy.Services.Media
             imagesPathUrl += thumbFileName;
             return Task.FromResult(imagesPathUrl);
         }
+
+        /**
+         * Plays a role in cache invalidation.
+         * Remove all thumbnails associated with a specific picture whenever that picture changes.
+         */
+        public virtual async Task DeletePictureThumbsAsync(Picture picture)
+        {
+            /**
+             * Here, a search pattern is constructed based on the picture ID. The format specifier 0000000 ensures that the ID is padded to 7 digits, which matches the naming convention used in GetPictureUrlAsync. For example, if the picture ID is 123, this becomes 0000123. The *.* means “match any filename that starts with this prefix and has any extension.” Since all thumbnails are generated with filenames that start with the picture ID, this filter effectively targets all thumbnails belonging to that picture, regardless of size or format.
+             */
+            var filter = $"";
+
+            var currentFiles = _fileProvider.GetFiles(_fileProvider.Combine(_fileProvider.GetLocalImagesPath(_mediaSettings), GlideBuyMediaDefaults.ImageThumbsPath), filter, false);
+
+            foreach (var currentFileName in currentFiles)
+            {
+                var thumbFilePath = await GetThumbLocalPathByFileNameAsync(currentFileName);
+                _fileProvider.DeleteFile(thumbFilePath);
+            }
+        }
     }
 }

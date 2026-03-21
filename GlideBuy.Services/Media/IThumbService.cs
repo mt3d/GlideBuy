@@ -1,4 +1,6 @@
-﻿namespace GlideBuy.Services.Media
+﻿using GlideBuy.Core.Domain.Media;
+
+namespace GlideBuy.Services.Media
 {
     public interface IThumbService
     {
@@ -9,5 +11,7 @@
         Task<bool> GeneratedThumbExistsAsync(string thumbFilePath, string thumbFileName);
 
         Task<string> GetThumbUrlAsync(string thumbFileName, string? storeLocation = null);
+
+        Task DeletePictureThumbsAsync(Picture picture);
     }
 }
