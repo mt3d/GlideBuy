@@ -11,6 +11,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <PackageReference Include="SkiaSharp" Version="3.119.2" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <ProjectReference Include="..\GlideBuy.Core\GlideBuy.Core.csproj" />
 	  <ProjectReference Include="..\GlideBuy.Data\GlideBuy.Data.csproj" />
 	</ItemGroup>

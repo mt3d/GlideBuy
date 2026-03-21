@@ -2,6 +2,7 @@
 using GlideBuy.Core.Infrastructure;
 using GlideBuy.Data;
 using Microsoft.EntityFrameworkCore;
+using SkiaSharp;
 
 namespace GlideBuy.Services.Media
 {
@@ -43,6 +44,36 @@ namespace GlideBuy.Services.Media
                 : await LoadPictureFromFileAsync(picture.Id, picture.MimeType);
 
             return result;
+        }
+
+        /**
+         * SKEncodedImageFormat Enum: The various formats used by a SKCodec.
+         */
+        protected virtual SKEncodedImageFormat GetImageFormatByMimeType(string mimeType)
+        {
+            var format = SKEncodedImageFormat.Jpeg;
+            if (string.IsNullOrEmpty(mimeType))
+                return format;
+
+            var components = mimeType.ToLowerInvariant().Split('/');
+            var subtype = components[1];
+
+            switch (subtype)
+            {
+                case "webp":
+                    format = SKEncodedImageFormat.Webp;
+                    break;
+                case "png":
+                case "gif":
+                case "bmp":
+                case "x-icon":
+                    format = SKEncodedImageFormat.Png;
+                    break;
+                default:
+                    break;
+            }
+
+            return format;
         }
 
         #endregion
@@ -108,6 +139,8 @@ namespace GlideBuy.Services.Media
         }
 
         /**
+         * No internal dependencies.
+         * 
          * A MIME type most commonly consists of just two parts: a type and a subtype,
          * separated by a slash (/) — with no whitespace between:
          * type/subtype
