@@ -156,5 +156,25 @@ namespace GlideBuy.Services.Media
             // extracts only the filename portion from a full URL
             return await GetThumbLocalPathByFileNameAsync(_fileProvider.GetFileName(thumbUrl));
         }
+
+        public virtual async Task<(int filesCount, long filesSize)> GetThumbsInfoAsync()
+        {
+            var filesCount = 0;
+            var filesSize = 0L;
+            var currentFiles = _fileProvider.GetFiles(_fileProvider.Combine(_fileProvider.GetLocalImagesPath(_mediaSettings), GlideBuyMediaDefaults.ImageThumbsPath), topDirOnly: false);
+
+            foreach (var currentFileName in currentFiles)
+            {
+                if (currentFileName.EndsWith("placeholder.txt"))
+                    continue;
+
+                filesCount++;
+
+                var thumbFilePath = await GetThumbLocalPathByFileNameAsync(currentFileName);
+                filesSize += _fileProvider.FileLength(thumbFilePath);
+            }
+
+            return (filesCount, filesSize);
+        }
     }
 }
