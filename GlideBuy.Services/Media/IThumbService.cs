@@ -17,5 +17,7 @@ namespace GlideBuy.Services.Media
         Task<string> GetThumbLocalPathAsync(string thumbUrl);
 
         Task<(int filesCount, long filesSize)> GetThumbsInfoAsync();
+
+        Task DeleteAllThumbsAsync();
     }
 }

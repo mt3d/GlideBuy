@@ -176,5 +176,28 @@ namespace GlideBuy.Services.Media
 
             return (filesCount, filesSize);
         }
+
+        public virtual async Task DeleteAllThumbsAsync()
+        {
+            var directory = _fileProvider.Combine(_fileProvider.GetLocalImagesPath(_mediaSettings), GlideBuyMediaDefaults.ImageThumbsPath);
+
+            var currentFiles = _fileProvider.GetFiles(directory, topDirOnly: false);
+
+            foreach (var currentFileName in currentFiles)
+            {
+                // delete all generated thumbnails, but ignore system artifacts.
+                /**
+                 * skipping placeholder.txt in the root directory might still matter, because that file would not be removed by the directory deletion step. In that case, the placeholder file ensures that the root directory is not empty or accidentally removed.
+                 */
+                if (currentFileName.EndsWith("placeholder.txt"))
+                    continue;
+
+                var thumbFilePath = await GetThumbLocalPathByFileNameAsync(currentFileName);
+                _fileProvider.DeleteFile(thumbFilePath);
+            }
+
+            foreach (var dir in _fileProvider.GetDirectories(directory))
+                _fileProvider.DeleteDirectory(directory);
+        }
     }
 }
