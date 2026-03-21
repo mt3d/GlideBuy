@@ -145,5 +145,16 @@ namespace GlideBuy.Services.Media
                 _fileProvider.DeleteFile(thumbFilePath);
             }
         }
+
+        // It is useful in scenarios where you already have a thumbnail URL and
+        // need to locate the corresponding file on disk, for example when deleting or inspecting files.
+        public virtual async Task<string> GetThumbLocalPathAsync(string thumbUrl)
+        {
+            if (string.IsNullOrEmpty(thumbUrl))
+                return string.Empty;
+
+            // extracts only the filename portion from a full URL
+            return await GetThumbLocalPathByFileNameAsync(_fileProvider.GetFileName(thumbUrl));
+        }
     }
 }
