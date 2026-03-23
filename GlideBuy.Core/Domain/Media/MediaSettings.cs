@@ -15,5 +15,7 @@ namespace GlideBuy.Core.Domain.Media
         public bool MultipleThumbDirectories { get; set; }
 
         public bool UseAbsoluteImagePath { get; set; }
+
+        public int DefaultImageQuality { get; set; }
     }
 }

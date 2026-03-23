@@ -8,18 +8,21 @@ namespace GlideBuy.Services.Media
 {
     public class PictureService : IPictureService
     {
-        private readonly IDataRepository<Picture> _pictureRepository;
-        private readonly IDataRepository<ProductPicture> _productPictureRepository;
-        private readonly IGlideBuyFileProvider _fileProvider;
+        protected readonly IDataRepository<Picture> _pictureRepository;
+        protected readonly IDataRepository<ProductPicture> _productPictureRepository;
+        protected readonly IGlideBuyFileProvider _fileProvider;
+        protected readonly MediaSettings _mediaSettings;
 
         public PictureService(
             IDataRepository<Picture> pictureRepository,
             IDataRepository<ProductPicture> productPictureRepository,
-            IGlideBuyFileProvider fileProvider)
+            IGlideBuyFileProvider fileProvider,
+            MediaSettings mediaSettings)
         {
             _pictureRepository = pictureRepository;
             _productPictureRepository = productPictureRepository;
             _fileProvider = fileProvider;
+            _mediaSettings = mediaSettings;
         }
 
         #region Utilities
@@ -74,6 +77,176 @@ namespace GlideBuy.Services.Media
             }
 
             return format;
+        }
+
+        /**
+         * In SkiaSharp (and most UI frameworks), the image lives in a grid like this:
+         * (0,0) ---------> x
+         * |
+         * |
+         * |
+         * v
+         * y
+         * 
+         * Top-left corner = (0, 0)
+         * x increases to the right
+         * y increases downward (this is important!)
+         * 
+         * bitmap (width = 100, height = 50)
+         * top-left: (0,0)
+         * top-right: (100,0)
+         * bottom-left: (0,50)
+         * bottom-right: (100,50)
+         * 
+         * The origin is simply the point (0,0). Transformations (rotation, scaling)
+         * happen around the origin.
+         * If you rotate the whole canvas the point moves relative to (0,0).
+         * But here’s the problem: If you rotate an image without moving it first, part of
+         * it will go into negative coordinates (off-screen).
+         * 
+         * 
+         * When images are taken on phones or cameras, they are often:
+         * Stored unrotated
+         * With an EXIF orientation flag that tells viewers how to display them
+         * 
+         * So instead of rotating pixels, the file says this image should be rotated
+         * 90° clockwise when displayed. Browsers respect this. Raw image processing
+         * libraries usually do not. So without this method thumbnails would appear
+         * sideways or upside down
+         * 
+         * SKEncodedOrigin: Represents various origin values returned by Origin.
+         */
+        protected virtual SKBitmap AutoOrient(SKBitmap bitmap, SKEncodedOrigin origin)
+        {
+            SKBitmap rotated;
+
+            /**
+             * An SKCanvas is best understood as a drawing context. It is not the image
+             * itself. Instead, it is the tool you use to draw onto an image.
+             * 
+             * SKBitmap = the pixel buffer (the actual image in memory)
+             * SKCanvas = a drawing API bound to that bitmap
+             * 
+             * You cannot "rotate" or “draw” directly on raw pixel memory in a convenient way.
+             */
+
+            switch (origin)
+            {
+                case SKEncodedOrigin.BottomRight: // 180
+                    using (var surface = new SKCanvas(bitmap)) // "This is the surface I am drawing on"
+                    {
+                        // Reuse the same bitmap
+                        // 180° rotation does not change width/height
+                        // Rotate around center, not origin.
+                        surface.RotateDegrees(180, bitmap.Width / 2f, bitmap.Height / 2f);
+
+                        /** "Take this bitmap and paint it onto the canvas at position (0,0)."
+                        // The canvas is transformed
+                         * Then the bitmap is drawn into that transformed coordinate system
+                         * We are drawing a copy of the bitmap onto itself. Why? Because otherwise
+                         * you would be reading pixels from the bitmap while simultaneously writing into it.
+                        */
+                        surface.DrawBitmap(bitmap.Copy(), 0, 0);
+                    }
+                    return bitmap;
+
+                // In the following cases, we are not rotating the images.
+                // Instead we are rotating the coordinates first, then we are drawing
+                // the image using those transformed coordinates.
+
+                case SKEncodedOrigin.RightTop: // 90
+                    // Swap width and height
+                    // A 90° or 270° rotation flips dimensions (the x becomes y, and y becomes x)
+                    // Create a new bitmap whenever the transformation changes the image dimensions.
+                    rotated = new SKBitmap(bitmap.Height, bitmap.Width);
+                    using (var surface = new SKCanvas(rotated))
+                    {
+                        /**
+                         * Move origin to the right edge
+                         * Rotate coordinate system clockwise 90°
+                         * Draw original bitmap into this transformed space
+                         */
+                        surface.Translate(rotated.Width, 0);
+                        surface.RotateDegrees(90);
+                        surface.DrawBitmap(bitmap, 0, 0);
+                    }
+                    return rotated;
+                case SKEncodedOrigin.LeftBottom: // 270
+                    rotated = new SKBitmap(bitmap.Height, bitmap.Width);
+                    using (var surface = new SKCanvas(rotated))
+                    {
+                        surface.Translate(0, rotated.Height);
+                        surface.RotateDegrees(270);
+                        surface.DrawBitmap(bitmap, 0, 0);
+                    }
+                    return rotated;
+                default:
+                    return bitmap;
+            }
+        }
+
+        // Think of targetSize as a desired maximum dimension.
+        protected virtual byte[] ImageResize(SKBitmap imageBitmap, SKEncodedImageFormat format, int targetSize, SKEncodedOrigin? encodedOrigin = null)
+        {
+            ArgumentNullException.ThrowIfNull(imageBitmap);
+
+            if (encodedOrigin is not null)
+                imageBitmap = AutoOrient(imageBitmap, encodedOrigin.Value);
+
+            float width, height, aspectRatio;
+
+            // computes the new dimensions while preserving the aspect ratio
+            // The longest dimension should become targetSize.
+            // Aspect ration = short/long
+            // The longest side of the image becomes targetSize, while the other side scales proportionally.
+            if (imageBitmap.Height > imageBitmap.Width)
+            {
+                // portrait
+                aspectRatio = imageBitmap.Width / (float)imageBitmap.Height;
+                height = targetSize;
+                width = aspectRatio * height;
+            }
+            else
+            {
+                aspectRatio = imageBitmap.Height / (float)imageBitmap.Width;
+                width = targetSize;
+                height = aspectRatio * width;
+            }
+
+            /**
+             * This protects against edge cases where extremely small images or rounding errors could produce zero dimensions, which would otherwise cause runtime failures during bitmap creation.
+             */
+            if ((int)width == 0 || (int)height == 0)
+            {
+                width = imageBitmap.Width;
+                height = imageBitmap.Height;
+            }
+
+            try
+            {
+                /**
+                 * The method chooses linear filtering with mipmapping, which is a deliberate quality-performance trade-off. Linear filtering smooths the image during scaling, while mipmaps improve quality when reducing image size significantly, preventing aliasing artifacts. This reflects a production-oriented decision to favor visually acceptable thumbnails without incurring excessive computational cost.
+                 */
+                var samplingOption = new SKSamplingOptions(SKFilterMode.Linear, SKMipmapMode.Linear);
+                using var resizedBitmap = imageBitmap.Resize(new SKImageInfo((int)width, (int)height), samplingOption);
+
+                /**
+                 * This step transitions from raw pixel data (SKBitmap) to a compressed format (JPEG, PNG, etc.), using the provided SKEncodedImageFormat and a configurable quality setting.
+                 * 
+                 * The quality parameter is sourced from _mediaSettings.DefaultImageQuality, with a fallback to 80, which is a commonly accepted balance between file size and visual fidelity.
+                 */
+                using var cropImage = SKImage.FromBitmap(resizedBitmap);
+                return cropImage.Encode(format, _mediaSettings.DefaultImageQuality > 0 ? _mediaSettings.DefaultImageQuality : 80).ToArray();
+            }
+            catch
+            {
+                /**
+                 * This is a resilience mechanism. If resizing fails for any reason, such
+                 * as unsupported formats or decoding issues, the method falls back to
+                 * returning the original image bytes.
+                 */
+                return imageBitmap.Bytes;
+            }
         }
 
         #endregion
