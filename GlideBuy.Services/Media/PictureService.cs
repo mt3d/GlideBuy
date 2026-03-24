@@ -32,14 +32,23 @@ namespace GlideBuy.Services.Media
         #region Utilities
 
         // Called by LoadPictureBinaryAsync()
-        private async Task<byte[]> LoadPictureFromFileAsync(int pictureId, string mimeType)
+        protected virtual async Task<byte[]> LoadPictureFromFileAsync(int pictureId, string mimeType)
         {
+            /**
+             * Conventions:
+             * File naming format: {pictureId}_0.{extension}
+             * Extension is derived from MIME type (not stored separately)
+             */
             var extension = GetFileExtensionFromMimeTypeAsync(mimeType);
             var fileName = $"{pictureId:0000000}_0.{extension}";
-            // TODO: Handle file path
+            var filePath = await GetPictureLocalPathAsync(fileName);
 
-            // TODO: Use the file provider to read all bytes from a file.
-            throw new NotImplementedException();
+            return await _fileProvider.ReadAllBytesAsync(filePath);
+        }
+
+        protected virtual Task<string> GetPictureLocalPathAsync(string filename)
+        {
+            return Task.FromResult(_fileProvider.Combine(_fileProvider.GetLocalImagesPath(_mediaSettings), filename));
         }
 
         protected virtual async Task<byte[]> LoadPictureBinaryAsync(Picture picture, bool fromDb)
@@ -325,7 +334,7 @@ namespace GlideBuy.Services.Media
 
             if (targetSize == 0 || picture.MimeType == MimeTypes.ImageSvg) // no resize
             {
-                // 1. Try to find a thumb with the specified name.
+                // 1. Try to find a thumb with the specified name and return its URL.
 
                 // This just returns the expected path of a thumb file with the specified name.
                 var thumbFilePath = await _thumbService.GetThumbLocalPathByFileNameAsync(thumbFileName);
