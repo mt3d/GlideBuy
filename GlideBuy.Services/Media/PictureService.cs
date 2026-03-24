@@ -1,4 +1,5 @@
-﻿using GlideBuy.Core.Domain.Media;
+﻿using GlideBuy.Core;
+using GlideBuy.Core.Domain.Media;
 using GlideBuy.Core.Infrastructure;
 using GlideBuy.Data;
 using Microsoft.EntityFrameworkCore;
@@ -12,17 +13,20 @@ namespace GlideBuy.Services.Media
         protected readonly IDataRepository<ProductPicture> _productPictureRepository;
         protected readonly IGlideBuyFileProvider _fileProvider;
         protected readonly MediaSettings _mediaSettings;
+        protected readonly IThumbService _thumbService;
 
         public PictureService(
             IDataRepository<Picture> pictureRepository,
             IDataRepository<ProductPicture> productPictureRepository,
             IGlideBuyFileProvider fileProvider,
-            MediaSettings mediaSettings)
+            MediaSettings mediaSettings,
+            IThumbService thumbService)
         {
             _pictureRepository = pictureRepository;
             _productPictureRepository = productPictureRepository;
             _fileProvider = fileProvider;
             _mediaSettings = mediaSettings;
+            _thumbService = thumbService;
         }
 
         #region Utilities
@@ -285,21 +289,32 @@ namespace GlideBuy.Services.Media
          * 
          * GetPictureUrlAsync is not primarily an image-processing method; it is a thumbnail cache manager.
          */
-        public async Task<(string Url, Picture? picture)> GetPictureUrlAsync(Picture picture, int targetSize = 0)
+        public async Task<(string Url, Picture? picture)> GetPictureUrlAsync(
+            Picture picture,
+            int targetSize = 0, // targetSize = 0 means no resize
+            bool showDefaultPicture = true,
+            string? storeLocation = null)
+            // TODO: Use PictureType
         {
-            // TODO: Add the ability to return a default picture.
             /**
-             * The method begins with defensive handling of a null Picture reference. This is not treated as an error state, but as a normal scenario, because Nop allows entities to exist without images.
+             * Null picture reference is not treated as an error state, but as a normal
+             * scenario, because Nop allows entities to exist without images.
              */
             if (picture is null)
             {
+                // TODO: Add the ability to return a default picture.
                 return (string.Empty, null);
             }
 
-            byte[] pictureBinary = null;
+            byte[]? pictureBinary;
             if (picture.IsNew)
             {
+                await _thumbService.DeletePictureThumbsAsync(picture);
+                pictureBinary = await LoadPictureBinaryAsync(picture);
 
+                // TODO: Show default picture if the binary is empty.
+
+                // TODO: Update the picture from the binary. Why?
             }
 
             var seoFileName = picture.SeoFilename;
@@ -308,7 +323,28 @@ namespace GlideBuy.Services.Media
                 ? $"{picture.Id:0000000}_{seoFileName}.{extension}"
                 : $"{picture.Id:0000000}.{extension}";
 
-            throw new NotImplementedException();
+            if (targetSize == 0 || picture.MimeType == MimeTypes.ImageSvg) // no resize
+            {
+                // 1. Try to find a thumb with the specified name.
+
+                // This just returns the expected path of a thumb file with the specified name.
+                var thumbFilePath = await _thumbService.GetThumbLocalPathByFileNameAsync(thumbFileName);
+
+                // This checkes for actual existence.
+                if (await _thumbService.GeneratedThumbExistsAsync(thumbFilePath, thumbFileName))
+                    return (await _thumbService.GetThumbUrlAsync(thumbFileName, storeLocation), picture);
+
+                // 2. If not found, create a new one from the binary data.
+
+                pictureBinary = await LoadPictureBinaryAsync(picture);
+
+                // TODO: Save the thumb inside a mutex
+            }
+            else // resize
+            {
+            }
+
+            return (await _thumbService.GetThumbUrlAsync(thumbFileName, storeLocation), picture);
         }
 
         /**
