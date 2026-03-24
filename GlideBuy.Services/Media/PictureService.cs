@@ -4,6 +4,8 @@ using GlideBuy.Core.Infrastructure;
 using GlideBuy.Data;
 using Microsoft.EntityFrameworkCore;
 using SkiaSharp;
+using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace GlideBuy.Services.Media
 {
@@ -315,14 +317,36 @@ namespace GlideBuy.Services.Media
                 return (string.Empty, null);
             }
 
-            byte[]? pictureBinary;
+            byte[]? pictureBinary = null;
+
+            /**
+             * IsNew == true means: "this image has not yet been normalized and
+             * integrated into the thumbnail system."
+             * This can happen in several scenarios:
+             * Image just uploaded
+             * Image migrated (e.g., DB ↔ file system)
+             * Image updated (SEO filename, binary, etc.)
+             * 
+             * This whole block is a lazy initialization mechanism.
+             * "Process and normalize the image the first time it is actually needed."
+             * 
+             * This reduces upfront cost and unnecessary processing.
+             */
             if (picture.IsNew)
             {
+                // Step 1: Invalidate cache
+                // All thumbnails are deleted because:
+                // They may be outdated
+                // Naming may change (SEO filename affects thumb name)
                 await _thumbService.DeletePictureThumbsAsync(picture);
+
+                // Step 2: Load raw data
                 pictureBinary = await LoadPictureBinaryAsync(picture);
 
                 // TODO: Show default picture if the binary is empty.
 
+                // Step 4: Normalize and persist
+                // Marks image as not new anymore
                 // TODO: Update the picture from the binary. Why?
             }
 
@@ -345,9 +369,54 @@ namespace GlideBuy.Services.Media
 
                 // 2. If not found, create a new one from the binary data.
 
-                pictureBinary = await LoadPictureBinaryAsync(picture);
+                // Avoids duplicate loading if alread done in IsNew branch.
+                pictureBinary ??= await LoadPictureBinaryAsync(picture);
 
-                // TODO: Save the thumb inside a mutex
+                /**
+                 * Imagine this scenario:
+                 * 50 users request the same image at the same time
+                 * Thumbnail does not exist yet
+                 * 
+                 * Without synchronization all 50 requests will:
+                 * Load the image
+                 * Generate the same thumbnail
+                 * Try to write to the same file
+                 * 
+                 * This leads to:
+                 * File corruption: Partial writes overlapping
+                 * IO exceptions: File locked / already exists / inconsistent state
+                 * Race conditions: Two threads writing the same file simultaneously
+                 * Massive unnecessary CPU work: Multiple expensive resizes for same image
+                 * 
+                 * Only one thread (across the entire system) can generate this specific thumbnail at a time.
+                 * 
+                 * A lock (monitor) is:
+                 * In-process only
+                 * Works only inside the same application instance
+                 * 
+                 * A named mutex:
+                 * Works across threads AND processes
+                 * Identified by name (thumbFileName)
+                 * 
+                 * Why not SemaphoreSlim? It throws PlatformNotSupportedException on UNIX
+                 * 
+                 * You cannot safely await inside a mutex. The thread may resume on a
+                 * different context. Mutex ownership would break
+                 */
+
+                // The lock is per file.
+                // Each thumbnail has its own lock
+                // Different images can be processed in parallel
+                using var mutex = new Mutex(false, thumbFileName);
+                mutex.WaitOne();
+                try
+                {
+                    _thumbService.SaveThumbAsync(thumbFilePath, thumbFileName, picture.MimeType, pictureBinary).Wait();
+                }
+                finally
+                {
+                    mutex.ReleaseMutex();
+                }
             }
             else // resize
             {
