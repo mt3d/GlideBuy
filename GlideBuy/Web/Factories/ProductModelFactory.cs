@@ -32,6 +32,7 @@ namespace GlideBuy.Web.Factories
 
             var cacheKey = _staticCacheManager.BuildKeyWithDefaultCacheTime(ModelCacheDefaults.ProductOverviewPicturesModelKey, product, pictureSize);
 
+            /**
             var cachedPictures = await _staticCacheManager.TryGetOrLoadAsync(cacheKey, async () =>
             {
                 async Task<PictureModel> preparePictureModelAsync(Picture picture)
@@ -49,13 +50,41 @@ namespace GlideBuy.Web.Factories
                 }
 
                 // TODO: Make the number of pictures to display configurable.
-                var pictures = (await _pictureService.GetPicturesByProductAsync(product.Id, 0)).DefaultIfEmpty<Picture?>(null);
+                var pictures = (await _pictureService.GetPicturesByProductAsync(product.Id, 0))
+                    .DefaultIfEmpty<Picture?>(null);
 
-                var pictureModels = new List<PictureModel>();
+                // TODO: Replace with SelectAsync
+                var pictureModels = pictures
+                    .Select(picture => preparePictureModelAsync(picture).Result)
+                    .ToList();
                 return pictureModels;
             });
 
             return cachedPictures;
+            */
+
+            async Task<PictureModel> preparePictureModelAsync(Picture picture)
+            {
+                (var fullSizeImageUrl, picture) = await _pictureService.GetPictureUrlAsync(picture);
+                (var imageUrl, picture) = await _pictureService.GetPictureUrlAsync(picture, pictureSize);
+
+                return new PictureModel
+                {
+                    ImageUrl = imageUrl,
+                    FullSizeImageUrl = imageUrl
+                    // TODO: Handle title
+                    // TODO: Handle alternative title
+                };
+            }
+
+            var pictures = (await _pictureService.GetPicturesByProductAsync(product.Id, 0))
+    .DefaultIfEmpty<Picture?>(null);
+
+            // TODO: Replace with SelectAsync
+            var pictureModels = pictures
+                .Select(picture => preparePictureModelAsync(picture).Result)
+                .ToList();
+            return pictureModels;
         }
 
         public async Task<IEnumerable<ProductOverviewModel>> PrepareProductOverviewModelsAsync(

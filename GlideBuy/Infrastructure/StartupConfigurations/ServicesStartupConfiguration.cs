@@ -6,6 +6,7 @@ using GlideBuy.Services.Common;
 using GlideBuy.Services.Configuration;
 using GlideBuy.Services.Customers;
 using GlideBuy.Services.Helpers;
+using GlideBuy.Services.Installation;
 using GlideBuy.Services.Media;
 using GlideBuy.Services.Orders;
 using GlideBuy.Services.Payments;
@@ -49,6 +50,7 @@ namespace GlideBuy.Core.Infrastructure.StartupConfigurations
 			services.AddScoped<ICommonModelFactory, CommonModelFactory>();
 			services.AddScoped<IProductModelFactory, ProductModelFactory>();
 
+			services.AddScoped<IInstallationService, InstallationService>();
 			services.AddScoped<IProductService, ProductService>();
 			services.AddScoped<IShippingService, ShippingService>();
 			services.AddScoped<IUrlRecordService, UrlRecordService>();

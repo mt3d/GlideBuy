@@ -27,7 +27,7 @@ namespace GlideBuy.Models
 
 		public int DisplayOrder { get; set; }
 
-		public string IconName { get; set; }
+		public string IconName { get; set; } = string.Empty;
 
 		public DateTime CreatedOnUtc { get; set; }
 

@@ -4,6 +4,7 @@ using GlideBuy.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GlideBuy.Migrations
 {
     [DbContext(typeof(StoreDbContext))]
-    partial class StoreDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260326065151_AddPictureBinaries")]
+    partial class AddPictureBinaries
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -365,7 +368,8 @@ namespace GlideBuy.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PictureId");
+                    b.HasIndex("PictureId")
+                        .IsUnique();
 
                     b.ToTable("PictureBinaries");
                 });
@@ -854,13 +858,11 @@ namespace GlideBuy.Migrations
 
             modelBuilder.Entity("GlideBuy.Core.Domain.Media.PictureBinary", b =>
                 {
-                    b.HasOne("GlideBuy.Core.Domain.Media.Picture", "Picture")
-                        .WithMany()
-                        .HasForeignKey("PictureId")
+                    b.HasOne("GlideBuy.Core.Domain.Media.Picture", null)
+                        .WithOne()
+                        .HasForeignKey("GlideBuy.Core.Domain.Media.PictureBinary", "PictureId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Picture");
                 });
 
             modelBuilder.Entity("GlideBuy.Models.Category", b =>

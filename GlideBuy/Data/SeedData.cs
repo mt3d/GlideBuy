@@ -1,6 +1,4 @@
 ﻿using GlideBuy.Core.Domain.Customers;
-using GlideBuy.Data.Seeding;
-using GlideBuy.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,17 +9,11 @@ namespace GlideBuy.Data
 		public static async Task EnsurePopulated(IApplicationBuilder app)
 		{
 			StoreDbContext context = app.ApplicationServices.CreateScope().ServiceProvider.GetRequiredService<StoreDbContext>();
-			ILogger<MainSeeder> logger = app.ApplicationServices.CreateScope().ServiceProvider.GetRequiredService<ILogger<MainSeeder>>();
 
 			if (context.Database.GetPendingMigrations().Any())
 			{
 				context.Database.Migrate();
 			}
-
-			var seeder = new MainSeeder(context, logger);
-			await seeder.SeedCategoriesAsync();
-			await seeder.SeedUrlRecordsAsync();
-			await seeder.SeedProductsAsync();
 
 			await SeedAdmin(app);
 

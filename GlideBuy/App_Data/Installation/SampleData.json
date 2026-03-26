@@ -1,0 +1,1089 @@
+{
+  "Categories": [
+    {
+      "Name": "Computers & Accessories",
+      "DisplayOrder": 1,
+      "Icon": "ci-computer",
+      "SubCategories": [
+        {
+          "Name": "Computers",
+          "DisplayOrder": 1,
+          "SubCategories": [
+            {
+              "Name": "Laptops & Tablets",
+              "DisplayOrder": 1
+            },
+            {
+              "Name": "Desktop Computers",
+              "DisplayOrder": 2
+            },
+            {
+              "Name": "External Components",
+              "DisplayOrder": 3
+            },
+            {
+              "Name": "Interal Components",
+              "DisplayOrder": 4
+            },
+            {
+              "Name": "Networking Products (NAS)",
+              "DisplayOrder": 5
+            },
+            {
+              "Name": "Single Board Computers",
+              "DisplayOrder": 6
+            },
+            {
+              "Name": "Desktop Barebones",
+              "DisplayOrder": 7
+            }
+          ]
+        },
+        {
+          "Name": "Accessories",
+          "DisplayOrder": 2,
+          "SubCategories": [
+            {
+              "Name": "Monitors",
+              "DisplayOrder": 1
+            },
+            {
+              "Name": "Bags, Cases & Sleeves",
+              "DisplayOrder": 2
+            },
+            {
+              "Name": "Batteries",
+              "DisplayOrder": 3
+            },
+            {
+              "Name": "Charges & Adapters",
+              "DisplayOrder": 4
+            },
+            {
+              "Name": "Cooling Pads",
+              "DisplayOrder": 5
+            },
+            {
+              "Name": "Mounts",
+              "DisplayOrder": 6
+            },
+            {
+              "Name": "Replacement Screens",
+              "DisplayOrder": 7
+            },
+            {
+              "Name": "Security Locks",
+              "DisplayOrder": 8
+            },
+            {
+              "Name": "Stands",
+              "DisplayOrder": 9
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Smartphones & Tablets",
+      "DisplayOrder": 2,
+      "Icon": "ci-smartphone-2",
+      "SubCategories": [
+        {
+          "Name": "Smartphones",
+          "DisplayOrder": 1,
+          "SubCategories": [
+            {
+              "Name": "Apple iPhone",
+              "DisplayOrder": 1
+            },
+            {
+              "Name": "Google Pixel",
+              "DisplayOrder": 2
+            },
+            {
+              "Name": "Android Smartphones",
+              "DisplayOrder": 3
+            },
+            {
+              "Name": "Phablets",
+              "DisplayOrder": 4
+            }
+          ]
+        },
+        {
+          "Name": "Tablets",
+          "DisplayOrder": 2,
+          "SubCategories": [
+            {
+              "Name": "Apple iPad",
+              "DisplayOrder": 1
+            },
+            {
+              "Name": "Android Tablets",
+              "DisplayOrder": 2
+            },
+            {
+              "Name": "Tablets with Keyboard",
+              "DisplayOrder": 3
+            }
+          ]
+        },
+        {
+          "Name": "Accessories",
+          "DisplayOrder": 3,
+          "SubCategories": [
+            {
+              "Name": "Accessory Kits",
+              "DisplayOrder": 1
+            },
+            {
+              "Name": "Batteries & Battery Packs",
+              "DisplayOrder": 2
+            },
+            {
+              "Name": "Bags & Cases",
+              "DisplayOrder": 3
+            },
+            {
+              "Name": "Cables",
+              "DisplayOrder": 4
+            },
+            {
+              "Name": "Car Accessories",
+              "DisplayOrder": 5
+            },
+            {
+              "Name": "Charges & Power Adapters",
+              "DisplayOrder": 6
+            },
+            {
+              "Name": "FM Transmitters",
+              "DisplayOrder": 7
+            },
+            {
+              "Name": "Lens Attachments",
+              "DisplayOrder": 8
+            },
+            {
+              "Name": "Mounts & Standsv",
+              "DisplayOrder": 9
+            },
+            {
+              "Name": "Repair Kits",
+              "DisplayOrder": 10
+            },
+            {
+              "Name": "Replacement Parts",
+              "DisplayOrder": 11
+            },
+            {
+              "Name": "Styluses",
+              "DisplayOrder": 12
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "TV, Video & Audio",
+      "DisplayOrder": 3,
+      "Icon": "ci-monitor-2",
+      "SubCategories": [
+        {
+          "Name": "TV, Video & Audio",
+          "DisplayOrder": 1,
+          "SubCategories": [
+            {
+              "Name": "TV Sets",
+              "DisplayOrder": 1
+            },
+            {
+              "Name": "Home Theater Systems",
+              "DisplayOrder": 2
+            },
+            {
+              "Name": "DVD Players & Recorders",
+              "DisplayOrder": 3
+            },
+            {
+              "Name": "Blue-ray Players & Recorders",
+              "DisplayOrder": 4
+            },
+            {
+              "Name": "HD DVD Players & Recorders",
+              "DisplayOrder": 5
+            },
+            {
+              "Name": "DVD-VCR Combos",
+              "DisplayOrder": 6
+            },
+            {
+              "Name": "DTV Converters",
+              "DisplayOrder": 7
+            },
+            {
+              "Name": "AV Receivers",
+              "DisplayOrder": 8
+            },
+            {
+              "Name": "AV Amplifiers",
+              "DisplayOrder": 9
+            },
+            {
+              "Name": "Projectors",
+              "DisplayOrder": 10
+            },
+            {
+              "Name": "Projection Screens",
+              "DisplayOrder": 11
+            },
+            {
+              "Name": "Satelite Television",
+              "DisplayOrder": 12
+            },
+            {
+              "Name": "TV-DTD Combos",
+              "DisplayOrder": 13
+            },
+            {
+              "Name": "Sound Systems",
+              "DisplayOrder": 14
+            },
+            {
+              "Name": "Home Cinema Systems",
+              "DisplayOrder": 2
+            },
+            {
+              "Name": "Streaming Media Players",
+              "DisplayOrder": 3
+            },
+            {
+              "Name": "VCRs",
+              "DisplayOrder": 4
+            },
+            {
+              "Name": "Video Glasses",
+              "DisplayOrder": 5
+            },
+            {
+              "Name": "Lens Attachments",
+              "DisplayOrder": 6
+            },
+            {
+              "Name": "Subwoofers",
+              "DisplayOrder": 7
+            },
+            {
+              "Name": "Sound Boosters",
+              "DisplayOrder": 8
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Speakers & Home Music",
+      "DisplayOrder": 4,
+      "Icon": "ci-speaker-2",
+      "SubCategories": [
+        {
+          "Name": "Speakers",
+          "DisplayOrder": 1,
+          "SubCategories": [
+            {
+              "Name": "Smart Speakers",
+              "DisplayOrder": 1
+            },
+            {
+              "Name": "Bluetooth Speakers",
+              "DisplayOrder": 2
+            },
+            {
+              "Name": "Bookshelf Speakers",
+              "DisplayOrder": 3
+            },
+            {
+              "Name": "Ceiling & In-Wall Speakers",
+              "DisplayOrder": 4
+            },
+            {
+              "Name": "Center-Channel Speakers",
+              "DisplayOrder": 5
+            },
+            {
+              "Name": "Floorstanding Speakers",
+              "DisplayOrder": 6
+            },
+            {
+              "Name": "Outdoor Speakers",
+              "DisplayOrder": 7
+            },
+            {
+              "Name": "Satellite Speakers",
+              "DisplayOrder": 8
+            },
+            {
+              "Name": "Sound Bars",
+              "DisplayOrder": 9
+            },
+            {
+              "Name": "Surround Sound Systems",
+              "DisplayOrder": 10
+            }
+          ]
+        },
+        {
+          "Name": "Home Audio",
+          "DisplayOrder": 2,
+          "SubCategories": [
+            {
+              "Name": "Home Theater",
+              "DisplayOrder": 1
+            },
+            {
+              "Name": "Wireless & Streaming Audio",
+              "DisplayOrder": 2
+            },
+            {
+              "Name": "Stereo System Components",
+              "DisplayOrder": 3
+            },
+            {
+              "Name": "Compact Radios & Stereos",
+              "DisplayOrder": 4
+            },
+            {
+              "Name": "Home Audio Accessories",
+              "DisplayOrder": 5
+            },
+            {
+              "Name": "Subwoofers",
+              "DisplayOrder": 6
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Cameras, Photo & Video",
+      "DisplayOrder": 5,
+      "Icon": "ci-camera-2",
+      "SubCategories": [
+        {
+          "Name": "Cameras & Lenses",
+          "DisplayOrder": 1,
+          "SubCategories": [
+            {
+              "Name": "Point & Shoot Cameras",
+              "DisplayOrder": 1
+            },
+            {
+              "Name": "DSLR Cameras",
+              "DisplayOrder": 2
+            },
+            {
+              "Name": "Mirrorless Cameras",
+              "DisplayOrder": 3
+            },
+            {
+              "Name": "Body Mounted Cameras",
+              "DisplayOrder": 4
+            },
+            {
+              "Name": "Camcorders",
+              "DisplayOrder": 5
+            },
+            {
+              "Name": "Camcorder Lenses",
+              "DisplayOrder": 6
+            },
+            {
+              "Name": "Camera Lenses",
+              "DisplayOrder": 7
+            },
+            {
+              "Name": "Macro & Ringlight Flashes",
+              "DisplayOrder": 8
+            },
+            {
+              "Name": "Shoe Mount Flashes",
+              "DisplayOrder": 9
+            },
+            {
+              "Name": "Tripods & Monopods",
+              "DisplayOrder": 10
+            },
+            {
+              "Name": "Video Studio",
+              "DisplayOrder": 11
+            }
+          ]
+        },
+        {
+          "Name": "Accessories",
+          "DisplayOrder": 2,
+          "SubCategories": [
+            {
+              "Name": "Bags & Cases",
+              "DisplayOrder": 1
+            },
+            {
+              "Name": "Binoculars & Scopes",
+              "DisplayOrder": 2
+            },
+            {
+              "Name": "Batteries & Chargers",
+              "DisplayOrder": 3
+            },
+            {
+              "Name": "Cables & Cords",
+              "DisplayOrder": 4
+            },
+            {
+              "Name": "Camcorder Accessories",
+              "DisplayOrder": 5
+            },
+            {
+              "Name": "Cleaning Equipment",
+              "DisplayOrder": 6
+            },
+            {
+              "Name": "Protector Foils",
+              "DisplayOrder": 7
+            },
+            {
+              "Name": "Filters & Accessories",
+              "DisplayOrder": 8
+            },
+            {
+              "Name": "Remote Controls",
+              "DisplayOrder": 9
+            },
+            {
+              "Name": "Rain Covers",
+              "DisplayOrder": 10
+            },
+            {
+              "Name": "Viewfinders",
+              "DisplayOrder": 11
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Printers & Ink",
+      "DisplayOrder": 6,
+      "Icon": "ci-printer-2",
+      "SubCategories": [
+        {
+          "Name": "By type",
+          "DisplayOrder": 1,
+          "SubCategories": [
+            {
+              "Name": "All-in-One",
+              "DisplayOrder": 1
+            },
+            {
+              "Name": "Copying",
+              "DisplayOrder": 2
+            },
+            {
+              "Name": "Faxing",
+              "DisplayOrder": 3
+            },
+            {
+              "Name": "Photo Printing",
+              "DisplayOrder": 4
+            },
+            {
+              "Name": "Printing Only",
+              "DisplayOrder": 5
+            },
+            {
+              "Name": "Scanning",
+              "DisplayOrder": 6
+            }
+          ]
+        },
+        {
+          "Name": "Scanners",
+          "DisplayOrder": 2,
+          "SubCategories": [
+            {
+              "Name": "Business Card Scanners",
+              "DisplayOrder": 1
+            },
+            {
+              "Name": "Document Scanners",
+              "DisplayOrder": 2
+            },
+            {
+              "Name": "Flatbed & Photo Scanners",
+              "DisplayOrder": 3
+            },
+            {
+              "Name": "Slide & Negative Scanners",
+              "DisplayOrder": 4
+            }
+          ]
+        },
+        {
+          "Name": "Printers",
+          "DisplayOrder": 3,
+          "SubCategories": [
+            {
+              "Name": "Dot Matrix Printers",
+              "DisplayOrder": 1
+            },
+            {
+              "Name": "Inkjet Printers",
+              "DisplayOrder": 2
+            },
+            {
+              "Name": "Label Printers",
+              "DisplayOrder": 3
+            },
+            {
+              "Name": "Laser Printers",
+              "DisplayOrder": 4
+            },
+            {
+              "Name": "Photo Printers",
+              "DisplayOrder": 5
+            },
+            {
+              "Name": "Wide Format Printers",
+              "DisplayOrder": 6
+            },
+            {
+              "Name": "Plotter Printers",
+              "DisplayOrder": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Charging Stations",
+      "DisplayOrder": 7,
+      "Icon": "ci-battery-2",
+      "SubCategories": [
+        {
+          "Name": "Charging Stations",
+          "DisplayOrder": 1,
+          "SubCategories": [
+            {
+              "Name": "Portable Power Stations",
+              "DisplayOrder": 1
+            },
+            {
+              "Name": "Inverter Power Stations",
+              "DisplayOrder": 2
+            },
+            {
+              "Name": "Outdoor Generators",
+              "DisplayOrder": 3
+            },
+            {
+              "Name": "Gasoline Generators",
+              "DisplayOrder": 4
+            },
+            {
+              "Name": "Cell Phone Chargers",
+              "DisplayOrder": 5
+            },
+            {
+              "Name": "Power Strips",
+              "DisplayOrder": 6
+            },
+            {
+              "Name": "Wall Charges",
+              "DisplayOrder": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Headphones",
+      "DisplayOrder": 8,
+      "Icon": "ci-headphones-2",
+      "SubCategories": [
+        {
+          "Name": "Headphones",
+          "DisplayOrder": 1,
+          "SubCategories": [
+            {
+              "Name": "Earbud Headphones",
+              "DisplayOrder": 1
+            },
+            {
+              "Name": "Over-Ear Headphones",
+              "DisplayOrder": 2
+            },
+            {
+              "Name": "On-Ear Headphones",
+              "DisplayOrder": 3
+            },
+            {
+              "Name": "Bluetooth Headphones",
+              "DisplayOrder": 4
+            },
+            {
+              "Name": "Sports & Fitness",
+              "DisplayOrder": 5
+            },
+            {
+              "Name": "Noise-Cancelling",
+              "DisplayOrder": 6
+            }
+          ]
+        },
+        {
+          "Name": "Accessories",
+          "DisplayOrder": 2,
+          "SubCategories": [
+            {
+              "Name": "Cases & Sleeves",
+              "DisplayOrder": 1
+            },
+            {
+              "Name": "Cables & Cords",
+              "DisplayOrder": 2
+            },
+            {
+              "Name": "Ear Pads",
+              "DisplayOrder": 3
+            },
+            {
+              "Name": "Repair Kits",
+              "DisplayOrder": 4
+            },
+            {
+              "Name": "Cleaning Equipment",
+              "DisplayOrder": 5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Wearable Electronics",
+      "DisplayOrder": 9,
+      "Icon": "ci-watch-2",
+      "SubCategories": [
+        {
+          "Name": "Wearable Gadgets",
+          "DisplayOrder": 1,
+          "SubCategories": [
+            {
+              "Name": "Smartwatches",
+              "DisplayOrder": 1
+            },
+            {
+              "Name": "Fitness Trackers",
+              "DisplayOrder": 2
+            },
+            {
+              "Name": "Smart Glasses",
+              "DisplayOrder": 3
+            },
+            {
+              "Name": "Rings",
+              "DisplayOrder": 4
+            },
+            {
+              "Name": "Virtual Reality",
+              "DisplayOrder": 5
+            },
+            {
+              "Name": "Clips, Arm & Wristbands",
+              "DisplayOrder": 6
+            },
+            {
+              "Name": "Accessories",
+              "DisplayOrder": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Powerbanks",
+      "DisplayOrder": 10,
+      "Icon": "ci-powerbank",
+      "SubCategories": [
+        {
+          "Name": "Powerbanks",
+          "DisplayOrder": 1,
+          "SubCategories": [
+            {
+              "Name": "Fast Charging",
+              "DisplayOrder": 1
+            },
+            {
+              "Name": "Built In Cable",
+              "DisplayOrder": 2
+            },
+            {
+              "Name": "Built In Wall Plug",
+              "DisplayOrder": 3
+            },
+            {
+              "Name": "LED Indicator Lights",
+              "DisplayOrder": 4
+            },
+            {
+              "Name": "Pocket Size",
+              "DisplayOrder": 5
+            },
+            {
+              "Name": "Wireless Charging",
+              "DisplayOrder": 6
+            },
+            {
+              "Name": "Short Circuit Protection",
+              "DisplayOrder": 7
+            },
+            {
+              "Name": "Scratch Resistant",
+              "DisplayOrder": 8
+            },
+            {
+              "Name": "Flashlight",
+              "DisplayOrder": 9
+            },
+            {
+              "Name": "Lightweight",
+              "DisplayOrder": 10
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "HDD/SSD Data Storage",
+      "DisplayOrder": 11,
+      "Icon": "ci-hard-drive-2",
+      "SubCategories": [
+        {
+          "Name": "Data Storage",
+          "DisplayOrder": 1,
+          "SubCategories": [
+            {
+              "Name": "External Hard Drives",
+              "DisplayOrder": 1
+            },
+            {
+              "Name": "External SSD",
+              "DisplayOrder": 2
+            },
+            {
+              "Name": "External Zip Drives",
+              "DisplayOrder": 3
+            },
+            {
+              "Name": "Floppy & Tape Drives",
+              "DisplayOrder": 4
+            },
+            {
+              "Name": "Internal Hard Drives",
+              "DisplayOrder": 5
+            },
+            {
+              "Name": "Internal SSD",
+              "DisplayOrder": 6
+            },
+            {
+              "Name": "Network Attached Storage",
+              "DisplayOrder": 7
+            },
+            {
+              "Name": "USB Flash Drives",
+              "DisplayOrder": 8
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Video Games",
+      "DisplayOrder": 12,
+      "Icon": "ci-game",
+      "SubCategories": [
+        {
+          "Name": "Games & Hardware",
+          "DisplayOrder": 1,
+          "SubCategories": [
+            {
+              "Name": "Video Games",
+              "DisplayOrder": 1
+            },
+            {
+              "Name": "PlayStation 5",
+              "DisplayOrder": 2
+            },
+            {
+              "Name": "PlayStation 4",
+              "DisplayOrder": 3
+            },
+            {
+              "Name": "Xbox Series X",
+              "DisplayOrder": 4
+            },
+            {
+              "Name": "Xbox Series S",
+              "DisplayOrder": 5
+            },
+            {
+              "Name": "Nintendo Switch",
+              "DisplayOrder": 6
+            },
+            {
+              "Name": "Gaming PC",
+              "DisplayOrder": 7
+            },
+            {
+              "Name": "Gaming Laptops",
+              "DisplayOrder": 8
+            },
+            {
+              "Name": "Wii U",
+              "DisplayOrder": 9
+            },
+            {
+              "Name": "Wii",
+              "DisplayOrder": 10
+            },
+            {
+              "Name": "Nintendo 3DS",
+              "DisplayOrder": 11
+            },
+            {
+              "Name": "Nintendo 2DS",
+              "DisplayOrder": 12
+            },
+            {
+              "Name": "Nintendo DS",
+              "DisplayOrder": 13
+            },
+            {
+              "Name": "Mac",
+              "DisplayOrder": 2
+            },
+            {
+              "Name": "PlayStation Vita",
+              "DisplayOrder": 3
+            },
+            {
+              "Name": "Sony PSP",
+              "DisplayOrder": 4
+            },
+            {
+              "Name": "Retro Gaming",
+              "DisplayOrder": 5
+            },
+            {
+              "Name": "Microconsoles",
+              "DisplayOrder": 6
+            },
+            {
+              "Name": "Controllers",
+              "DisplayOrder": 7
+            },
+            {
+              "Name": "Accessories",
+              "DisplayOrder": 8
+            },
+            {
+              "Name": "Digital Games Screens",
+              "DisplayOrder": 9
+            },
+            {
+              "Name": "Game Pass",
+              "DisplayOrder": 10
+            },
+            {
+              "Name": "PlayStation Plus",
+              "DisplayOrder": 11
+            }
+          ]
+        }
+      ]
+    }
+  ]
+  ,
+  "Products": {
+    "Products": [
+      {
+        "Name": "VRB01 Virtual Reality Glasses",
+        "ShortDescription": "",
+        "Price": 430,
+        "Published": true,
+        "Deleted": false,
+        "ProductPictures": [ "product_VirtualRealityGlasses.png" ]
+      },
+      {
+        "Name": "Apple iPhone 14 128GB White",
+        "ShortDescription": "",
+        "Price": 899,
+        "Published": true,
+        "Deleted": false,
+        "ProductPictures": [ "product_IPhone14.png" ]
+      },
+      {
+        "Name": "iPhone 15 Pro",
+        "ShortDescription": "Apple's latest flagship smartphone with A17 Pro chip and titanium design.",
+        "CategoryId": 22,
+        "Price": 999,
+        "Published": true,
+        "Deleted": false
+      },
+      {
+        "Name": "Samsung Galaxy S24 Ultra",
+        "ShortDescription": "High-end Android phone with 200MP camera and S Pen support.",
+        "CategoryId": 24,
+        "Price": 1199,
+        "Published": true,
+        "Deleted": false
+      },
+      {
+        "Name": "Google Pixel 8 Pro",
+        "ShortDescription": "Google’s premium phone with Tensor G3 chip and advanced AI features.",
+        "CategoryId": 23,
+        "Price": 999,
+        "Published": true,
+        "Deleted": false
+      },
+      {
+        "Name": "OnePlus 12",
+        "ShortDescription": "Flagship killer with Snapdragon 8 Gen 3 and ultra-fast charging.",
+        "CategoryId": 21,
+        "Price": 799,
+        "Published": true,
+        "Deleted": false
+      },
+      {
+        "Name": "Apple Watch Series 9",
+        "ShortDescription": "Smartwatch with S9 chip, double tap gesture, and improved Siri.",
+        "CategoryId": 156,
+        "Price": 399,
+        "Published": true,
+        "Deleted": false
+      },
+      {
+        "Name": "Samsung Galaxy Watch 6",
+        "ShortDescription": "Wear OS-powered smartwatch with health tracking and sleek design.",
+        "CategoryId": 156,
+        "Price": 329,
+        "Published": true,
+        "Deleted": false
+      },
+      {
+        "Name": "Fitbit Versa 4",
+        "ShortDescription": "Fitness-focused smartwatch with heart rate monitoring and sleep tracking.",
+        "CategoryId": 157,
+        "Price": 229,
+        "Published": true,
+        "Deleted": false
+      },
+      {
+        "Name": "Garmin Venu 3",
+        "ShortDescription": "Premium smartwatch with GPS, health monitoring, and AMOLED display.",
+        "CategoryId": 155,
+        "Price": 449,
+        "Published": true,
+        "Deleted": false
+      },
+      {
+        "Name": "Sony WF-1000XM5",
+        "ShortDescription": "Noise-canceling wireless earbuds with superior sound quality.",
+        "CategoryId": 140,
+        "Price": 299,
+        "Published": true,
+        "Deleted": false
+      },
+      {
+        "Name": "Apple AirPods Pro (2nd Gen)",
+        "ShortDescription": "Wireless earbuds with active noise cancellation and MagSafe case.",
+        "CategoryId": 140,
+        "Price": 249,
+        "Published": true,
+        "Deleted": false
+      },
+      {
+        "Name": "Samsung Galaxy Buds2 Pro",
+        "ShortDescription": "Hi-Fi wireless earbuds with ANC and 360 Audio.",
+        "CategoryId": 140,
+        "Price": 229,
+        "Published": true,
+        "Deleted": false
+      },
+      {
+        "Name": "Nothing Ear (2)",
+        "ShortDescription": "Stylish wireless earbuds with great audio and unique transparent design.",
+        "CategoryId": 140,
+        "Price": 149,
+        "Published": true,
+        "Deleted": false
+      },
+      {
+        "Name": "Dell XPS 13 (2024)",
+        "ShortDescription": "Compact and powerful Windows ultrabook with Intel Core Ultra processor.",
+        "CategoryId": 3,
+        "Price": 1199,
+        "Published": true,
+        "Deleted": false
+      },
+      {
+        "Name": "MacBook Air 15\" (M2, 2023)",
+        "ShortDescription": "Slim and lightweight laptop with Apple's M2 chip and 18-hour battery.",
+        "CategoryId": 3,
+        "Price": 1299,
+        "Published": true,
+        "Deleted": false
+      },
+      {
+        "Name": "ASUS ROG Zephyrus G14",
+        "ShortDescription": "Powerful gaming laptop with AMD Ryzen 9 and RTX 4060 GPU.",
+        "CategoryId": 3,
+        "Price": 1599,
+        "Published": true,
+        "Deleted": false
+      },
+      {
+        "Name": "Lenovo Yoga 9i",
+        "ShortDescription": "2-in-1 premium laptop with rotating soundbar and 4K OLED display.",
+        "CategoryId": 3,
+        "Price": 1399,
+        "Published": true,
+        "Deleted": false
+      },
+      {
+        "Name": "Amazon Kindle Paperwhite (11th Gen)",
+        "ShortDescription": "E-reader with 6.8\" display, adjustable warm light, and weeks-long battery.",
+        "CategoryId": 26,
+        "Price": 139,
+        "Published": true,
+        "Deleted": false
+      },
+      {
+        "Name": "Logitech MX Master 3S",
+        "ShortDescription": "High-performance wireless mouse with ultra-quiet clicks and ergonomic design.",
+        "CategoryId": 10,
+        "Price": 99,
+        "Published": true,
+        "Deleted": false
+      },
+      {
+        "Name": "Anker 737 Power Bank (PowerCore 24K)",
+        "ShortDescription": "Portable charger with 140W output and fast-charging support.",
+        "CategoryId": 163,
+        "Price": 159,
+        "Published": true,
+        "Deleted": false
+      }
+    ]
+  }
+}

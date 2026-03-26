@@ -1,5 +1,6 @@
 using GlideBuy.Core.Infrastructure;
 using GlideBuy.Data;
+using GlideBuy.Services.Installation;
 using GlideBuy.Services.Orders;
 using GlideBuy.Support.Mvc.Routing;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
@@ -10,7 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.ConfigureWebApplicationServices(builder.Configuration);
 
 builder.Services.AddDbContext<StoreDbContext>(opts => {
-	opts.UseSqlServer(builder.Configuration["ConnectionStrings:OnlineStoreConnection"]);
+    opts.UseSqlServer(builder.Configuration["ConnectionStrings:OnlineStoreConnection"]);
 });
 
 builder.Services.AddDistributedMemoryCache();
@@ -30,14 +31,14 @@ var app = builder.Build();
 
 if (app.Environment.IsProduction())
 {
-	app.UseExceptionHandler("/error");
+    app.UseExceptionHandler("/error");
 }
 
 app.UseRequestLocalization(opts =>
 {
-	opts.AddSupportedCultures("en-US")
-	.AddSupportedUICultures("en-US")
-	.SetDefaultCulture("en-US");
+    opts.AddSupportedCultures("en-US")
+    .AddSupportedUICultures("en-US")
+    .SetDefaultCulture("en-US");
 });
 
 app.UseStaticFiles();
@@ -50,5 +51,10 @@ app.MapBlazorHub();
 app.MapFallbackToPage("/admin/{*catchall}", "/Admin/Index");
 
 SeedData.EnsurePopulated(app);
+using (var scope = app.Services.CreateScope())
+{
+    var installationService = scope.ServiceProvider.GetRequiredService<IInstallationService>();
+    await installationService.InstallAsync();
+}
 
 app.Run();

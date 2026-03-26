@@ -5,8 +5,6 @@ using GlideBuy.Core.Infrastructure;
 using GlideBuy.Data;
 using Microsoft.EntityFrameworkCore;
 using SkiaSharp;
-using System.Diagnostics;
-using System.Threading.Tasks;
 
 namespace GlideBuy.Services.Media
 {
@@ -14,6 +12,7 @@ namespace GlideBuy.Services.Media
     {
         protected readonly IDataRepository<Picture> _pictureRepository;
         protected readonly IDataRepository<ProductPicture> _productPictureRepository;
+        protected readonly IDataRepository<PictureBinary> _pictureBinaryRepository;
         protected readonly IGlideBuyFileProvider _fileProvider;
         protected readonly MediaSettings _mediaSettings;
         protected readonly IThumbService _thumbService;
@@ -23,13 +22,15 @@ namespace GlideBuy.Services.Media
             IDataRepository<ProductPicture> productPictureRepository,
             IGlideBuyFileProvider fileProvider,
             MediaSettings mediaSettings,
-            IThumbService thumbService)
+            IThumbService thumbService,
+            IDataRepository<PictureBinary> pictureBinaryRepository)
         {
             _pictureRepository = pictureRepository;
             _productPictureRepository = productPictureRepository;
             _fileProvider = fileProvider;
             _mediaSettings = mediaSettings;
             _thumbService = thumbService;
+            _pictureBinaryRepository = pictureBinaryRepository;
         }
 
         #region Utilities
@@ -59,7 +60,7 @@ namespace GlideBuy.Services.Media
             ArgumentNullException.ThrowIfNull(picture);
 
             var result = fromDb
-                ? throw new NotImplementedException()
+                ? (await GetPictureBinaryByPictureIdAsync(picture.Id))?.BinaryData ?? Array.Empty<byte>()
                 : await LoadPictureFromFileAsync(picture.Id, picture.MimeType);
 
             return result;
@@ -468,7 +469,14 @@ namespace GlideBuy.Services.Media
 
         public virtual async Task<bool> IsStoreInDbAsync()
         {
+            return true;
+
             throw new NotImplementedException();
+        }
+
+        public virtual async Task<PictureBinary?> GetPictureBinaryByPictureIdAsync(int pictureId)
+        {
+            return await _pictureBinaryRepository.Table.FirstOrDefaultAsync(pb => pb.PictureId == pictureId);
         }
     }
 }

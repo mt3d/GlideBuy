@@ -6,7 +6,7 @@ namespace GlideBuy.Core.Domain.Media
     {
         public string MimeType { get; set; }
 
-        public string SeoFilename { get; set; }
+        public string SeoFilename { get; set; } = string.Empty;
 
         public string? AltAttribute { get; set; }
 
@@ -14,6 +14,6 @@ namespace GlideBuy.Core.Domain.Media
 
         public bool IsNew { get; set; }
 
-        public string VirtualPath { get; set; }
+        public string VirtualPath { get; set; } = string.Empty;
     }
 }

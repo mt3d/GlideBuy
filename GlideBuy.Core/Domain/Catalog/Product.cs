@@ -4,99 +4,99 @@ using GlideBuy.Core.Domain.Catalog;
 
 namespace GlideBuy.Models
 {
-	// TODO: Remove data annotations.
-	public class Product : BaseEntity
-	{
-		[Required(ErrorMessage = "Please enter a product name")]
-		public string Name { get; set; } = String.Empty;
+    // TODO: Remove data annotations.
+    public class Product : BaseEntity
+    {
+        [Required(ErrorMessage = "Please enter a product name")]
+        public string Name { get; set; } = String.Empty;
 
-		[Required(ErrorMessage = "Please enter a description")]
-		public string ShortDescription { get; set; } = String.Empty;
+        [Required(ErrorMessage = "Please enter a description")]
+        public string ShortDescription { get; set; } = String.Empty;
 
-		public string LongDescription { get; set; } = String.Empty; // TODO: Handle validation
+        public string LongDescription { get; set; } = String.Empty; // TODO: Handle validation
 
-		[Required]
-		[Range(0.01, double.MaxValue, ErrorMessage = "Please enter a positive price")]
-		[Column(TypeName = "decimal(8, 2)")]
-		public decimal Price { get; set; }
+        [Required]
+        [Range(0.01, double.MaxValue, ErrorMessage = "Please enter a positive price")]
+        [Column(TypeName = "decimal(8, 2)")]
+        public decimal Price { get; set; }
 
-		public int CategoryId { get; set; }
+        public int CategoryId { get; set; }
 
-		public Category? Category { get; set; }
+        public Category? Category { get; set; }
 
-		// public Manufacturer Manufacturer {get;set;}
+        // public Manufacturer Manufacturer {get;set;}
 
-		public bool MarkedAsNew { get; set; }
+        public bool MarkedAsNew { get; set; }
 
-		public bool Deleted { get; set; }
+        public bool Deleted { get; set; }
 
-		public int ProductTypeId { get; set; }
+        public int ProductTypeId { get; set; }
 
-		public string MetaTitle { get; set; } = string.Empty;
+        public string MetaTitle { get; set; } = string.Empty;
 
-		public string MetaKeywords { get; set; } = string.Empty;
+        public string MetaKeywords { get; set; } = string.Empty;
 
-		public string MetaDescription { get; set; } = string.Empty;
+        public string MetaDescription { get; set; } = string.Empty;
 
-		public bool AllowReviews { get; set; }
+        public bool AllowReviews { get; set; }
 
-		public int ApprovedRatingSum { get; set; }
+        public int ApprovedRatingSum { get; set; }
 
-		public int NotApprovedRaingSum { get; set; }
+        public int NotApprovedRaingSum { get; set; }
 
-		public string Sku { get; set; } = string.Empty;
+        public string Sku { get; set; } = string.Empty;
 
-		/// <summary>
-		/// Gets or sets the Manufacturer Part Number of the product.
-		/// </summary>
-		public string ManufacturerPartNumber { get; set; } = string.Empty;
+        /// <summary>
+        /// Gets or sets the Manufacturer Part Number of the product.
+        /// </summary>
+        public string ManufacturerPartNumber { get; set; } = string.Empty;
 
-		/// <summary>
-		/// Gets or sets the Global Trade Item Number of the product.
-		/// It includes UPC, EAN, JAN, and ISBN for books
-		/// </summary>
-		public string Gtin { get; set; } = string.Empty;
+        /// <summary>
+        /// Gets or sets the Global Trade Item Number of the product.
+        /// It includes UPC, EAN, JAN, and ISBN for books
+        /// </summary>
+        public string Gtin { get; set; } = string.Empty;
 
-		public bool IsDownloadable { get; set; } // TODO: IsDigital?
+        public bool IsDownloadable { get; set; } // TODO: IsDigital?
 
-		public int DownloadId { get; set; }
+        public int DownloadId { get; set; }
 
-		public bool UnlimitedDownloads { get; set; }
+        public bool UnlimitedDownloads { get; set; }
 
-		public int MaxDownloads { get; set; }
+        public int MaxDownloads { get; set; }
 
-		public bool HasUserAgreement { get; set; }
+        public bool HasUserAgreement { get; set; }
 
-		public string UserAgreementText { get; set; } = string.Empty;
+        public string UserAgreementText { get; set; } = string.Empty;
 
-		public DateTime CreatedOnUtc { get; set; }
+        public DateTime CreatedOnUtc { get; set; }
 
-		public DateTime UpdatedOnUtc { get; set; }
+        public DateTime UpdatedOnUtc { get; set; }
 
-		public bool IsShippingEnabled { get; set; }
+        public bool IsShippingEnabled { get; set; }
 
-		// public originalStore name & link (below Product Name)
-		// byline
+        // public originalStore name & link (below Product Name)
+        // byline
 
-		// public averageCustomerReviews
-		// public int number of ratings;
-		// public [] images;
+        // public averageCustomerReviews
+        // public int number of ratings;
+        // public [] images;
 
-		// public SpecialProductOverview
-		// PressureCooker (Brand, Capacity, Material, Color, FinishType, ProductDimensions, Wattage, Item Weight)
+        // public SpecialProductOverview
+        // PressureCooker (Brand, Capacity, Material, Color, FinishType, ProductDimensions, Wattage, Item Weight)
 
-		/// <summary>
-		/// Gets or sets how the inventory is managed.
-		/// </summary>
-		public InventoryManagementMethod InventoryManagementMethod { get; set; }
+        /// <summary>
+        /// Gets or sets how the inventory is managed.
+        /// </summary>
+        public InventoryManagementMethod InventoryManagementMethod { get; set; }
 
-		public bool Published { get; set; }
+        public bool Published { get; set; }
 
-		/// <summary>
-		/// For ordering products displayed on the home page.
-		/// </summary>
-		public int DisplayOrder { get; set; }
+        /// <summary>
+        /// For ordering products displayed on the home page.
+        /// </summary>
+        public int DisplayOrder { get; set; }
 
-		public bool ShowOnHomePage { get; set; }
-	}
+        public bool ShowOnHomePage { get; set; }
+    }
 }

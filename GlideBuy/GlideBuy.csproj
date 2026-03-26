@@ -15,15 +15,53 @@
     <PackageReference Include="System.Linq.Async" Version="6.0.3" />
   </ItemGroup>
 
+  <!--
+  MSBuild items are inputs into the build system, and they typically represent files
+  (the files are specified in the Include attribute). 
+  
+  You declare items in the project file as child elements of an ItemGroup element.
+  
+   The name of the child element is the type of the item. The Include attribute of
+   the element specifies the items (files) to be included with that item type.
+   
+   In MSBuild, an item is a named reference to one or more strings, such as filenames.
+   Items contain metadata such as file names, paths, and version numbers. All project
+   types in Visual Studio have several items in common. These items are defined in the
+   file Microsoft.Build.CommonTypes.xsd.
+   
+   ProjectReference
+   Represents a reference to another project. ProjectReference items are transformed into Reference items by the ResolveProjectReferences target, so any valid metadata on a Reference may be valid on ProjectReference, if the transformation process doesn't overwrite it.
+   
+   Compile
+   Represents the source files for the compiler.
+   
+   EmbeddedResource
+   Represents resources to be embedded in the generated assembly.
+   
+   Content
+   Represents files that aren't compiled into the project, but may be embedded or
+   published together with it.
+   
+   None
+   Represents files that should have no role in the build process.
+   
+   
+   The CopyToPublishDirectory metadata on an MSBuild item controls when the item is
+   copied to the publish directory.
+   
+   "Exclude JSON globally, but still include this one specific file in a controlled way."
+  -->
+  
   <ItemGroup>
     <ProjectReference Include="..\GlideBuy.Core\GlideBuy.Core.csproj" />
     <ProjectReference Include="..\GlideBuy.Data\GlideBuy.Data.csproj" />
     <ProjectReference Include="..\GlideBuy.Services\GlideBuy.Services.csproj" />
   </ItemGroup>
 
-	<ItemGroup>
-		<None Update="App_Data\Seed\**\*.*">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-	</ItemGroup>
+  <ItemGroup>
+    <Content Include="App_Data\**" CopyToPublishDirectory="PreserveNewest" Exclude="App_Data\*.json" />
+    <Content Remove="App_Data\*.json" />
+    <Content Remove="App_Data\Installation\SampleData.json" />
+    <None Include="App_Data\Installation\SampleData.json" CopyToPublishDirectory="PreserveNewest" />
+  </ItemGroup>
 </Project>

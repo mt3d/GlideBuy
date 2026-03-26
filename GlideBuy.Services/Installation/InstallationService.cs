@@ -5,12 +5,13 @@ using GlideBuy.Core.Infrastructure;
 using GlideBuy.Data;
 using GlideBuy.Models;
 using GlideBuy.Services.Installation.SampleData;
+using Microsoft.EntityFrameworkCore;
 using System.Text;
 using System.Text.Json;
 
 namespace GlideBuy.Services.Installation
 {
-    public class InstallationService
+    public class InstallationService : IInstallationService
     {
         protected readonly IGlideBuyFileProvider _fileProvider;
         protected readonly StoreDbContext _dbContext;
@@ -28,18 +29,71 @@ namespace GlideBuy.Services.Installation
         {
             // TODO: Check if sample data needs to be installed
 
-            // TODO: Move path to a defaults class
+            // TODO: Remove in the future.
+            if (_dbContext.Products.Any())
+                return;
+
             var sampleData = JsonSerializer.Deserialize<SampleData.SampleData>(await _fileProvider.ReadAllTextAsync(_fileProvider.MapPath(InstallationDefaults.SampleDataPath), Encoding.UTF8));
 
             if (sampleData is null)
                 return;
 
+            await InstallCategoriesAsync(sampleData.Categories);
             await InstallProductsAsync(sampleData.Products);
+        }
+
+        protected virtual async Task InstallCategoriesAsync(List<SampleCategory> jsonData)
+        {
+            async Task<Category> createCategory(SampleCategory sample, int? parentCategoryId = null)
+            {
+                var category = new Category
+                {
+                    Name = sample.Name,
+                    DisplayOrder = sample.DisplayOrder,
+                    CreatedOnUtc = DateTime.UtcNow,
+                    UpdatedOnUtc = DateTime.UtcNow,
+                    ParentCategoryId = parentCategoryId
+                };
+
+                return category;
+            }
+
+            var allCategories = new List<Category>();
+            var categoriesToInsert = new List<Category>();
+
+            async Task saveCategory(SampleCategory sampleCategory, int? parentCategoryId = null)
+            {
+                var category = await createCategory(sampleCategory, parentCategoryId);
+                allCategories.Add(category);
+
+                if (sampleCategory.SubCategories.Any())
+                {
+                    _dbContext.Add(category);
+                    await _dbContext.SaveChangesAsync();
+
+                    foreach (var subCategory in sampleCategory.SubCategories)
+                        await saveCategory(subCategory, category.Id);
+                }
+                else
+                {
+                    categoriesToInsert.Add(category);
+                }
+            }
+
+            foreach (var sampleCategory in jsonData)
+                await saveCategory(sampleCategory);
+
+            _dbContext.AddRange(categoriesToInsert);
+            await _dbContext.SaveChangesAsync();
+
+            // TODO: Handle search engine names
         }
 
         protected virtual async Task InstallProductsAsync(SampleProducts jsonData)
         {
             var allProducts = new List<Product>();
+
+            var categoryId = (await _dbContext.Categories.FirstOrDefaultAsync()).Id;
 
             async Task insertProduct(SampleProducts.SampleProduct sample)
             {
@@ -49,12 +103,15 @@ namespace GlideBuy.Services.Installation
                     ShortDescription = sample.ShortDescription,
                     Price = sample.Price,
                     Published = sample.Published,
+                    // TODO: Fix
+                    CategoryId = categoryId,
                 };
 
                 allProducts.Add(product);
 
                 // TODO: Insert the entity so that it gets an ID
                 _dbContext.Products.Add(product);
+                await _dbContext.SaveChangesAsync();
 
                 if (sample.ProductPictures.Any())
                 {
@@ -65,12 +122,16 @@ namespace GlideBuy.Services.Installation
                         productPictures.Add(new()
                         {
                             ProductId = product.Id,
-                            // TODO: Insert the picture
                             PictureId = await InsertPictureAsync(pictureName, product.Name),
                             DisplayOrder = 1,
                         });
                     }
+
+                    _dbContext.AddRange(productPictures);
+                    await _dbContext.SaveChangesAsync();
                 }
+
+                // TODO: Update allProducts
             }
 
             foreach (var sample in jsonData.Products)
@@ -85,7 +146,7 @@ namespace GlideBuy.Services.Installation
             // TODO: Handle seo name
 
             // TODO: Use file extensions content type provider
-            var contentType = MimeTypes.ImageJpeg;
+            var contentType = MimeTypes.ImagePng;
 
             var picture = new Picture
             {
@@ -96,7 +157,7 @@ namespace GlideBuy.Services.Installation
             };
 
             _dbContext.Pictures.Add(picture);
-            // TODO: Add image binary data
+            _dbContext.PictureBinaries.Add(new PictureBinary { Picture = picture, BinaryData = pictureBinary });
             await _dbContext.SaveChangesAsync();
 
             return picture.Id;
