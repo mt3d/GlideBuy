@@ -1,12 +1,9 @@
-using GlideBuy.Core.Domain.Customers;
 using GlideBuy.Core.Infrastructure;
 using GlideBuy.Data;
 using GlideBuy.Services.Orders;
 using GlideBuy.Support.Mvc.Routing;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 

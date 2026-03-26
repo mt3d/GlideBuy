@@ -1,4 +1,5 @@
 ﻿using GlideBuy.Core;
+using GlideBuy.Core.Domain.Catalog;
 using GlideBuy.Core.Domain.Media;
 using GlideBuy.Core.Infrastructure;
 using GlideBuy.Data;

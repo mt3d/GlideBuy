@@ -22,7 +22,7 @@
   </ItemGroup>
 
 	<ItemGroup>
-		<None Update="Seed\**\*.*">
+		<None Update="App_Data\Seed\**\*.*">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
 	</ItemGroup>

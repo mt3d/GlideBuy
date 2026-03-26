@@ -1,4 +1,5 @@
-﻿using GlideBuy.Core.Domain.Common;
+﻿using GlideBuy.Core.Domain.Catalog;
+using GlideBuy.Core.Domain.Common;
 using GlideBuy.Core.Domain.Configuration;
 using GlideBuy.Core.Domain.Customers;
 using GlideBuy.Core.Domain.Directory;
