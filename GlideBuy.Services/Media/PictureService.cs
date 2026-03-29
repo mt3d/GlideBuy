@@ -381,8 +381,16 @@ namespace GlideBuy.Services.Media
                 // TODO: Show default picture if the binary is empty.
 
                 // Step 4: Normalize and persist
-                // Marks image as not new anymore
+
                 // TODO: Update the picture from the binary. Why?
+                picture = (await UpdatePictureAsync(picture.Id,
+                    pictureBinary,
+                    picture.MimeType,
+                    picture.SeoFilename,
+                    picture.AltAttribute,
+                    picture.TitleAttribute,
+                    false,
+                    false))!;
             }
 
             var seoFileName = picture.SeoFilename;
