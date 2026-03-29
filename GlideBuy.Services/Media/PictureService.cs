@@ -463,6 +463,53 @@ namespace GlideBuy.Services.Media
             }
             else // resize
             {
+                thumbFileName = !string.IsNullOrWhiteSpace(seoFileName)
+                    ? $"{picture.Id:000000}_{seoFileName}_{targetSize}.{extension}"
+                    : $"{picture.Id:000000}_{targetSize}.{extension}";
+
+                var thumbFilePath = await _thumbService.GetThumbLocalPathByFileNameAsync(thumbFileName);
+                if (await _thumbService.GeneratedThumbExistsAsync(thumbFilePath, thumbFileName))
+                    return (await _thumbService.GetThumbUrlAsync(thumbFileName, storeLocation), picture);
+
+                using var mutex = new Mutex(false, thumbFileName);
+                mutex.WaitOne();
+
+                try
+                {
+                    var format = GetImageFormatByMimeType(picture.MimeType);
+
+                    if (_mediaSettings.AutoOrientImages)
+                    {
+                        /**
+                         * If auto-orientation is enabled, the method constructs a pipeline using
+                         * MemoryStream, SKManagedStream, and SKCodec (from SkiaSharp) to decode the
+                         * image while preserving its EXIF orientation metadata. This is important
+                         * because many images, especially those taken on mobile devices, rely on
+                         * metadata rather than pixel data to represent orientation. The decoded bitmap
+                         * is then passed to ImageResize, along with the original orientation (codec
+                         * EncodedOrigin), ensuring that the resulting thumbnail appears correctly rotated.
+                         */
+
+                        // To retrieve the Encodingorigin we need an SKCodec
+                        using var stream = new MemoryStream(pictureBinary);
+                        using var inputStream = new SKManagedStream(stream);
+                        using var codec = SKCodec.Create(inputStream);
+
+                        using var image = SKBitmap.Decode(codec);
+                        pictureBinary = ImageResize(image, format, targetSize, codec.EncodedOrigin);
+                    }
+                    else
+                    {
+                        using var image = SKBitmap.Decode(pictureBinary);
+                        pictureBinary = ImageResize(image, format, targetSize);
+                    }
+
+                    _thumbService.SaveThumbAsync(thumbFilePath, thumbFileName, picture.MimeType, pictureBinary).Wait();
+                }
+                finally
+                {
+                    mutex.ReleaseMutex();
+                }
             }
 
             return (await _thumbService.GetThumbUrlAsync(thumbFileName, storeLocation), picture);

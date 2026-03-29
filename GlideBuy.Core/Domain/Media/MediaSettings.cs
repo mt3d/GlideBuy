@@ -17,5 +17,7 @@ namespace GlideBuy.Core.Domain.Media
         public bool UseAbsoluteImagePath { get; set; }
 
         public int DefaultImageQuality { get; set; }
+
+        public bool AutoOrientImages { get; set; }
     }
 }
