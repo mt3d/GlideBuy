@@ -66,8 +66,6 @@
                 else
                 {
                     var picture = Model.PictureModels.FirstOrDefault();
-
-                    @* assets/img/shop/electronics/01.png *@
                     <img src="@picture?.ImageUrl" title="@picture?.Title" alt="@picture?.AltText">
                 }
             </div>
@@ -94,7 +92,13 @@
         </h3>
         <div class="d-flex align-items-center justify-content-between">
             @* TODO: Handle product price *@
-            <div class="h5 lh-1 mb-0">$340.99 <del class="text-body-tertiary fs-sm fw-normal">$430.00</del></div>
+            <div class="h5 lh-1 mb-0">
+                @Model.ProductPrice.Price
+                @if (!string.IsNullOrEmpty(Model.ProductPrice.OldPrice))
+                {
+                    <del class="text-body-tertiary fs-sm fw-normal"></del>
+                }
+            </div>
 
             <button type="button" class="product-card-button btn btn-icon btn-secondary animate-slide-end ms-2" aria-label="Add to Cart" onclick="Cart.addProductToCart_catalog('@addToCartLink');return false;">
                 <i class="ci-shopping-cart fs-base animate-target"></i>

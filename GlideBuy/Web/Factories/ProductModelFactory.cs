@@ -108,6 +108,11 @@ namespace GlideBuy.Web.Factories
                 };
 
                 // TODO: Handle price
+                model.ProductPrice = new ProductPriceModel
+                {
+                    Price = "$" + product.Price.ToString(),
+                    PriceValue = product.Price
+                };
 
                 if (preparePictureModel)
                 {

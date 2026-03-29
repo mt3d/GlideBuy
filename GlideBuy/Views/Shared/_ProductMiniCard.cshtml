@@ -3,8 +3,15 @@
 
 <div class="position-relative animate-underline d-flex align-items-center ps-xl-3">
     <div class="ratio ratio-1x1 flex-shrink-0" style="width: 110px">
-        @* TODO: Handle image and alt text. Alt text should be something general, like VR Glass, or Macbook. *@
-        <img src="assets/img/shop/electronics/thumbs/01.png" alt="Smart Watch">
+        @if (Model.PictureModels.Count > 1)
+        {
+
+        }
+        else
+        {
+            var picture = Model.PictureModels.FirstOrDefault();
+            <img src="@picture?.ImageUrl" title="@picture?.Title" alt="@picture?.AltText">
+        }
     </div>
     <div class="w-100 min-w-0 ps-2 ps-sm-3">
         @* TODO: Handle reviews *@
@@ -27,7 +34,12 @@
         </h4>
         
         @* TODO: Handle price and discounts *@
-        <div class="h5 mb-0">$449.00</div>
-        @* <div class="h5 mb-0">$899.00 <del class="text-body-tertiary fs-sm fw-normal">$958.00</del></div>*@
+        <div class="h5 mb-0">
+            @Model.ProductPrice.Price
+            @if (!string.IsNullOrEmpty(Model.ProductPrice.OldPrice))
+            {
+                <del class="text-body-tertiary fs-sm fw-normal">@Model.ProductPrice.OldPrice</del>
+            }
+        </div>
     </div>
 </div>
