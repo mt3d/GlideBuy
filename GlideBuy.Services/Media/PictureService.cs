@@ -478,5 +478,56 @@ namespace GlideBuy.Services.Media
         {
             return await _pictureBinaryRepository.Table.FirstOrDefaultAsync(pb => pb.PictureId == pictureId);
         }
+
+        /**
+         * Effectively a synchronization point between metadata, binary storage, and the thumbnail cache
+         */
+        public virtual async Task<Picture?> UpdatePictureAsync(
+            int pictureId,
+            byte[] pictureBinary,
+            string mimeType,
+            string seoFilename,
+            string? altAttribute = null,
+            string? titleAttribute = null,
+            bool isNew = true,
+            bool validateBinary = true)
+        {
+            // Services enforce invariants before touching persistence.
+            mimeType = CommonHelper.EnsureNotNull(mimeType);
+            mimeType = CommonHelper.EnsureMaximumLength(mimeType, 20);
+            seoFilename = CommonHelper.EnsureMaximumLength(seoFilename, 100);
+
+            // TODO: Validate the binary data
+            if (validateBinary)
+                throw new NotImplementedException();
+
+            var picture = await GetPictureByIdAsync(pictureId);
+            if (picture is null)
+                return null;
+
+            // Delete the old thumbs if the name has changed, because the thumbnail
+            // filename depends on the SEO filename.
+            if (seoFilename != picture.SeoFilename)
+                await _thumbService.DeletePictureThumbsAsync(picture);
+
+            picture.MimeType = mimeType;
+            picture.SeoFilename = seoFilename;
+            picture.AltAttribute = altAttribute;
+            picture.TitleAttribute = titleAttribute;
+            picture.IsNew = isNew;
+
+            await _pictureRepository.UpdateAsync(picture);
+
+            // TODO: Update binary data and save the file
+            throw new NotImplementedException();
+
+            return picture;
+        }
+
+        public virtual async Task<Picture?> GetPictureByIdAsync(int pictureId)
+        {
+            // A lambda that returns the default value => use the default cache key.
+            return await _pictureRepository.GetByIdAsync(pictureId, cache => default);
+        }
     }
 }
