@@ -135,7 +135,7 @@ namespace GlideBuy.Services.Media
             /**
              * Here, a search pattern is constructed based on the picture ID. The format specifier 0000000 ensures that the ID is padded to 7 digits, which matches the naming convention used in GetPictureUrlAsync. For example, if the picture ID is 123, this becomes 0000123. The *.* means “match any filename that starts with this prefix and has any extension.” Since all thumbnails are generated with filenames that start with the picture ID, this filter effectively targets all thumbnails belonging to that picture, regardless of size or format.
              */
-            var filter = $"";
+            var filter = $"{picture.Id:000000}";
 
             var currentFiles = _fileProvider.GetFiles(_fileProvider.Combine(_fileProvider.GetLocalImagesPath(_mediaSettings), GlideBuyMediaDefaults.ImageThumbsPath), filter, false);
 

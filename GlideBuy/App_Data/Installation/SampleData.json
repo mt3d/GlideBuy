@@ -933,156 +933,84 @@
         "ProductPictures": [ "product_IPhone14.png" ]
       },
       {
-        "Name": "iPhone 15 Pro",
-        "ShortDescription": "Apple's latest flagship smartphone with A17 Pro chip and titanium design.",
-        "CategoryId": 22,
-        "Price": 999,
+        "Name": "Smart Watch Series 7, White",
+        "ShortDescription": "",
+        "Price": 429,
         "Published": true,
-        "Deleted": false
+        "Deleted": false,
+        "ProductPictures": [ "product_SmartWatchSeries7.png" ]
       },
       {
-        "Name": "Samsung Galaxy S24 Ultra",
-        "ShortDescription": "High-end Android phone with 200MP camera and S Pen support.",
-        "CategoryId": 24,
-        "Price": 1199,
+        "Name": "Laptop Apple MacBook Pro 13 M2",
+        "ShortDescription": "",
+        "Price": 1200,
         "Published": true,
-        "Deleted": false
+        "Deleted": false,
+        "ProductPictures": [ "product_LaptopAppleMacBookPro.png" ]
       },
       {
-        "Name": "Google Pixel 8 Pro",
-        "ShortDescription": "Google’s premium phone with Tensor G3 chip and advanced AI features.",
-        "CategoryId": 23,
-        "Price": 999,
+        "Name": "Tablet Apple iPad Air M1",
+        "ShortDescription": "",
+        "Price": 540,
         "Published": true,
-        "Deleted": false
+        "Deleted": false,
+        "ProductPictures": [ "product_TabletAppleiPadAir.png" ]
       },
       {
-        "Name": "OnePlus 12",
-        "ShortDescription": "Flagship killer with Snapdragon 8 Gen 3 and ultra-fast charging.",
-        "CategoryId": 21,
-        "Price": 799,
+        "Name": "Headphones Apple AirPods 2 Pro",
+        "ShortDescription": "",
+        "Price": 224,
         "Published": true,
-        "Deleted": false
+        "Deleted": false,
+        "ProductPictures": [ "product_HeadphonesAppleAirPods2Pro.png" ]
       },
       {
-        "Name": "Apple Watch Series 9",
-        "ShortDescription": "Smartwatch with S9 chip, double tap gesture, and improved Siri.",
-        "CategoryId": 156,
-        "Price": 399,
-        "Published": true,
-        "Deleted": false
-      },
-      {
-        "Name": "Samsung Galaxy Watch 6",
-        "ShortDescription": "Wear OS-powered smartwatch with health tracking and sleek design.",
-        "CategoryId": 156,
-        "Price": 329,
-        "Published": true,
-        "Deleted": false
-      },
-      {
-        "Name": "Fitbit Versa 4",
-        "ShortDescription": "Fitness-focused smartwatch with heart rate monitoring and sleep tracking.",
-        "CategoryId": 157,
-        "Price": 229,
-        "Published": true,
-        "Deleted": false
-      },
-      {
-        "Name": "Garmin Venu 3",
-        "ShortDescription": "Premium smartwatch with GPS, health monitoring, and AMOLED display.",
-        "CategoryId": 155,
-        "Price": 449,
-        "Published": true,
-        "Deleted": false
-      },
-      {
-        "Name": "Sony WF-1000XM5",
-        "ShortDescription": "Noise-canceling wireless earbuds with superior sound quality.",
-        "CategoryId": 140,
+        "Name": "Wireless Bluetooth Headphones Sony",
+        "ShortDescription": "",
         "Price": 299,
         "Published": true,
-        "Deleted": false
+        "Deleted": false,
+        "ProductPictures": [ "product_WirelessBluetoothHeadphonesSony.png" ]
       },
       {
-        "Name": "Apple AirPods Pro (2nd Gen)",
-        "ShortDescription": "Wireless earbuds with active noise cancellation and MagSafe case.",
-        "CategoryId": 140,
-        "Price": 249,
+        "Name": "Xiaomi Wireless Buds Pro",
+        "ShortDescription": "",
+        "Price": 156,
         "Published": true,
-        "Deleted": false
+        "Deleted": false,
+        "ProductPictures": [ "product_XiaomiWirelessBudsPro.png" ]
       },
       {
-        "Name": "Samsung Galaxy Buds2 Pro",
-        "ShortDescription": "Hi-Fi wireless earbuds with ANC and 360 Audio.",
-        "CategoryId": 140,
-        "Price": 229,
+        "Name": "VRB01 Camera Nikon Max",
+        "ShortDescription": "",
+        "Price": 785,
         "Published": true,
-        "Deleted": false
+        "Deleted": false,
+        "ProductPictures": [ "product_VRB01 CameraNikonMax.png" ]
       },
       {
-        "Name": "Nothing Ear (2)",
-        "ShortDescription": "Stylish wireless earbuds with great audio and unique transparent design.",
-        "CategoryId": 140,
-        "Price": 149,
+        "Name": "Apple iPhone 14 128GB Blue",
+        "ShortDescription": "",
+        "Price": 785,
         "Published": true,
-        "Deleted": false
+        "Deleted": false,
+        "ProductPictures": [ "product_AppleiPhone14Blue.png" ]
       },
       {
-        "Name": "Dell XPS 13 (2024)",
-        "ShortDescription": "Compact and powerful Windows ultrabook with Intel Core Ultra processor.",
-        "CategoryId": 3,
-        "Price": 1199,
+        "Name": "Power Bank PBS 10000 mAh Black",
+        "ShortDescription": "",
+        "Price": 49.99,
         "Published": true,
-        "Deleted": false
+        "Deleted": false,
+        "ProductPictures": [ "product_PowerBankPBS10000mAhBlack.png" ]
       },
       {
-        "Name": "MacBook Air 15\" (M2, 2023)",
-        "ShortDescription": "Slim and lightweight laptop with Apple's M2 chip and 18-hour battery.",
-        "CategoryId": 3,
-        "Price": 1299,
+        "Name": "Sony Dualsense Edge Controller",
+        "ShortDescription": "",
+        "Price": 200,
         "Published": true,
-        "Deleted": false
-      },
-      {
-        "Name": "ASUS ROG Zephyrus G14",
-        "ShortDescription": "Powerful gaming laptop with AMD Ryzen 9 and RTX 4060 GPU.",
-        "CategoryId": 3,
-        "Price": 1599,
-        "Published": true,
-        "Deleted": false
-      },
-      {
-        "Name": "Lenovo Yoga 9i",
-        "ShortDescription": "2-in-1 premium laptop with rotating soundbar and 4K OLED display.",
-        "CategoryId": 3,
-        "Price": 1399,
-        "Published": true,
-        "Deleted": false
-      },
-      {
-        "Name": "Amazon Kindle Paperwhite (11th Gen)",
-        "ShortDescription": "E-reader with 6.8\" display, adjustable warm light, and weeks-long battery.",
-        "CategoryId": 26,
-        "Price": 139,
-        "Published": true,
-        "Deleted": false
-      },
-      {
-        "Name": "Logitech MX Master 3S",
-        "ShortDescription": "High-performance wireless mouse with ultra-quiet clicks and ergonomic design.",
-        "CategoryId": 10,
-        "Price": 99,
-        "Published": true,
-        "Deleted": false
-      },
-      {
-        "Name": "Anker 737 Power Bank (PowerCore 24K)",
-        "ShortDescription": "Portable charger with 140W output and fast-charging support.",
-        "CategoryId": 163,
-        "Price": 159,
-        "Published": true,
-        "Deleted": false
+        "Deleted": false,
+        "ProductPictures": [ "product_SonyDualsenseEdgeController.png" ]
       }
     ]
   }
