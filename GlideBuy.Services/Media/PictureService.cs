@@ -292,6 +292,13 @@ namespace GlideBuy.Services.Media
             return pictureBinary;
         }
 
+        protected virtual async Task SavePictureInFileAsync(int pictureId, byte[] pictureBinary, string mimeType)
+        {
+            var lastPart = GetFileExtensionFromMimeTypeAsync(mimeType);
+            var fileName = $"{pictureId:000000}_0.{lastPart}";
+            await _fileProvider.WriteAllBytesAsync(await GetPictureLocalPathAsync(fileName), pictureBinary);
+        }
+
         #endregion
 
         public async Task<IList<Picture>> GetPicturesByProductAsync(int productId, int recordsToReturn = 0)
@@ -550,7 +557,7 @@ namespace GlideBuy.Services.Media
 
             // TODO: Save the file is we're storing pictures in files.
             if (!await IsStoreInDbAsync())
-                throw new NotImplementedException();
+                await SavePictureInFileAsync(picture.Id, pictureBinary, mimeType);
 
             return picture;
         }
