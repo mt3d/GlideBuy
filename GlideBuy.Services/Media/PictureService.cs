@@ -266,6 +266,32 @@ namespace GlideBuy.Services.Media
             }
         }
 
+        protected virtual async Task<PictureBinary> UpdatePictureBinaryAsync(Picture picture, byte[] binaryData)
+        {
+            ArgumentNullException.ThrowIfNull(picture);
+
+            var pictureBinary = await GetPictureBinaryByPictureIdAsync(picture.Id);
+
+            var isNew = pictureBinary == null;
+
+            if (isNew)
+            {
+                pictureBinary = new PictureBinary
+                {
+                    PictureId = picture.Id
+                };
+            }
+
+            pictureBinary!.BinaryData = binaryData;
+
+            if (isNew)
+                await _pictureBinaryRepository.InsertAsync(pictureBinary);
+            else
+                await _pictureBinaryRepository.UpdateAsync(pictureBinary);
+
+            return pictureBinary;
+        }
+
         #endregion
 
         public async Task<IList<Picture>> GetPicturesByProductAsync(int productId, int recordsToReturn = 0)
@@ -510,16 +536,21 @@ namespace GlideBuy.Services.Media
             if (seoFilename != picture.SeoFilename)
                 await _thumbService.DeletePictureThumbsAsync(picture);
 
+            // Metadata update
+
             picture.MimeType = mimeType;
             picture.SeoFilename = seoFilename;
             picture.AltAttribute = altAttribute;
             picture.TitleAttribute = titleAttribute;
             picture.IsNew = isNew;
-
             await _pictureRepository.UpdateAsync(picture);
 
-            // TODO: Update binary data and save the file
-            throw new NotImplementedException();
+            // The database is always kept in a consistent state, even when not used for storage.
+            await UpdatePictureBinaryAsync(picture, await IsStoreInDbAsync() ? pictureBinary : Array.Empty<Byte>());
+
+            // TODO: Save the file is we're storing pictures in files.
+            if (!await IsStoreInDbAsync())
+                throw new NotImplementedException();
 
             return picture;
         }
