@@ -324,6 +324,16 @@ namespace GlideBuy.Services.Media
             return pics;
         }
 
+        public virtual async Task<string> GetPictureUrlAsync(
+            int pictureId,
+            int targetSize,
+            bool showDefaultPicture = true,
+            string? storeLocation = null)
+        {
+            var picture = await GetPictureByIdAsync(pictureId);
+            return (await GetPictureUrlAsync(picture, targetSize, showDefaultPicture, storeLocation)).Url;
+        }
+
         /**
          * GetPictureUrlAsync has two responsibilities that are intentionally intertwined.
          * 
@@ -335,7 +345,7 @@ namespace GlideBuy.Services.Media
          * 
          * GetPictureUrlAsync is not primarily an image-processing method; it is a thumbnail cache manager.
          */
-        public async Task<(string Url, Picture? picture)> GetPictureUrlAsync(
+        public virtual async Task<(string Url, Picture? picture)> GetPictureUrlAsync(
             Picture picture,
             int targetSize = 0, // targetSize = 0 means no resize
             bool showDefaultPicture = true,
@@ -528,7 +538,7 @@ namespace GlideBuy.Services.Media
          * type represents. For example, for the MIME type text, the subtype might be
          * plain (plain text), html (HTML source code), or calendar (for iCalendar/.ics) files.
          */
-        public Task<string?> GetFileExtensionFromMimeTypeAsync(string mimeType)
+        public virtual Task<string?> GetFileExtensionFromMimeTypeAsync(string mimeType)
         {
             if (mimeType is null)
             {
