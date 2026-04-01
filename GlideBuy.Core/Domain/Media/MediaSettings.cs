@@ -21,5 +21,8 @@ namespace GlideBuy.Core.Domain.Media
         public bool AutoOrientImages { get; set; }
 
         public int ProductDefaultImageId { get; set; }
+
+        // TODO: Remove the default value from here
+        public int MaximumImageSize { get; set; } = 1000;
     }
 }

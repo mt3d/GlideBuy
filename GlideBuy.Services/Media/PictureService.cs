@@ -649,7 +649,7 @@ namespace GlideBuy.Services.Media
 
             // TODO: Validate the binary data
             if (validateBinary)
-                throw new NotImplementedException();
+                pictureBinary = await ValidatePictureAsync(pictureBinary, mimeType, seoFilename);
 
             var picture = await GetPictureByIdAsync(pictureId);
             if (picture is null)
@@ -742,6 +742,53 @@ namespace GlideBuy.Services.Media
             }
 
             return await _thumbService.GetThumbUrlAsync(thumbFileName, storeLocation);
+        }
+
+        public virtual Task<byte[]> ValidatePictureAsync(byte[] pictureBinary, string mimeType, string fileName)
+        {
+            try
+            {
+                // Try decode the raw binary data into SkiaSharp bitmap
+
+                SKBitmap image;
+
+                if (_mediaSettings.AutoOrientImages)
+                {
+                    /**
+                     * SKCodec represents a decoder/encoder for image files and gives you
+                     * low-level access to image data and metadata. It’s more advanced than
+                     * simply calling SKBitmap.Decode(byte[]), because it allows you to read things like:
+                     * Encoded image format (JPEG, PNG, GIF, WebP, etc.)
+                     * Image metadata, such as EXIF orientation, color profiles, and other properties
+                     * Partial decoding or frame-by-frame access for multi-frame images like GIFs
+                     */
+                    using var input = new MemoryStream(pictureBinary);
+
+                    // SKCodec.Create(input) opens the image without fully decoding it
+                    // into pixels yet, allowing access to metadata like the orientation stored in EXIF.
+                    using var codec = SKCodec.Create(input);
+
+                    // SKBitmap.Decode(codec) reads the actual pixel data from the codec.
+                    image = AutoOrient(SKBitmap.Decode(codec), codec.EncodedOrigin);
+                }
+                else
+                {
+                    image = SKBitmap.Decode(pictureBinary);
+                }
+
+                if (Math.Max(image.Height, image.Width) <= _mediaSettings.MaximumImageSize)
+                    return Task.FromResult(pictureBinary);
+
+                var format = GetImageFormatByMimeType(mimeType);
+                pictureBinary = ImageResize(image, format, _mediaSettings.MaximumImageSize);
+
+                return Task.FromResult(pictureBinary);
+            }
+            catch (Exception ex)
+            {
+                // TODO: Consider throwing a custom exception.
+                throw new Exception($"Cannot decode picture binary (file name: {fileName})", ex);
+            }
         }
     }
 }
