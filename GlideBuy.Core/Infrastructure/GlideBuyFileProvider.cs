@@ -296,7 +296,7 @@ namespace GlideBuy.Core.Infrastructure
             return new DirectoryInfo(path).Name;
         }
 
-        public virtual string GetFileExtensions(string filePath)
+        public virtual string GetFileExtension(string filePath)
         {
             return Path.GetExtension(filePath);
         }

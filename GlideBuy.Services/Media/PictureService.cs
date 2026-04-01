@@ -3,6 +3,9 @@ using GlideBuy.Core.Domain.Catalog;
 using GlideBuy.Core.Domain.Media;
 using GlideBuy.Core.Infrastructure;
 using GlideBuy.Data;
+using GlideBuy.Services.Configuration;
+using GlideBuy.Services.Helpers;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using SkiaSharp;
 
@@ -16,6 +19,9 @@ namespace GlideBuy.Services.Media
         protected readonly IGlideBuyFileProvider _fileProvider;
         protected readonly MediaSettings _mediaSettings;
         protected readonly IThumbService _thumbService;
+        protected readonly ISettingService _settingService;
+        protected readonly IHttpContextAccessor _httpContextAccessor;
+        protected readonly IWebHelper _webHelper;
 
         public PictureService(
             IDataRepository<Picture> pictureRepository,
@@ -23,7 +29,10 @@ namespace GlideBuy.Services.Media
             IGlideBuyFileProvider fileProvider,
             MediaSettings mediaSettings,
             IThumbService thumbService,
-            IDataRepository<PictureBinary> pictureBinaryRepository)
+            IDataRepository<PictureBinary> pictureBinaryRepository,
+            ISettingService settingService,
+            IHttpContextAccessor httpContextAccessor,
+            IWebHelper webHelper)
         {
             _pictureRepository = pictureRepository;
             _productPictureRepository = productPictureRepository;
@@ -31,6 +40,9 @@ namespace GlideBuy.Services.Media
             _mediaSettings = mediaSettings;
             _thumbService = thumbService;
             _pictureBinaryRepository = pictureBinaryRepository;
+            _settingService = settingService;
+            _httpContextAccessor = httpContextAccessor;
+            _webHelper = webHelper;
         }
 
         #region Utilities
@@ -299,6 +311,31 @@ namespace GlideBuy.Services.Media
             await _fileProvider.WriteAllBytesAsync(await GetPictureLocalPathAsync(fileName), pictureBinary);
         }
 
+        // Only called once by GetDefaultPictureUrlAsync()
+        // Correctly construct the base URL for static media resources under different
+        // hosting and deployment scenarios.
+        protected virtual Task<string> GetImagesPathUrlAsync(string? storeLocation = null)
+        {
+            /**
+             * By extracting Request.PathBase.Value, the method ensures that any generated
+             * URLs will respect such subdirectory deployments, which is essential for
+             * correctness when the application is not hosted at the root.
+             */
+            var pathBase = _httpContextAccessor.HttpContext?.Request?.PathBase.Value ?? string.Empty;
+            var imagesPathUrl = _mediaSettings.UseAbsoluteImagePath ? storeLocation : $"{pathBase}/";
+
+            // A fallback mechanism
+            imagesPathUrl = string.IsNullOrEmpty(imagesPathUrl) ? _webHelper.GetStoreLocation() : imagesPathUrl;
+            imagesPathUrl += "images/";
+
+            return Task.FromResult(imagesPathUrl);
+        }
+
+        protected virtual string GetMimeTypeFromFileName(string fileName)
+        {
+            throw new NotImplementedException();
+        }
+
         #endregion
 
         public async Task<IList<Picture>> GetPicturesByProductAsync(int productId, int recordsToReturn = 0)
@@ -328,10 +365,11 @@ namespace GlideBuy.Services.Media
             int pictureId,
             int targetSize,
             bool showDefaultPicture = true,
-            string? storeLocation = null)
+            string? storeLocation = null,
+            PictureType defaultPictureType = PictureType.Entity)
         {
             var picture = await GetPictureByIdAsync(pictureId);
-            return (await GetPictureUrlAsync(picture, targetSize, showDefaultPicture, storeLocation)).Url;
+            return (await GetPictureUrlAsync(picture, targetSize, showDefaultPicture, storeLocation, defaultPictureType)).Url;
         }
 
         /**
@@ -346,11 +384,11 @@ namespace GlideBuy.Services.Media
          * GetPictureUrlAsync is not primarily an image-processing method; it is a thumbnail cache manager.
          */
         public virtual async Task<(string Url, Picture? picture)> GetPictureUrlAsync(
-            Picture picture,
+            Picture? picture,
             int targetSize = 0, // targetSize = 0 means no resize
             bool showDefaultPicture = true,
-            string? storeLocation = null)
-            // TODO: Use PictureType
+            string? storeLocation = null,
+            PictureType defaultPictureType = PictureType.Entity)
         {
             /**
              * Null picture reference is not treated as an error state, but as a normal
@@ -358,8 +396,9 @@ namespace GlideBuy.Services.Media
              */
             if (picture is null)
             {
-                // TODO: Add the ability to return a default picture.
-                return (string.Empty, null);
+                return showDefaultPicture
+                    ? (await GetDefaultPictureUrlAsync(targetSize, defaultPictureType, storeLocation), null)
+                    : (string.Empty, null);
             }
 
             byte[]? pictureBinary = null;
@@ -388,7 +427,11 @@ namespace GlideBuy.Services.Media
                 // Step 2: Load raw data
                 pictureBinary = await LoadPictureBinaryAsync(picture);
 
-                // TODO: Show default picture if the binary is empty.
+                // Show default picture if the binary is empty.
+                if ((pictureBinary?.Length ?? 0) == 0)
+                    return showDefaultPicture
+                        ? (await GetDefaultPictureUrlAsync(targetSize, defaultPictureType, storeLocation), picture)
+                        : (string.Empty, picture);
 
                 // Step 4: Normalize and persist
 
@@ -631,6 +674,65 @@ namespace GlideBuy.Services.Media
         {
             // A lambda that returns the default value => use the default cache key.
             return await _pictureRepository.GetByIdAsync(pictureId, cache => default);
+        }
+
+        /**
+         * Provides a fallback mechanism for missing images
+         */
+        public virtual async Task<string> GetDefaultPictureUrlAsync(
+            int targetSize,
+            PictureType defaultPictureType = PictureType.Entity,
+            string? storeLocation = null)
+        {
+            // The method begins by checking whether there is an overridden default
+            // image configured at the database level, specifically for PictureType.Entity.
+            if (defaultPictureType == PictureType.Entity
+                && _mediaSettings.ProductDefaultImageId > 0)
+                return await GetPictureUrlAsync(_mediaSettings.ProductDefaultImageId, targetSize, false, storeLocation);
+
+            var defaultImageFileName = defaultPictureType switch
+            {
+                // This is mostly due to historical evolution and design convenience, not
+                // a strict architectural rule.
+                PictureType.Avatar => await _settingService.GetSettingByKeyAsync("Media.Customer.DefaultAvatarImageName", GlideBuyMediaDefaults.DefaultAvatarFileName),
+                _ => await _settingService.GetSettingByKeyAsync("Media.DefaultImageName", GlideBuyMediaDefaults.DefaultImageFileName)
+            };
+
+            // Resolve physical path
+
+            var filePath = await GetPictureLocalPathAsync(defaultImageFileName);
+            if (!_fileProvider.FileExists(filePath))
+                return string.Empty;
+
+            // In GetPictureUrlAsync() we used ThumbService to generate the URL.
+            // This time, and since this picture doesn't have thumbs, we have to build it manually.
+            if (targetSize == 0)
+                return await GetImagesPathUrlAsync(storeLocation) + defaultImageFileName;
+
+            // We need to put the target size between the original name and the extension.
+            var fileExtension = _fileProvider.GetFileExtension(filePath);
+            var thumbFileName = $"{_fileProvider.GetFileNameWithoutExtension(filePath)}_{targetSize}{fileExtension}";
+            var thumbFilePath = await _thumbService.GetThumbLocalPathByFileNameAsync(thumbFileName);
+            if (!await _thumbService.GeneratedThumbExistsAsync(thumbFilePath, thumbFileName))
+            {
+                using var mutex = new Mutex(false, thumbFileName);
+                mutex.WaitOne();
+                try
+                {
+                    using var image = SKBitmap.Decode(filePath);
+                    var codec = SKCodec.Create(filePath);
+                    var format = codec.EncodedFormat;
+                    var pictureBinary = ImageResize(image, format, targetSize);
+                    var mimeType = GetMimeTypeFromFileName(thumbFileName);
+                    _thumbService.SaveThumbAsync(thumbFilePath, thumbFileName, mimeType, pictureBinary).Wait();
+                }
+                finally
+                {
+                    mutex.ReleaseMutex();
+                }
+            }
+
+            return await _thumbService.GetThumbUrlAsync(thumbFileName, storeLocation);
         }
     }
 }

@@ -20,70 +20,82 @@ using GlideBuy.Web.Factories;
 
 namespace GlideBuy.Core.Infrastructure.StartupConfigurations
 {
-	public class ServicesStartupConfiguration : IStartupConfiguration
-	{
-		public StartupOrder Order => StartupOrder.Services;
+    public class ServicesStartupConfiguration : IStartupConfiguration
+    {
+        public StartupOrder Order => StartupOrder.Services;
 
-		public void ConfigureApp(IApplicationBuilder app)
-		{
-		}
+        public void ConfigureApp(IApplicationBuilder app)
+        {
+        }
 
-		public void ConfigureServices(IServiceCollection services, IConfiguration configuration)
-		{
-			services.AddScoped<IGlideBuyFileProvider, GlideBuyFileProvider>();
-			services.AddScoped<IWebHelper, WebHelper>();
+        public void ConfigureServices(IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddScoped<IGlideBuyFileProvider, GlideBuyFileProvider>();
+            services.AddScoped<IWebHelper, WebHelper>();
 
             // Admin dashboard factories
 
             services.AddScoped<IPluginModelFactory, PluginModelFactory>();
 
-			services.AddSingleton<ICacheKeyManager, CacheKeyManager>();
-			services.AddSingleton<IStaticCacheManager, MemoryCacheManager>();
-			services.AddSingleton<ICacheKeyBuilder, MemoryCacheManager>();
+            services.AddSingleton<ICacheKeyManager, CacheKeyManager>();
+            services.AddSingleton<IStaticCacheManager, MemoryCacheManager>();
+            services.AddSingleton<ICacheKeyBuilder, MemoryCacheManager>();
 
-			services.AddScoped<IWorkContext, WebWorkContext>();
+            services.AddScoped<IWorkContext, WebWorkContext>();
 
-			services.AddScoped<IShoppingCartModelsFactory, ShoppingCartModelsFactory>();
-			services.AddScoped<ICheckoutModelFactory, CheckoutModelFactory>();
-			services.AddScoped<IAddressModelFactory, AddressModelFactory>();
-			services.AddScoped<ICatalogModelFactory, CatalogModelFactory>();
-			services.AddScoped<ICommonModelFactory, CommonModelFactory>();
-			services.AddScoped<IProductModelFactory, ProductModelFactory>();
+            services.AddScoped<IShoppingCartModelsFactory, ShoppingCartModelsFactory>();
+            services.AddScoped<ICheckoutModelFactory, CheckoutModelFactory>();
+            services.AddScoped<IAddressModelFactory, AddressModelFactory>();
+            services.AddScoped<ICatalogModelFactory, CatalogModelFactory>();
+            services.AddScoped<ICommonModelFactory, CommonModelFactory>();
+            services.AddScoped<IProductModelFactory, ProductModelFactory>();
 
-			services.AddScoped<IInstallationService, InstallationService>();
-			services.AddScoped<IProductService, ProductService>();
-			services.AddScoped<IShippingService, ShippingService>();
-			services.AddScoped<IUrlRecordService, UrlRecordService>();
-			services.AddScoped<ICategoryService,  CategoryService>();
-			services.AddScoped<IOrderProcessingService, OrderProcessingService>();
-			services.AddScoped<ISettingService, SettingService>();
-			services.AddScoped<IAddressService, AddressService>();
-			services.AddScoped<ICustomerService, CustomerService>();
-			services.AddScoped<IOrderTotalCalculationService, OrderTotalCalculationService>();
-			services.AddScoped<IPluginService, PluginService>();
-			services.AddScoped<IGenericAttributeService, GenericAttributeService>();
-			services.AddScoped<IPictureService, PictureService>();
-			services.AddScoped<IThumbService, ThumbService>();
+            services.AddScoped<IInstallationService, InstallationService>();
+            services.AddScoped<IProductService, ProductService>();
+            services.AddScoped<IShippingService, ShippingService>();
+            services.AddScoped<IUrlRecordService, UrlRecordService>();
+            services.AddScoped<ICategoryService,  CategoryService>();
+            services.AddScoped<IOrderProcessingService, OrderProcessingService>();
+            services.AddScoped<ISettingService, SettingService>();
+            services.AddScoped<IAddressService, AddressService>();
+            services.AddScoped<ICustomerService, CustomerService>();
+            services.AddScoped<IOrderTotalCalculationService, OrderTotalCalculationService>();
+            services.AddScoped<IPluginService, PluginService>();
+            services.AddScoped<IGenericAttributeService, GenericAttributeService>();
+            services.AddScoped<IPictureService, PictureService>();
+            services.AddScoped<IThumbService, ThumbService>();
 
-			services.AddScoped<ISupportHtmlHelper, SupportHtmlHelper>();
+            services.AddScoped<ISupportHtmlHelper, SupportHtmlHelper>();
 
-			//services.AddScoped<IPaymentPluginManager, PaymentPluginManager>();
-			services.AddScoped<IPaymentPluginManager, PaymentPluginManagerMock>();
+            //services.AddScoped<IPaymentPluginManager, PaymentPluginManager>();
+            services.AddScoped<IPaymentPluginManager, PaymentPluginManagerMock>();
 
-			// TODO: Check if the database is installed. Why?
-			services.AddScoped<SlugRouteTransformer>();
+            // TODO: Check if the database is installed. Why?
+            services.AddScoped<SlugRouteTransformer>();
 
-			// TODO: Use Singleton.
-			TypeFinder typeFinder = new TypeFinder();
-			var settings = typeFinder.FindClassesByType<ISettings>(false).ToList();
-			foreach (var setting in settings)
-			{
-				services.AddScoped(setting, serviceProvider =>
-				{
-					// Block until completion.
-					return serviceProvider.GetRequiredService<ISettingService>().LoadSettingsAsync(setting).Result;
-				});
-			}
-		}
-	}
+            // TODO: Use Singleton.
+            TypeFinder typeFinder = new TypeFinder();
+
+            var settings = typeFinder.FindClassesByType<ISettings>(false).ToList();
+            foreach (var setting in settings)
+            {
+                services.AddScoped(setting, serviceProvider =>
+                {
+                    // TODO: Check if the database is installed
+
+                    /**
+                     * This code does not execute LoadSettingAsync at application startup.
+                     * Instead, it registers a factory that will be executed every time a scoped
+                     * service is resolved, typically once per HTTP request.
+                     * 
+                     * Each request gets settings that correspond to its own store context,
+                     * not the first store at startup.
+                     */
+
+                    // Block until completion. DI container doesn't support async factories.
+                    return serviceProvider.GetRequiredService<ISettingService>().LoadSettingsAsync(setting).Result;
+                });
+            }
+        }
+    }
 }

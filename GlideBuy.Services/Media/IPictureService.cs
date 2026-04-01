@@ -10,13 +10,15 @@ namespace GlideBuy.Services.Media
             Picture picture,
             int targetSize = 0, // targetSize = 0 means no resize
             bool showDefaultPicture = true,
-            string? storeLocation = null);
+            string? storeLocation = null,
+            PictureType defaultPictureType = PictureType.Entity);
 
         Task<string> GetPictureUrlAsync(
             int pictureId,
             int targetSize,
             bool showDefaultPicture = true,
-            string? storeLocation = null);
+            string? storeLocation = null,
+            PictureType defaultPictureType = PictureType.Entity);
 
         Task<string?> GetFileExtensionFromMimeTypeAsync(string mimeType);
 

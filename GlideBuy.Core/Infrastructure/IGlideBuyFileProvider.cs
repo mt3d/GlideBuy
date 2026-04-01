@@ -32,7 +32,7 @@ namespace GlideBuy.Core.Infrastructure
 
         string GetDirectoryNameOnly(string path);
 
-        string GetFileExtensions(string filePath);
+        string GetFileExtension(string filePath);
 
         string GetFileName(string path);
 
