@@ -6,6 +6,7 @@ using GlideBuy.Data;
 using GlideBuy.Services.Configuration;
 using GlideBuy.Services.Helpers;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.EntityFrameworkCore;
 using SkiaSharp;
 
@@ -331,9 +332,17 @@ namespace GlideBuy.Services.Media
             return Task.FromResult(imagesPathUrl);
         }
 
+        // Only called once by GetDefaultPictureUrlAsync()
         protected virtual string GetMimeTypeFromFileName(string fileName)
         {
-            throw new NotImplementedException();
+            var provider = new FileExtensionContentTypeProvider();
+            if (!provider.TryGetContentType(fileName, out var contentType))
+            {
+                // If the extension is unknown or not registered, the method falls back
+                // to "application/octet-stream", which is a generic binary content type.
+                contentType = "application/octet-stream";
+            }
+            return contentType;
         }
 
         #endregion
