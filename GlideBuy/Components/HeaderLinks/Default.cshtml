@@ -1,0 +1,75 @@
+﻿@using GlideBuy.Components.ShoppingCartButton
+@using GlideBuy.Models.Common
+@model HeaderLinksModel
+
+<!-- Button group -->
+<div class="d-flex align-items-center">
+
+    <!-- Navbar stuck nav toggler -->
+    <button type="button" class="navbar-toggler d-none navbar-stuck-show me-3" data-bs-toggle="collapse" data-bs-target="#stuckNav" aria-controls="stuckNav" aria-expanded="false" aria-label="Toggle navigation in navbar stuck state">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Theme switcher (light/dark/auto) -->
+    <div class="dropdown">
+        <button type="button" class="theme-switcher btn btn-icon btn-lg btn-outline-secondary fs-lg border-0 rounded-circle animate-scale" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Toggle theme (light)">
+            <span class="theme-icon-active d-flex animate-target">
+                <i class="ci-sun"></i>
+            </span>
+        </button>
+        <ul class="dropdown-menu" style="--cz-dropdown-min-width: 9rem">
+            <li>
+                <button type="button" class="dropdown-item active" data-bs-theme-value="light" aria-pressed="true">
+                    <span class="theme-icon d-flex fs-base me-2">
+                        <i class="ci-sun"></i>
+                    </span>
+                    <span class="theme-label">Light</span>
+                    <i class="item-active-indicator ci-check ms-auto"></i>
+                </button>
+            </li>
+            <li>
+                <button type="button" class="dropdown-item" data-bs-theme-value="dark" aria-pressed="false">
+                    <span class="theme-icon d-flex fs-base me-2">
+                        <i class="ci-moon"></i>
+                    </span>
+                    <span class="theme-label">Dark</span>
+                    <i class="item-active-indicator ci-check ms-auto"></i>
+                </button>
+            </li>
+            <li>
+                <button type="button" class="dropdown-item" data-bs-theme-value="auto" aria-pressed="false">
+                    <span class="theme-icon d-flex fs-base me-2">
+                        <i class="ci-auto"></i>
+                    </span>
+                    <span class="theme-label">Auto</span>
+                    <i class="item-active-indicator ci-check ms-auto"></i>
+                </button>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Search toggle button visible on screens < 992px wide (lg breakpoint) -->
+    <button type="button" class="btn btn-icon btn-lg fs-xl btn-outline-secondary border-0 rounded-circle animate-shake d-lg-none" data-bs-toggle="collapse" data-bs-target="#searchBar" aria-expanded="false" aria-controls="searchBar" aria-label="Toggle search bar">
+        <i class="ci-search animate-target"></i>
+    </button>
+
+    <!-- Account button visible on screens > 768px wide (md breakpoint) -->
+    @if (Model.IsAuthenticated)
+    {
+    }
+    else
+    {
+        <a class="btn btn-icon btn-lg fs-lg btn-outline-secondary border-0 rounded-circle animate-shake d-none d-md-inline-flex" href="@Url.RouteUrl("Register")">
+            <i class="ci-user animate-target"></i>
+            <span class="visually-hidden">Account</span>
+        </a>
+    }
+
+    <!-- Wishlist button visible on screens > 768px wide (md breakpoint) -->
+    <a class="btn btn-icon btn-lg fs-lg btn-outline-secondary border-0 rounded-circle animate-pulse d-none d-md-inline-flex" href="#">
+        <i class="ci-heart animate-target"></i>
+        <span class="visually-hidden">Wishlist</span>
+    </a>
+
+    @await Component.InvokeAsync(typeof(ShoppingCartButtonViewComponent))
+</div>
