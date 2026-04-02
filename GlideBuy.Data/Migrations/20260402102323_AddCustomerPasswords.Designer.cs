@@ -4,6 +4,7 @@ using GlideBuy.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GlideBuy.Migrations
 {
     [DbContext(typeof(StoreDbContext))]
-    partial class StoreDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260402102323_AddCustomerPasswords")]
+    partial class AddCustomerPasswords
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -250,25 +253,6 @@ namespace GlideBuy.Migrations
                     b.HasIndex("ShippingAddressId");
 
                     b.ToTable("Customers");
-                });
-
-            modelBuilder.Entity("GlideBuy.Core.Domain.Customers.CustomerCustomerRoleMapping", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("CustomerId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CustomerRoleId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("CustomerCustomerRoleMappings");
                 });
 
             modelBuilder.Entity("GlideBuy.Core.Domain.Customers.CustomerPassword", b =>
@@ -885,7 +869,7 @@ namespace GlideBuy.Migrations
                         .WithMany()
                         .HasForeignKey("BillingAddressId");
 
-                    b.HasOne("GlideBuy.Core.Domain.Customers.CustomerRole", null)
+                    b.HasOne("GlideBuy.Core.Domain.Customers.CustomerRole", "CustomerRole")
                         .WithMany("Customers")
                         .HasForeignKey("CustomerRoleId");
 
@@ -898,6 +882,8 @@ namespace GlideBuy.Migrations
                         .HasForeignKey("ShippingAddressId");
 
                     b.Navigation("BillingAddress");
+
+                    b.Navigation("CustomerRole");
 
                     b.Navigation("Language");
 

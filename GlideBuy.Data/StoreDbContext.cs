@@ -32,6 +32,8 @@ namespace GlideBuy.Data
 
         public DbSet<Customer> Customers => Set<Customer>();
         public DbSet<CustomerRole> CustomerRoles => Set<CustomerRole>();
+        public DbSet<CustomerCustomerRoleMapping> CustomerCustomerRoleMappings => Set<CustomerCustomerRoleMapping>();
+        public DbSet<CustomerPassword> CustomerPasswords => Set<CustomerPassword>();
 
         public DbSet<UrlRecord> UrlRecords => Set<UrlRecord>();
 

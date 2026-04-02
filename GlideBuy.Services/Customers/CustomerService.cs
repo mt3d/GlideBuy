@@ -11,15 +11,18 @@ namespace GlideBuy.Services.Customers
 		private readonly StoreDbContext _context;
 		private readonly IStaticCacheManager _staticCacheManager;
 		private readonly IDataRepository<Customer> _customerRepository;
+		private readonly IDataRepository<CustomerCustomerRoleMapping> _customerCustomerRoleMappingRepository;
 
 		public CustomerService(
 			StoreDbContext context,
 			IStaticCacheManager staticCacheManager,
-			IDataRepository<Customer> dataRepository)
+			IDataRepository<Customer> customerRepository,
+			IDataRepository<CustomerCustomerRoleMapping> customerCustomerRoleRepository)
 		{
 			_context = context;
 			_staticCacheManager = staticCacheManager;
-			_customerRepository = dataRepository;
+			_customerRepository = customerRepository;
+			_customerCustomerRoleMappingRepository = customerCustomerRoleRepository;
 		}
 
 		public async Task InsertCustomerAddressAsync(Customer customer, Address address)
@@ -44,9 +47,10 @@ namespace GlideBuy.Services.Customers
 			// TODO: Move "Guests" to a defaults class.
 			var guestRole = await GetCustomerRoleBySystemName("Guests") ?? throw new Exception("'Guests' role couldn't be loaded");
 
-			customer.CustomerRole = guestRole;
+			//customer.CustomerRole = guestRole;
 
 			await _customerRepository.InsertAsync(customer);
+			await _customerCustomerRoleMappingRepository.InsertAsync(new CustomerCustomerRoleMapping { CustomerId = customer.Id, CustomerRoleId = guestRole.Id });
 
 			return customer;
 		}
