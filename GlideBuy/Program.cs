@@ -50,7 +50,7 @@ app.MapRazorPages();
 app.MapBlazorHub();
 app.MapFallbackToPage("/admin/{*catchall}", "/Admin/Index");
 
-SeedData.EnsurePopulated(app);
+await SeedData.EnsurePopulated(app);
 using (var scope = app.Services.CreateScope())
 {
     var installationService = scope.ServiceProvider.GetRequiredService<IInstallationService>();

@@ -1,6 +1,7 @@
 ﻿using GlideBuy.Areas.Admin.Factories;
 using GlideBuy.Core.Caching;
 using GlideBuy.Core.Configuration;
+using GlideBuy.Factories;
 using GlideBuy.Services.Catalog;
 using GlideBuy.Services.Common;
 using GlideBuy.Services.Configuration;
@@ -49,6 +50,7 @@ namespace GlideBuy.Core.Infrastructure.StartupConfigurations
             services.AddScoped<ICatalogModelFactory, CatalogModelFactory>();
             services.AddScoped<ICommonModelFactory, CommonModelFactory>();
             services.AddScoped<IProductModelFactory, ProductModelFactory>();
+            services.AddScoped<ICustomerModelFactory, CustomerModelFactory>();
 
             services.AddScoped<IInstallationService, InstallationService>();
             services.AddScoped<IProductService, ProductService>();
