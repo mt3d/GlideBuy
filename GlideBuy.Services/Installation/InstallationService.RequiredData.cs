@@ -1,4 +1,7 @@
-﻿using GlideBuy.Core.Domain.Customers;
+﻿using GlideBuy.Core.Caching;
+using GlideBuy.Core.Domain.Customers;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace GlideBuy.Services.Installation
 {
@@ -73,6 +76,26 @@ namespace GlideBuy.Services.Installation
 
             _dbContext.CustomerCustomerRoleMappings.Add(new CustomerCustomerRoleMapping { CustomerId = adminUser.Id, CustomerRoleId = crAdminstrators.Id });
             _dbContext.CustomerCustomerRoleMappings.Add(new CustomerCustomerRoleMapping { CustomerId = adminUser.Id, CustomerRoleId = crRegistered.Id });
+            await _dbContext.SaveChangesAsync();
+
+            var customerPassword = new CustomerPassword
+            {
+                // TODO: Why use GetDefaultCustomerIdAsync()?
+                CustomerId = adminUser.Id,
+                PasswordFormat = PasswordFormat.Hashed,
+                CreatedOnUtc = DateTime.UtcNow
+            };
+
+            using var generator = RandomNumberGenerator.Create();
+            var buff = new byte[5]; // TODO: Move to a defaults class
+            generator.GetBytes(buff);
+            var saltKey = Convert.ToBase64String(buff);
+
+            customerPassword.PasswordSalt = saltKey;
+            // TODO: Move passowrd to installation settings
+            // TODO: Move algorithm to a defaults class
+            customerPassword.Password = HashHelper.CreateHash(Encoding.UTF8.GetBytes(string.Concat("Secret123$", saltKey)), "SHA512");
+            _dbContext.CustomerPasswords.Add(customerPassword);
             await _dbContext.SaveChangesAsync();
 
             // TODO: Add a user for search engine requests
