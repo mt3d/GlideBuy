@@ -1,18 +1,21 @@
-﻿using GlideBuy.Core.Domain.Common;
+﻿using GlideBuy.Core;
+using GlideBuy.Core.Domain.Common;
 using GlideBuy.Core.Domain.Customers;
 
 namespace GlideBuy.Services.Customers
 {
-	public interface ICustomerService
-	{
-		Task InsertCustomerAddressAsync(Customer customer, Address address);
+    public interface ICustomerService
+    {
+        Task InsertCustomerAddressAsync(Customer customer, Address address);
 
-		Task<Customer> InsertGuestCustomerAsync();
+        Task<Customer> InsertGuestCustomerAsync();
 
-		Task<Customer?> GetCustomerByIdAsync(int id);
+        Task<Customer?> GetCustomerByIdAsync(int id);
 
-		Task<Customer?> GetCustomerByGuidAsync(Guid customerGuid);
+        Task<Customer?> GetCustomerByGuidAsync(Guid customerGuid);
 
-		Task UpdateCustomerAsync(Customer customer);
-	}
+        Task UpdateCustomerAsync(Customer customer);
+
+        Task<IPagedList<Customer>> GetAllCustomersAsync();
+    }
 }

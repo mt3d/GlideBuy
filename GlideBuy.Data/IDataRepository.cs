@@ -1,48 +1,55 @@
-﻿using GlideBuy.Core.Caching;
+﻿using GlideBuy.Core;
+using GlideBuy.Core.Caching;
 
 namespace GlideBuy.Data
 {
-	public interface IDataRepository<T>
-	{
-		IQueryable<T> Table { get; }
+    public interface IDataRepository<T>
+    {
+        IQueryable<T> Table { get; }
 
-		//	void Add(IList<T> entitiies);
-		//	Task AddAsync(IList<T> entities);
+        //	void Add(IList<T> entitiies);
+        //	Task AddAsync(IList<T> entities);
 
-		//	// Aka Update
-		//	void Save(T entity);
+        //	// Aka Update
+        //	void Save(T entity);
 
-		//	void Save(IList<T> entities);
-		//	Task SaveAsync(IList<T> entities);
+        //	void Save(IList<T> entities);
+        //	Task SaveAsync(IList<T> entities);
 
-		//	void Delete(IList<T> entities);
-		//	Task DeleteAsync(IList<T> entities);
+        //	void Delete(IList<T> entities);
+        //	Task DeleteAsync(IList<T> entities);
 
-		//	T? GetById(long? id, bool includeDeleted = true);
-		//	Task<T?> GetByIdAsync(long? id, bool includeDeleted = true);
+        //	T? GetById(long? id, bool includeDeleted = true);
+        //	Task<T?> GetByIdAsync(long? id, bool includeDeleted = true);
 
-		//	IList<T> GetByIds(IList<long> ids, bool includeDeleted = true);
-		//	Task<IList<T>> GetByIdsAsync(IList<long> ids, bool includeDeleted = true);
+        //	IList<T> GetByIds(IList<long> ids, bool includeDeleted = true);
+        //	Task<IList<T>> GetByIdsAsync(IList<long> ids, bool includeDeleted = true);
 
-		Task<IList<T>> GetAllAsync(
-			Func<IQueryable<T>, IQueryable<T>>? queryModifier = null,
-			Func<ICacheKeyBuilder, CacheKey>? cachKeyFactory = null,
-			bool includeDeleted = true);
+        Task<IList<T>> GetAllAsync(
+            Func<IQueryable<T>, IQueryable<T>>? queryModifier = null,
+            Func<ICacheKeyBuilder, CacheKey>? cachKeyFactory = null,
+            bool includeDeleted = true);
 
-		Task InsertAsync(
-			T entity);
+        Task InsertAsync(
+            T entity);
 
-		Task UpdateAsync(
-			T entity,
-			bool publishEvent = true);
+        Task UpdateAsync(
+            T entity,
+            bool publishEvent = true);
 
-		Task<T?> GetByIdAsync(
-			int? id,
-			Func<ICacheKeyBuilder, CacheKey>? getCacheKey = null,
-			bool includeDeleted = true);
+        Task<T?> GetByIdAsync(
+            int? id,
+            Func<ICacheKeyBuilder, CacheKey>? getCacheKey = null,
+            bool includeDeleted = true);
 
-		Task DeleteAsync(
-			T entity,
-			bool publishEvent = true);
-	}
+        Task DeleteAsync(
+            T entity,
+            bool publishEvent = true);
+
+        Task<IPagedList<T>> GetAllPagedAsync(
+            bool includeDeleted = true,
+            int pageIndex = 0,
+            int pageSize = int.MaxValue,
+            bool getOnlyTotalCount = false);
+    }
 }

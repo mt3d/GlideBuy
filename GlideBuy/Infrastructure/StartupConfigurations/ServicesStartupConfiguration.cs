@@ -37,6 +37,7 @@ namespace GlideBuy.Core.Infrastructure.StartupConfigurations
             // Admin dashboard factories
 
             services.AddScoped<IPluginModelFactory, PluginModelFactory>();
+            services.AddScoped<Areas.Admin.Factories.ICustomerModelFactory, Areas.Admin.Factories.CustomerModelFactory>();
 
             services.AddSingleton<ICacheKeyManager, CacheKeyManager>();
             services.AddSingleton<IStaticCacheManager, MemoryCacheManager>();
@@ -50,7 +51,7 @@ namespace GlideBuy.Core.Infrastructure.StartupConfigurations
             services.AddScoped<ICatalogModelFactory, CatalogModelFactory>();
             services.AddScoped<ICommonModelFactory, CommonModelFactory>();
             services.AddScoped<IProductModelFactory, ProductModelFactory>();
-            services.AddScoped<ICustomerModelFactory, CustomerModelFactory>();
+            services.AddScoped<Factories.ICustomerModelFactory, Factories.CustomerModelFactory>();
 
             services.AddScoped<IInstallationService, InstallationService>();
             services.AddScoped<IProductService, ProductService>();

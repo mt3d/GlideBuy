@@ -1,21 +1,26 @@
 ﻿namespace GlideBuy.Support.Models.DataTables
 {
-	// All these properties will passed to the constructor of DataTables().
-	public class DataTablesModel
-	{
-		public object? Data { get; set; }
+    // All these properties will passed to the constructor of DataTables().
+    public class DataTablesModel
+    {
+        public DataTablesModel()
+        {
+            ColumnCollection = new List<ColumnProperty>();
+        }
 
-		public string Name { get; set; }
+        public object? Data { get; set; }
 
-		// Corresponds to the 'paging' option in DataTables.
-		public bool Paging { get; set; }
+        public string Name { get; set; }
 
-		// Coressponds to 'columns' in DataTables.
-		// https://datatables.net/reference/option/columns
-		public IList<ColumnProperty> ColumnCollection { get; set; }
+        // Corresponds to the 'paging' option in DataTables.
+        public bool Paging { get; set; }
 
-		public DataUrl UrlRead { get; set; }
+        // Coressponds to 'columns' in DataTables.
+        // https://datatables.net/reference/option/columns
+        public IList<ColumnProperty> ColumnCollection { get; set; }
 
-		public int Length { get; set; }
-	}
+        public DataUrl UrlRead { get; set; }
+
+        public int Length { get; set; }
+    }
 }

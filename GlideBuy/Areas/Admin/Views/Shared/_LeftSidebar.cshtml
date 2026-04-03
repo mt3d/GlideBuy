@@ -33,7 +33,9 @@
     <!-- Leftbar User -->
     <div class="leftbar-user">
         <a href="pages-profile.html">
+            @* TODO: Handle user avatar *@
             <img src="~/admin/assets/images/users/avatar-1.jpg" alt="user-image" height="42" class="rounded-circle shadow-sm">
+            @* TODO: Handle user name *@
             <span class="leftbar-user-name mt-2">Dominic Keller</span>
         </a>
     </div>
@@ -72,18 +74,36 @@
         </li>
 
         <li class="side-nav-item">
-            <a data-bs-toggle="collapse" href="#sidebarEmail" aria-expanded="false" aria-controls="sidebarEmail" class="side-nav-link">
+            <a data-bs-toggle="collapse" href="#sidebarSales" aria-expanded="false" aria-controls="sidebarSales" class="side-nav-link">
                 <i class="uil-shopping-cart-alt"></i>
                 <span> Sales </span>
                 <span class="menu-arrow"></span>
             </a>
-            <div class="collapse" id="sidebarEmail">
+            <div class="collapse" id="sidebarSales">
                 <ul class="side-nav-second-level">
                     <li>
                         <a href="#">Orders</a>
                     </li>
                     <li>
                         <a href="#">Shipment</a>
+                    </li>
+                </ul>
+            </div>
+        </li>
+
+        <li class="side-nav-item">
+            <a data-bs-toggle="collapse" href="#sidebarCustomers" aria-expanded="false" aria-controls="sidebarCustomers" class="side-nav-link">
+                <i class="uil-shopping-cart-alt"></i>
+                <span> Customers </span>
+                <span class="menu-arrow"></span>
+            </a>
+            <div class="collapse" id="sidebarCustomers">
+                <ul class="side-nav-second-level">
+                    <li>
+                        <a href="@Url.Action("List", "Customer", new RouteValueDictionary { { "area", "Admin" } }, null, null)">Customers</a>
+                    </li>
+                    <li>
+                        <a href="#">Customer Roles</a>
                     </li>
                 </ul>
             </div>
