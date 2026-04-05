@@ -28,11 +28,11 @@ namespace GlideBuy.Core.Infrastructure
 
 
             builder.MapControllerRoute(name: "Register",
-                pattern: $"register/",
+                pattern: $"register",
                 defaults: new { controller = "Customer", action = "Register" });
 
             builder.MapControllerRoute(name: "RegisterResult",
-                pattern: $"/registerresult/{{resultId}}",
+                pattern: $"registerresult/{{resultId}}",
                 defaults: new { controller = "Customer", action = "RegisterResult" });
 
             // Checkout pages

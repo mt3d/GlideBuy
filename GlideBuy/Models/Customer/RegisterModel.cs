@@ -20,5 +20,9 @@ namespace GlideBuy.Models.Customer
         public string ConfirmPassword { get; set; }
 
         public bool AcceptPrivacyPolicyEnabled { get; set; }
+
+        public bool UsernameEnabled { get; set; }
+
+        public string Username { get; set; }
     }
 }

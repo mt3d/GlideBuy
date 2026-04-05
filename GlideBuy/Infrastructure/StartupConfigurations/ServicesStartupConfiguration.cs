@@ -62,6 +62,7 @@ namespace GlideBuy.Core.Infrastructure.StartupConfigurations
             services.AddScoped<ISettingService, SettingService>();
             services.AddScoped<IAddressService, AddressService>();
             services.AddScoped<ICustomerService, CustomerService>();
+            services.AddScoped<ICustomerRegistrationService, CustomerRegistrationService>();
             services.AddScoped<IOrderTotalCalculationService, OrderTotalCalculationService>();
             services.AddScoped<IPluginService, PluginService>();
             services.AddScoped<IGenericAttributeService, GenericAttributeService>();

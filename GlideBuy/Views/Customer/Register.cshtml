@@ -29,7 +29,8 @@
             </div>
 
             <!-- Form -->
-            <form class="needs-validation" novalidate>
+            <form asp-route="Register" method="post"
+                class="needs-validation" novalidate>
 
                 <div class="position-relative mb-4">
                     <label asp-for="Email" class="form-label">Email</label>
@@ -58,7 +59,7 @@
                     </div>
                 }
 
-                <button type="submit" method="post" asp-route="Register" class="btn btn-lg btn-primary w-100">
+                <button type="submit" name="register-button" id="register-button" class="btn btn-lg btn-primary w-100">
                     Create an account
                     <i class="ci-chevron-right fs-lg ms-1 me-n1"></i>
                 </button>
@@ -71,6 +72,8 @@
                 <span class="text-body-emphasis fw-medium text-nowrap mx-4">or continue with</span>
                 <hr class="w-100 m-0">
             </div>
+
+            @* TODO: Move to a dedicated view component *@
 
             <!-- Social login -->
             <div class="d-flex flex-column flex-sm-row gap-3 pb-4 mb-3 mb-lg-4">

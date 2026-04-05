@@ -13,17 +13,20 @@ namespace GlideBuy.Services.Customers
         private readonly IStaticCacheManager _staticCacheManager;
         private readonly IDataRepository<Customer> _customerRepository;
         private readonly IDataRepository<CustomerCustomerRoleMapping> _customerCustomerRoleMappingRepository;
+        private readonly IDataRepository<CustomerPassword> _customerPasswordRepository;
 
         public CustomerService(
             StoreDbContext context,
             IStaticCacheManager staticCacheManager,
             IDataRepository<Customer> customerRepository,
-            IDataRepository<CustomerCustomerRoleMapping> customerCustomerRoleRepository)
+            IDataRepository<CustomerCustomerRoleMapping> customerCustomerRoleRepository,
+            IDataRepository<CustomerPassword> customerPasswordRepository)
         {
             _context = context;
             _staticCacheManager = staticCacheManager;
             _customerRepository = customerRepository;
             _customerCustomerRoleMappingRepository = customerCustomerRoleRepository;
+            _customerPasswordRepository = customerPasswordRepository;
         }
 
         public async Task InsertCustomerAddressAsync(Customer customer, Address address)
@@ -116,6 +119,11 @@ namespace GlideBuy.Services.Customers
             var customers = await _customerRepository.GetAllPagedAsync();
 
             return customers;
+        }
+
+        public virtual async Task InsertCustomerPasswordAsync(CustomerPassword customerPassword)
+        {
+            await _customerPasswordRepository.InsertAsync(customerPassword);
         }
     }
 }

@@ -17,5 +17,7 @@ namespace GlideBuy.Services.Customers
         Task UpdateCustomerAsync(Customer customer);
 
         Task<IPagedList<Customer>> GetAllCustomersAsync();
+
+        Task InsertCustomerPasswordAsync(CustomerPassword customerPassword);
     }
 }

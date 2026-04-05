@@ -7,5 +7,7 @@ namespace GlideBuy.Core.Domain.Customers
         public UserRegistrationType UserRegistrationType { get; set; }
 
         public bool AcceptPrivacyPolicyEnabled { get; set; }
+
+        public bool UsernameEnabled { get; set; }
     }
 }
