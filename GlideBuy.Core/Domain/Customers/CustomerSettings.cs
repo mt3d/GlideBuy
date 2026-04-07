@@ -9,5 +9,7 @@ namespace GlideBuy.Core.Domain.Customers
         public bool AcceptPrivacyPolicyEnabled { get; set; }
 
         public bool UsernameEnabled { get; set; }
+
+        public PasswordFormat DefaultPasswordFormat { get; set; }
     }
 }

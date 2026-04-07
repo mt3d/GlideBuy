@@ -1,18 +1,35 @@
-﻿using GlideBuy.Core.Domain.Customers;
+﻿using GlideBuy.Core;
+using GlideBuy.Core.Domain.Customers;
+using GlideBuy.Services.Authentication;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.AspNetCore.Mvc.Routing;
 
 namespace GlideBuy.Services.Customers
 {
     public class CustomerRegistrationService : ICustomerRegistrationService
     {
-        public CustomerSettings _customerSettings;
-        public ICustomerService _customerService;
+        protected readonly CustomerSettings _customerSettings;
+        protected readonly ICustomerService _customerService;
+        protected readonly IWorkContext _workContext;
+        protected readonly IUrlHelperFactory _urlHelperFactory;
+        protected readonly IActionContextAccessor _actionContextAccessor;
+        protected readonly IAuthenticationService _authenticationService;
 
         public CustomerRegistrationService(
             CustomerSettings customerSettings,
-            ICustomerService customerService)
+            ICustomerService customerService,
+            IWorkContext workContext,
+            IUrlHelperFactory urlHelperFactory,
+            IActionContextAccessor actionContextAccessor,
+            IAuthenticationService authenticationService)
         {
             _customerSettings = customerSettings;
             _customerService = customerService;
+            _workContext = workContext;
+            _urlHelperFactory = urlHelperFactory;
+            _actionContextAccessor = actionContextAccessor;
+            _authenticationService = authenticationService;
         }
 
         /**
@@ -95,6 +112,36 @@ namespace GlideBuy.Services.Customers
             await _customerService.UpdateCustomerAsync(request.Customer);
 
             return result;
+        }
+
+        public virtual async Task<IActionResult> SingInCustomerAsync(Customer customer, string returnUrl, bool isPersistent = false)
+        {
+            var currentCustomer = await _workContext.GetCurrentCustomerAsync();
+
+            if (currentCustomer.Id != customer.Id)
+            {
+                // TODO: Handle affiliate
+
+                // TODO: Migrate the shopping cart
+
+                await _workContext.SetCurrentCustomerAsync(customer);
+            }
+
+            // TODO: Authenticate using the AuthenticationService
+            await _authenticationService.SignInAsync(customer, isPersistent);
+
+            // TODO: Raise an event
+
+            // TODO: Log a successful login in the activity log
+
+            // TODO: Handle return URL
+            // Only redirect to local URLs
+            var urlHelper = _urlHelperFactory.GetUrlHelper(_actionContextAccessor.ActionContext);
+
+            if (!string.IsNullOrEmpty(returnUrl) && urlHelper.IsLocalUrl(returnUrl))
+                return new RedirectResult(returnUrl);
+
+            return new RedirectToRouteResult("Homepage", null);
         }
     }
 }
