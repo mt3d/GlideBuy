@@ -6,6 +6,8 @@ namespace GlideBuy.Services.Customers
 {
     public interface ICustomerService
     {
+        Task<CustomerRole?> GetCustomerRoleBySystemName(string systemName);
+
         Task InsertCustomerAddressAsync(Customer customer, Address address);
 
         Task<Customer> InsertGuestCustomerAsync();
@@ -19,5 +21,17 @@ namespace GlideBuy.Services.Customers
         Task<IPagedList<Customer>> GetAllCustomersAsync();
 
         Task InsertCustomerPasswordAsync(CustomerPassword customerPassword);
+
+        Task<bool> IsRegisteredAsync(Customer customer, bool onlyActiveCustomerRoles = true);
+
+        Task<bool> IsInCustomerRoleAsync(Customer customer, string customerRoleName, bool onlyActiveCustomerRoles);
+
+        Task<IList<CustomerRole?>> GetCustomerRolesAsync(Customer customer, bool showHidden);
+
+        Task AddCustomerRoleMappingAsync(CustomerCustomerRoleMapping mapping);
+
+        Task<bool> IsGuestAsync(Customer customer, bool onlyActiveCustomerRoles = true);
+
+        Task RemoveCustomerRoleMappingAsync(Customer customer, CustomerRole role);
     }
 }
