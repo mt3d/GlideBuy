@@ -1,1 +1,14 @@
-﻿
+﻿@using GlideBuy.Models.Customer
+@model RegisterResultModel
+
+<main class="content-wrapper d-flex align-items-center justify-content-center">
+    <div class="container">
+
+        <section class="text-center py-5 px-2 px-sm-0 my-2 my-md-3 my-lg-4 my-xl-5 mx-auto" style="max-width: 636px">
+            <h1>@Model.Result</h1>
+            @* <p class="pb-3">The page you are looking for was moved, removed or might never existed.</p> *@
+            <a class="btn btn-lg btn-primary" href="@Model.ReturnUrl">Continue</a>
+        </section>
+
+    </div>
+</main>

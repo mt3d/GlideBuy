@@ -27,5 +27,25 @@ namespace GlideBuy.Factories
 
             return model;
         }
+
+        public virtual async Task<RegisterResultModel> PrepareRegisterResultModelAsync(int resultId, string? returnUrl)
+        {
+            var resultText = (UserRegistrationType)resultId switch
+            {
+                UserRegistrationType.Disabled => "Registration not allowed. You can edit this in the admin area.",
+                UserRegistrationType.EmailValidation => "Your registration has been successfully completed. You have just been sent an email containing activation instructions.",
+                UserRegistrationType.AdminApproval => "Your account will be activated after approving by administrator.",
+                UserRegistrationType.Standard => "Registration was successful.",
+                _ => ""
+            };
+
+            var model = new RegisterResultModel
+            {
+                Result = resultText,
+                ReturnUrl = returnUrl,
+            };
+
+            return model;
+        }
     }
 }

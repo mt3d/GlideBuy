@@ -124,12 +124,16 @@ namespace GlideBuy.Controllers
         }
 
         // TODO: WIP
-        public virtual async Task<IActionResult> RegisterResult(int resultId, string returnUrl)
+        public virtual async Task<IActionResult> RegisterResult(int resultId, string? returnUrl)
         {
-            // TODO: Check the return URL
+            if (string.IsNullOrEmpty(returnUrl) || !Url.IsLocalUrl(returnUrl))
+            {
+                returnUrl = Url.RouteUrl("Homepage");
+            }
 
-            // TODO: Prepare the register model using the result ID
-            return View();
+            var model = await _customerModelFactory.PrepareRegisterResultModelAsync(resultId, returnUrl);
+
+            return View(model);
         }
     }
 }
