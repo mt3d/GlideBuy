@@ -4,21 +4,7 @@
     {
         public void ConfigureServices(IServiceCollection services, IConfiguration configuration)
         {
-            services.AddControllersWithViews()
-                .AddRazorOptions(options =>
-                {
-                    options.ViewLocationFormats.Add("/{0}.cshtml");
-                    options.AreaViewLocationFormats.Add("/Areas/{2}/{0}.cshtml");
-                });
-
-            // TODO: Configure AddSessionStateTempDataProvider or AddCookieTempDataProvider
-
-            services.AddRazorPages();
-
-            // TODO: AddMvcOptions
-            // TODO: Add fluent validation
-            // TODO: Add all validators
-            // TODO: AddControllersAsServices()
+            services.AddMvcServices();
 
             // TODO: Add Web Encoders
         }

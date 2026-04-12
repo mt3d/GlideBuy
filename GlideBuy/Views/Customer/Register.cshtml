@@ -19,9 +19,10 @@
             </header>
 
             <h1 class="h2 mt-auto">Create an account</h1>
+            @* TODO: Handle sign in link *@
             <div class="nav fs-sm mb-3 mb-lg-4">
                 I already have an account
-                <a class="nav-link text-decoration-underline p-0 ms-2" href="account-signin.html">Sign in</a>
+                <a class="nav-link text-decoration-underline p-0 ms-2" href="">Sign in</a>
             </div>
             <div class="nav fs-sm mb-4 d-lg-none">
                 <span class="me-2">Uncertain about creating an account?</span>
@@ -29,25 +30,54 @@
             </div>
 
             <!-- Form -->
+            @* TODO: Handle return URL *@
             <form asp-route="Register" method="post"
-                class="needs-validation" novalidate>
+                @* class="needs-validation" novalidate *@>
+
+                <div asp-validation-summary="ModelOnly" class="message-error"></div>
 
                 <div class="position-relative mb-4">
                     <label asp-for="Email" class="form-label">Email</label>
-                    <input asp-for="Email" class="form-control form-control-lg" id="register-email" required>
-                    <div class="invalid-tooltip bg-transparent py-0">Enter a valid email address!</div>
+                    <input asp-for="Email" class="form-control form-control-lg" id="register-email" @* required *@>
+                    @*<div class="invalid-tooltip bg-transparent py-0">Enter a valid email address!</div>*@
+                    <span asp-validation-for="Email"></span>
                 </div>
 
+                @* Password *@
                 <div class="mb-4">
                     <label asp-for="Password" class="form-label">Password</label>
                     <div class="password-toggle">
-                        <input asp-for="Password" class="form-control form-control-lg" id="register-password" minlength="8" placeholder="Minimum 8 characters" required>
-                        <div class="invalid-tooltip bg-transparent py-0">Password does not meet the required criteria!</div>
+                        <input asp-for="Password"
+                               class="form-control form-control-lg"
+                               id="register-password"
+                               @* minlength="8" *@
+                               placeholder="Minimum 8 characters"
+                               @* required *@>
+                        @* <div class="invalid-tooltip bg-transparent py-0">Password does not meet the required criteria!</div> *@
                         <label class="password-toggle-button fs-lg" aria-label="Show/hide password">
                             <input type="checkbox" class="btn-check">
                         </label>
+                        <span asp-validation-for="Password"></span>
                     </div>
                 </div>
+                <div class="mb-4">
+                    <label asp-for="ConfirmPassword" class="form-label">Confirm Password</label>
+                    <div class="password-toggle">
+                        <input asp-for="ConfirmPassword"
+                               class="form-control form-control-lg"
+                               id="register-password"
+                               @* minlength="8" *@
+                               placeholder=""
+                               @* required *@>
+                        @* <div class="invalid-tooltip bg-transparent py-0">Password does not meet the required criteria!</div> *@
+                        <label class="password-toggle-button fs-lg" aria-label="Show/hide password">
+                            <input type="checkbox" class="btn-check">
+                        </label>
+                        <span asp-validation-for="ConfirmPassword"></span>
+                    </div>
+                </div>
+                @* TODO: Handle captcha *@
+                @* TODO: Handle honeypot*@
 
                 @if (Model.AcceptPrivacyPolicyEnabled)
                 {

@@ -11,5 +11,7 @@ namespace GlideBuy.Core.Domain.Customers
         public bool UsernameEnabled { get; set; }
 
         public PasswordFormat DefaultPasswordFormat { get; set; }
+
+        public bool EnteringEmailTwice { get; set; }
     }
 }

@@ -305,14 +305,15 @@
         </a>
     </div>
 
-    <!--
+    @*
         The moment you introduce ~/, you are no longer writing a valid client side URL.
     The tilde has no meaning in HTML or in the browser. Its meaning exists only in ASP.NET,
     where ~ is a virtual path token that represents the application root. Because that token
     must be resolved on the server before the response is sent to the browser, Razor must
     intervene. At that point, the element becomes something that participates in Razor’s
     processing pipeline, and Visual Studio reflects this by classifying the element as a
-    tag helper enabled element.-->
+    tag helper enabled element.
+    *@
     <script src="~/js/jquery/jquery.min.js"></script>
 
     <!-- Vendor scripts -->

@@ -2,6 +2,7 @@
 using GlideBuy.Core.Caching;
 using GlideBuy.Core.Configuration;
 using GlideBuy.Factories;
+using GlideBuy.Services.Authentication;
 using GlideBuy.Services.Catalog;
 using GlideBuy.Services.Common;
 using GlideBuy.Services.Configuration;
@@ -18,6 +19,7 @@ using GlideBuy.Support;
 using GlideBuy.Support.Mvc.Routing;
 using GlideBuy.Support.UI;
 using GlideBuy.Web.Factories;
+using Microsoft.AspNetCore.Authentication;
 
 namespace GlideBuy.Core.Infrastructure.StartupConfigurations
 {
@@ -68,6 +70,8 @@ namespace GlideBuy.Core.Infrastructure.StartupConfigurations
             services.AddScoped<IGenericAttributeService, GenericAttributeService>();
             services.AddScoped<IPictureService, PictureService>();
             services.AddScoped<IThumbService, ThumbService>();
+
+            services.AddScoped<Services.Authentication.IAuthenticationService, CookieAuthenticationService>();
 
             services.AddScoped<ISupportHtmlHelper, SupportHtmlHelper>();
 

@@ -8,10 +8,10 @@ namespace GlideBuy.Models.Customer
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
 
-        public bool EnterEmailTwice { get; set; }
+        public bool EnteringEmailTwice { get; set; }
 
         [DataType(DataType.EmailAddress)]
-        public string ConfirmEmail { get; set; }
+        public string? ConfirmEmail { get; set; }
 
         [DataType(DataType.Password)]
         public string Password { get; set; }
@@ -23,6 +23,6 @@ namespace GlideBuy.Models.Customer
 
         public bool UsernameEnabled { get; set; }
 
-        public string Username { get; set; }
+        public string? Username { get; set; }
     }
 }

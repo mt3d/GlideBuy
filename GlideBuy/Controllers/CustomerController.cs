@@ -2,6 +2,7 @@
 using GlideBuy.Core.Domain.Customers;
 using GlideBuy.Factories;
 using GlideBuy.Models.Customer;
+using GlideBuy.Services.Customers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GlideBuy.Controllers
@@ -11,18 +12,21 @@ namespace GlideBuy.Controllers
         protected readonly CustomerSettings _customerSettings;
         protected readonly ICustomerModelFactory _customerModelFactory;
         protected readonly IWorkContext _workContext;
+        protected readonly ICustomerRegistrationService _customerRegistrationService;
 
         public CustomerController(
             CustomerSettings customerSettings,
             ICustomerModelFactory customerModelFactory,
-            IWorkContext workContext)
+            IWorkContext workContext,
+            ICustomerRegistrationService customerRegistrationService)
         {
             _customerSettings = customerSettings;
             _customerModelFactory = customerModelFactory;
             _workContext = workContext;
+            _customerRegistrationService = customerRegistrationService;
         }
 
-        public virtual async Task<IActionResult> Register(string returnUrl)
+        public virtual async Task<IActionResult> Register(string? returnUrl)
         {
             if (_customerSettings.UserRegistrationType == UserRegistrationType.Disabled)
             {
@@ -38,7 +42,7 @@ namespace GlideBuy.Controllers
         [HttpPost]
         public virtual async Task<IActionResult> Register(
             RegisterModel model,
-            string returnUrl,
+            string? returnUrl,
             bool captchaValid,
             IFormCollection form)
         {
@@ -60,19 +64,58 @@ namespace GlideBuy.Controllers
             if (ModelState.IsValid)
             {
                 // Try register the customer
-                var customerUserName = model.Username;
+                var customerUsername = model.Username;
                 var customerEmail = model.Email;
 
                 // If the customer is approved, it will become active immediately.
                 var isApproved = _customerSettings.UserRegistrationType == UserRegistrationType.Standard;
+                var registrationRequest = new CustomerRegistrationRequest
+                {
+                    Customer = customer,
+                    Email = customerEmail,
+                    Username = _customerSettings.UsernameEnabled ? customerUsername : customerEmail,
+                    Password = model.Password,
+                    PasswordFormat = _customerSettings.DefaultPasswordFormat,
+                    StoreId = 1, // TODO: Handle store ID
+                    IsApproved = isApproved,
+                };
 
-                // Handle newsletter
+                var registrationResult = await _customerRegistrationService.RegisterCustomerAsync(registrationRequest);
+                if (registrationResult.Success)
+                {
+                    // TODO: Handle time zone
 
-                // Handle GDPR
+                    // TODO: Handle VAT
 
-                // Handle notifications
+                    // TODO: Handle form fields
 
-                // Complete registration based on registration type
+                    // Handle newsletter
+
+                    // Handle Privacy Policy
+
+                    // Handle GDPR
+
+                    // Handle notifications
+
+                    // Complete registration based on registration type
+                    switch (_customerSettings.UserRegistrationType)
+                    {
+                        case UserRegistrationType.Standard:
+                            // TODO: Send a welcome message
+                            // TODO: Publish event
+
+                            returnUrl = Url.RouteUrl("RegisterResult");
+                            // TODO: Sign in the customer
+                            return await _customerRegistrationService.SingInCustomerAsync(customer, returnUrl, true);
+                        default:
+                            return RedirectToRoute("Homepage");
+                    }
+                }
+
+                foreach (var error in registrationResult.Errors)
+                {
+                    ModelState.AddModelError("", error);
+                }
             }
 
             model = await _customerModelFactory.PrepareRegisterModelAsync(model);
