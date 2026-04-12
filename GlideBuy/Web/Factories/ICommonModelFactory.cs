@@ -2,10 +2,12 @@
 
 namespace GlideBuy.Web.Factories
 {
-	public interface ICommonModelFactory
-	{
-		Task<LogoModel> PrepareLogoModelAsync();
+    public interface ICommonModelFactory
+    {
+        Task<LogoModel> PrepareLogoModelAsync();
 
-		Task<ShoppingCartButtonModel> PrepareCartButtonModelAsync();
-	}
+        Task<ShoppingCartButtonModel> PrepareCartButtonModelAsync();
+
+        Task<HeaderLinksModel> PrepareHeaderLinksModel();
+    }
 }

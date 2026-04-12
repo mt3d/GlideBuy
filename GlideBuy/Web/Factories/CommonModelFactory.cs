@@ -1,41 +1,62 @@
-﻿using GlideBuy.Models.Common;
+﻿using GlideBuy.Core;
+using GlideBuy.Models.Common;
+using GlideBuy.Services.Customers;
 using GlideBuy.Services.Orders;
 
 namespace GlideBuy.Web.Factories
 {
-	public class CommonModelFactory : ICommonModelFactory
-	{
-		private IShoppingCartService _shoppingCartService;
+    public class CommonModelFactory : ICommonModelFactory
+    {
+        protected readonly IShoppingCartService _shoppingCartService;
+        protected readonly ICustomerService _customerService;
+        protected readonly IWorkContext _workContext;
 
-		public CommonModelFactory(IShoppingCartService shoppingCartService)
-		{
-			_shoppingCartService = shoppingCartService;
-		}
+        public CommonModelFactory(
+            IShoppingCartService shoppingCartService,
+            ICustomerService customerService,
+            IWorkContext workContext)
+        {
+            _shoppingCartService = shoppingCartService;
+            _customerService = customerService;
+            _workContext = workContext;
+        }
 
-		public async Task<LogoModel> PrepareLogoModelAsync()
-		{
-			// TODO: Get the current store, then get the localized name of it.
+        public async Task<LogoModel> PrepareLogoModelAsync()
+        {
+            // TODO: Get the current store, then get the localized name of it.
 
-			var model = new LogoModel()
-			{
-				StoreName = "GlideBuy",
-				LogoPath = "/images/logo.png"
-			};
+            var model = new LogoModel()
+            {
+                StoreName = "GlideBuy",
+                LogoPath = "/images/logo.png"
+            };
 
-			return model;
-		}
+            return model;
+        }
 
-		public async Task<ShoppingCartButtonModel> PrepareCartButtonModelAsync()
-		{
-			var model = new ShoppingCartButtonModel();
+        public async Task<ShoppingCartButtonModel> PrepareCartButtonModelAsync()
+        {
+            var model = new ShoppingCartButtonModel();
 
-			// TODO: Read current customer.
-			if (true)
-			{
-				model.ShoppingCartItems = (await _shoppingCartService.GetShoppingCartAsync()).Sum(item => item.Quantity);
-			}
+            // TODO: Read current customer.
+            if (true)
+            {
+                model.ShoppingCartItems = (await _shoppingCartService.GetShoppingCartAsync()).Sum(item => item.Quantity);
+            }
 
-			return model;
-		}
-	}
+            return model;
+        }
+
+        public virtual async Task<HeaderLinksModel> PrepareHeaderLinksModel()
+        {
+            var customer = await _workContext.GetCurrentCustomerAsync();
+
+            var model = new HeaderLinksModel()
+            {
+                IsAuthenticated = await _customerService.IsRegisteredAsync(customer)
+            };
+
+            return model;
+        }
+    }
 }
