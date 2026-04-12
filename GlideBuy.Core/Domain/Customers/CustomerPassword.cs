@@ -40,7 +40,7 @@ namespace GlideBuy.Core.Domain.Customers
         public string Password { get; set; }
 
         // For hashing.
-        public string PasswordSalt { get; set; }
+        public string? PasswordSalt { get; set; }
 
         public DateTime CreatedOnUtc { get; set; }
 

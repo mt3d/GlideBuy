@@ -4,7 +4,8 @@ namespace GlideBuy.Core.Domain.Customers
 {
     public class CustomerSettings : ISettings
     {
-        public UserRegistrationType UserRegistrationType { get; set; }
+        // TODO: Remove the default value from here.
+        public UserRegistrationType UserRegistrationType { get; set; } = UserRegistrationType.Standard;
 
         public bool AcceptPrivacyPolicyEnabled { get; set; }
 

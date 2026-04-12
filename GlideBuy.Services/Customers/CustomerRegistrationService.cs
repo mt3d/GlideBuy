@@ -114,7 +114,7 @@ namespace GlideBuy.Services.Customers
             return result;
         }
 
-        public virtual async Task<IActionResult> SingInCustomerAsync(Customer customer, string returnUrl, bool isPersistent = false)
+        public virtual async Task<IActionResult> SignInCustomerAsync(Customer customer, string returnUrl, bool isPersistent = false)
         {
             var currentCustomer = await _workContext.GetCurrentCustomerAsync();
 

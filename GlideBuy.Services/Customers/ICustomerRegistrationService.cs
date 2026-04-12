@@ -7,6 +7,6 @@ namespace GlideBuy.Services.Customers
     {
         Task<CustomerRegistrationResult> RegisterCustomerAsync(CustomerRegistrationRequest request);
 
-        Task<IActionResult> SingInCustomerAsync(Customer customer, string returnUrl, bool isPersistent = false);
+        Task<IActionResult> SignInCustomerAsync(Customer customer, string returnUrl, bool isPersistent = false);
     }
 }

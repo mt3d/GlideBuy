@@ -104,9 +104,9 @@ namespace GlideBuy.Controllers
                             // TODO: Send a welcome message
                             // TODO: Publish event
 
-                            returnUrl = Url.RouteUrl("RegisterResult");
+                            returnUrl = Url.RouteUrl("RegisterResult", new { resultId = (int)UserRegistrationType.Standard, returnUrl });
                             // TODO: Sign in the customer
-                            return await _customerRegistrationService.SingInCustomerAsync(customer, returnUrl, true);
+                            return await _customerRegistrationService.SignInCustomerAsync(customer, returnUrl, true);
                         default:
                             return RedirectToRoute("Homepage");
                     }
