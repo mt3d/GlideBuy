@@ -106,6 +106,18 @@ namespace GlideBuy.Services.Customers
             request.Customer.Active = request.IsApproved;
 
             // TODO: Handle the change of roles (add 'Registered', remove 'Guest')
+            var registeredRole = await _customerService.GetCustomerRoleBySystemName("Registered") ?? throw new Exception("'Registered' role cannot be loaded.");
+            await _customerService.AddCustomerRoleMappingAsync(new CustomerCustomerRoleMapping
+            {
+                CustomerId = request.Customer.Id,
+                CustomerRoleId = registeredRole.Id,
+            });
+
+            if (await _customerService.IsGuestAsync(request.Customer))
+            {
+                var guestRole = await _customerService.GetCustomerRoleBySystemName("Guests");
+                await _customerService.RemoveCustomerRoleMappingAsync(request.Customer, guestRole);
+            }
 
             // TODO: Handle reward points
 
