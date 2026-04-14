@@ -39,6 +39,10 @@ namespace GlideBuy.Core.Infrastructure
                 pattern: $"registerresult/{{resultId}}",
                 defaults: new { controller = "Customer", action = "RegisterResult" });
 
+            builder.MapControllerRoute(name: "Login",
+                pattern: $"login",
+                defaults: new { controller = "Customer", action = "Login" });
+
 
             builder.MapControllerRoute(name: "CustomerInfo",
                 pattern: $"customer/info",

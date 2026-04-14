@@ -29,6 +29,17 @@ namespace GlideBuy.Controllers
             _customerService = customerService;
         }
 
+        #region Login / logout
+
+        public virtual async Task<IActionResult> Login(bool? checkoutAsGuest)
+        {
+            return View();
+        }
+
+        #endregion
+
+        #region Registration
+
         public virtual async Task<IActionResult> Register(string? returnUrl)
         {
             if (_customerSettings.UserRegistrationType == UserRegistrationType.Disabled)
@@ -138,6 +149,8 @@ namespace GlideBuy.Controllers
 
             return View(model);
         }
+
+        #endregion
 
         #region Info
 
