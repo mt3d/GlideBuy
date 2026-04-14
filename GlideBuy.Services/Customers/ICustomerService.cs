@@ -33,5 +33,7 @@ namespace GlideBuy.Services.Customers
         Task<bool> IsGuestAsync(Customer customer, bool onlyActiveCustomerRoles = true);
 
         Task RemoveCustomerRoleMappingAsync(Customer customer, CustomerRole role);
+
+        Task<string> FormatUsernameAsync(Customer customer, bool stripIfTooLong = false, int maxLength = 0);
     }
 }

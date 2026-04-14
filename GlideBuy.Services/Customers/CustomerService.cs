@@ -15,6 +15,7 @@ namespace GlideBuy.Services.Customers
         private readonly IDataRepository<CustomerCustomerRoleMapping> _customerCustomerRoleMappingRepository;
         private readonly IDataRepository<CustomerPassword> _customerPasswordRepository;
         private readonly IDataRepository<CustomerRole> _customerRoleRepository;
+        private readonly CustomerSettings _customerSettings;
 
         public CustomerService(
             StoreDbContext context,
@@ -22,7 +23,8 @@ namespace GlideBuy.Services.Customers
             IDataRepository<Customer> customerRepository,
             IDataRepository<CustomerCustomerRoleMapping> customerCustomerRoleRepository,
             IDataRepository<CustomerPassword> customerPasswordRepository,
-            IDataRepository<CustomerRole> customerRoleRepository)
+            IDataRepository<CustomerRole> customerRoleRepository,
+            CustomerSettings customerSettings)
         {
             _context = context;
             _staticCacheManager = staticCacheManager;
@@ -30,6 +32,7 @@ namespace GlideBuy.Services.Customers
             _customerCustomerRoleMappingRepository = customerCustomerRoleRepository;
             _customerPasswordRepository = customerPasswordRepository;
             _customerRoleRepository = customerRoleRepository;
+            _customerSettings = customerSettings;
         }
 
         public async Task InsertCustomerAddressAsync(Customer customer, Address address)
@@ -111,6 +114,77 @@ namespace GlideBuy.Services.Customers
         public virtual async Task InsertCustomerPasswordAsync(CustomerPassword customerPassword)
         {
             await _customerPasswordRepository.InsertAsync(customerPassword);
+        }
+
+
+        public virtual async Task<string> FormatUsernameAsync(Customer customer, bool stripIfTooLong = false, int maxLength = 0)
+        {
+            if (customer is null)
+            {
+                return string.Empty;
+            }
+
+            if (await IsGuestAsync(customer))
+            {
+                // TODO: Use localization service
+                return "Guest";
+            }
+
+            var result = string.Empty;
+            switch (_customerSettings.CustomerNameFormat)
+            {
+                case CustomerNameFormat.ShowEmails:
+                    result = customer.Email;
+                    break;
+                case CustomerNameFormat.ShowUsername:
+                    result = customer.UserName;
+                    break;
+                case CustomerNameFormat.ShowFullNames:
+                    break;
+                case CustomerNameFormat.ShowFirstName:
+                    result = customer.FirstName;
+                    break;
+                default:
+                    break;
+            }
+
+            if (stripIfTooLong && maxLength > 0)
+            {
+                result = CommonHelper.EnsureMaximumLength(result, maxLength);
+            }
+
+            return result;
+        }
+
+        public virtual async Task<string> GetCustomerFullNameAsync(Customer customer)
+        {
+            ArgumentNullException.ThrowIfNull(customer);
+
+            var firstName = customer.FirstName;
+            var lastName = customer.LastName;
+
+            var fullName = string.Empty;
+
+            if (!string.IsNullOrWhiteSpace(firstName) && !string.IsNullOrWhiteSpace(lastName))
+            {
+                // TODO: Use the localization service. Each locale could have its own format.
+                var format = "{0} {1}";
+                fullName = string.Format(format, firstName, lastName);
+            }
+            else
+            {
+                if (!string.IsNullOrWhiteSpace(firstName))
+                {
+                    fullName = firstName;
+                }
+
+                if (!string.IsNullOrWhiteSpace(lastName))
+                {
+                    fullName = lastName;
+                }
+            }
+
+            return fullName;
         }
 
         #region Customer roles

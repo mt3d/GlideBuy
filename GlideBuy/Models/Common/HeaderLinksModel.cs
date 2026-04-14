@@ -6,5 +6,6 @@ namespace GlideBuy.Models.Common
     {
         public bool IsAuthenticated { get; set; }
         public UserRegistrationType RegistrationType { get; set; }
+        public string CustomerName { get; set; }
     }
 }

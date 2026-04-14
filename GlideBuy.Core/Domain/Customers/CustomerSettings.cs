@@ -14,5 +14,8 @@ namespace GlideBuy.Core.Domain.Customers
         public PasswordFormat DefaultPasswordFormat { get; set; }
 
         public bool EnteringEmailTwice { get; set; }
+
+        // TODO: Remove the default value from here.
+        public CustomerNameFormat CustomerNameFormat { get; set; } = CustomerNameFormat.ShowFullNames;
     }
 }

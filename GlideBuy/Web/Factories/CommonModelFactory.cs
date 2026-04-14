@@ -53,7 +53,8 @@ namespace GlideBuy.Web.Factories
 
             var model = new HeaderLinksModel()
             {
-                IsAuthenticated = await _customerService.IsRegisteredAsync(customer)
+                IsAuthenticated = await _customerService.IsRegisteredAsync(customer),
+                CustomerName = await _customerService.IsRegisteredAsync(customer) ? await _customerService.FormatUsernameAsync(customer) : string.Empty
             };
 
             return model;
