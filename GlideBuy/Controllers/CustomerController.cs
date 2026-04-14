@@ -13,17 +13,20 @@ namespace GlideBuy.Controllers
         protected readonly ICustomerModelFactory _customerModelFactory;
         protected readonly IWorkContext _workContext;
         protected readonly ICustomerRegistrationService _customerRegistrationService;
+        protected readonly ICustomerService _customerService;
 
         public CustomerController(
             CustomerSettings customerSettings,
             ICustomerModelFactory customerModelFactory,
             IWorkContext workContext,
-            ICustomerRegistrationService customerRegistrationService)
+            ICustomerRegistrationService customerRegistrationService,
+            ICustomerService customerService)
         {
             _customerSettings = customerSettings;
             _customerModelFactory = customerModelFactory;
             _workContext = workContext;
             _customerRegistrationService = customerRegistrationService;
+            _customerService = customerService;
         }
 
         public virtual async Task<IActionResult> Register(string? returnUrl)
@@ -140,6 +143,12 @@ namespace GlideBuy.Controllers
 
         public virtual async Task<IActionResult> Info()
         {
+            var customer = await _workContext.GetCurrentCustomerAsync();
+            if (!await _customerService.IsRegisteredAsync(customer))
+            {
+                return Challenge();
+            }
+
             return View();
         }
 
