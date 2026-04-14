@@ -36,6 +36,8 @@
     <link rel="stylesheet" href="~/assets/vendor/choices.js/public/assets/styles/choices.min.css">
     <link rel="stylesheet" href="~/assets/vendor/nouislider/dist/nouislider.min.css">
 
+    @RenderSection("Styles", false)
+
     <!-- Bootstrap + Theme styles -->
     <link rel="preload" href="~/assets/css/theme.min.css" as="style">
     <link rel="preload" href="~/assets/css/theme.rtl.min.css" as="style">
@@ -324,13 +326,15 @@
 
     <script src="~/assets/vendor/cleave.js/dist/cleave.min.js"></script>
 
-    <!-- Bootstrap + Theme scripts -->
-    <script src="~/assets/js/theme.min.js"></script>
-
     <script src="~/js/public.common.js" asp-append-version="true"></script>
     <script src="~/js/public.cart.js" asp-append-version="true"></script>
     <script>
         Cart.init('.cart-qty')
     </script>
+
+    @RenderSection("Scripts", false)
+
+    <!-- Bootstrap + Theme scripts -->
+    <script src="~/assets/js/theme.min.js"></script>
 </body>
 </html>

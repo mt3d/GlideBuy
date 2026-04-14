@@ -39,6 +39,32 @@ namespace GlideBuy.Core.Infrastructure
                 pattern: $"registerresult/{{resultId}}",
                 defaults: new { controller = "Customer", action = "RegisterResult" });
 
+
+            builder.MapControllerRoute(name: "CustomerInfo",
+                pattern: $"customer/info",
+                defaults: new { controller = "Customer", action = "Info" });
+
+            builder.MapControllerRoute(name: "CustomerAddresses",
+                pattern: $"",
+                defaults: new { controller = "Customer", action = "Addresses" });
+
+            builder.MapControllerRoute(name: "CustomerNotifications",
+                pattern: $"",
+                defaults: new { controller = "Customer", action = "Notifications" });
+
+            // TODO: Handle orders (paged or not)
+            builder.MapControllerRoute(name: "CustomerOrders",
+                pattern: $"",
+                defaults: new { controller = "Customer", action = "Orders" });
+
+            builder.MapControllerRoute(name: "CustomerPaymentMethods",
+                pattern: $"",
+                defaults: new { controller = "Customer", action = "PaymentMethods" });
+
+            builder.MapControllerRoute(name: "CustomerProductReviews",
+                pattern: $"",
+                defaults: new { controller = "Customer", action = "CustomerProductReviews" });
+
             // Checkout pages
 
             builder.MapControllerRoute(name: "Checkout",

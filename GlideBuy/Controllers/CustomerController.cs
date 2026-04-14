@@ -135,5 +135,14 @@ namespace GlideBuy.Controllers
 
             return View(model);
         }
+
+        #region Info
+
+        public virtual async Task<IActionResult> Info()
+        {
+            return View();
+        }
+
+        #endregion
     }
 }

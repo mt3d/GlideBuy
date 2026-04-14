@@ -58,7 +58,7 @@
     @if (Model.IsAuthenticated)
     {
         <div class="position-relative" id="accountBtn">
-            <a class="btn btn-icon btn-lg btn-secondary animate-scale fs-5 fw-normal position-relative rounded-circle ms-2 d-none d-md-inline-flex" href="@Url.RouteUrl("CustomerOrders")" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-custom-class="tooltip-sm text-nowrap" data-bs-container="#accountBtn" title="@Model.CustomerName">
+            <a class="btn btn-icon btn-lg btn-secondary animate-scale fs-5 fw-normal position-relative rounded-circle ms-2 d-none d-md-inline-flex" href="@Url.RouteUrl("CustomerInfo")" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-custom-class="tooltip-sm text-nowrap" data-bs-container="#accountBtn" title="@Model.CustomerName">
                 <span class="animate-target"></span>
             </a>
         </div>

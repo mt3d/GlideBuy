@@ -1,0 +1,24 @@
+﻿@{
+    Layout = "_MainLayout";
+}
+
+@section Styles
+{
+    <link rel="stylesheet" href="~/assets/vendor/choices.js/public/assets/styles/choices.min.css">
+    <link rel="stylesheet" href="~/assets/vendor/flatpickr/dist/flatpickr.min.css">
+}
+
+@if (IsSectionDefined("left"))
+{
+    @await RenderSectionAsync("left")
+}
+
+@RenderBody();
+
+@section Scripts
+{
+    <script src="~/assets/vendor/flatpickr/dist/flatpickr.min.js"></script>
+
+    <script src="~/assets/vendor/choices.js/public/assets/scripts/choices.min.js"></script>
+    <script src="~/assets/vendor/cleave.js/dist/cleave.min.js"></script>
+}
