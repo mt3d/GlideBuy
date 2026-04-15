@@ -7,5 +7,7 @@ namespace GlideBuy.Factories
         Task<RegisterModel> PrepareRegisterModelAsync(RegisterModel model);
 
         Task<RegisterResultModel> PrepareRegisterResultModelAsync(int resultId, string returnUrl);
+
+        Task<LoginModel> PrepareLoginModelAsync(bool? checkoutAsGuest);
     }
 }

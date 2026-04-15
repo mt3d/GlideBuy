@@ -33,6 +33,28 @@ namespace GlideBuy.Controllers
 
         public virtual async Task<IActionResult> Login(bool? checkoutAsGuest)
         {
+            var model = await _customerModelFactory.PrepareLoginModelAsync(checkoutAsGuest);
+            var customer = await _workContext.GetCurrentCustomerAsync();
+
+            return View();
+        }
+
+        [HttpPost]
+        // TODO: Validate captcha
+        public virtual async Task<IActionResult> Login(LoginModel model, string returnUrl, bool captchaValid)
+        {
+            // TODO: Validate captcha
+
+            if (ModelState.IsValid)
+            {
+                // TODO: Handle username
+                var customerEmail = model.Email;
+                // TODO: Decide between email and username
+
+
+            }
+
+            model = await _customerModelFactory.PrepareLoginModelAsync(model.CheckoutAsGuest);
             return View();
         }
 

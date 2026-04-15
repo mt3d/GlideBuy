@@ -47,5 +47,15 @@ namespace GlideBuy.Factories
 
             return model;
         }
+
+        public virtual async Task<LoginModel> PrepareLoginModelAsync(bool? checkoutAsGuest)
+        {
+            var model = new LoginModel
+            {
+
+            };
+
+            return model;
+        }
     }
 }

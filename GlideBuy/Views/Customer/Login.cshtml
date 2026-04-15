@@ -1,4 +1,7 @@
-﻿@{
+﻿@using GlideBuy.Models.Customer
+@model LoginModel
+
+@{
     Layout = "_RootSimple";
 }
 
@@ -24,25 +27,35 @@
         </div>
 
         <!-- Form -->
-        <form class="needs-validation" novalidate>
+        <form asp-route="Login" @* TODO: Handle return URL *@ method="post" autocomplete="off"
+            @* class="needs-validation" novalidate *@>
+
+            <div asp-validation-summary="ModelOnly"></div>
+
             <div class="position-relative mb-4">
-                <input type="email" class="form-control form-control-lg" placeholder="Email" required>
-                <div class="invalid-tooltip bg-transparent py-0">Enter a valid email address!</div>
+                <input asp-for="Email" @* type="email" *@ class="form-control form-control-lg" placeholder="Email" required>
+                @* <div class="invalid-tooltip bg-transparent py-0">Enter a valid email address!</div> *@
+                <span asp-validation-for="Email"></span>
             </div>
+
             <div class="mb-4">
                 <div class="password-toggle">
-                    <input type="password" class="form-control form-control-lg" placeholder="Password" required>
-                    <div class="invalid-tooltip bg-transparent py-0">Password is incorrect!</div>
+                    <input asp-for="Password" @* type="password" *@ class="form-control form-control-lg" placeholder="Password" required>
+                    @* <div class="invalid-tooltip bg-transparent py-0">Password is incorrect!</div> *@
                     <label class="password-toggle-button fs-lg" aria-label="Show/hide password">
                         <input type="checkbox" class="btn-check">
                     </label>
+                    <span asp-validation-for="Password"></span>
                 </div>
             </div>
+
             <div class="d-flex align-items-center justify-content-between mb-4">
+
                 <div class="form-check me-2">
-                    <input type="checkbox" class="form-check-input" id="remember-30">
-                    <label for="remember-30" class="form-check-label">Remember for 30 days</label>
+                    <input asp-for="RememberMe" @* type="checkbox" class="form-check-input" id="remember-30" *@>
+                    <label asp-for="RememberMe"@* for="remember-30" *@ class="form-check-label">Remember for 30 days</label>
                 </div>
+
                 <div class="nav">
                     @* TODO: Handle password recovery link *@
                     <a class="nav-link animate-underline p-0" href="#">
@@ -50,6 +63,7 @@
                     </a>
                 </div>
             </div>
+
             <button type="submit" class="btn btn-lg btn-primary w-100">Sign In</button>
         </form>
 
